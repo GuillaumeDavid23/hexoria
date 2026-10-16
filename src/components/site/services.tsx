@@ -63,13 +63,13 @@ function SetupArt() {
   return (
     <div className="grid h-full grid-cols-3 grid-rows-[1fr_1fr] gap-[clamp(0.6rem,1.6vw,1.25rem)]">
       <div data-tile className={`${tile} col-span-3`}>
-        <svg viewBox="0 0 120 70" className="h-[55%] max-h-32" fill="none" stroke="#5b21b6" strokeWidth="7" strokeLinecap="round">
+        <svg viewBox="0 -12 120 82" className="-mt-6 h-[46%] max-h-36 sm:mt-0 sm:h-[60%]" fill="none" stroke="#5b21b6" strokeWidth="7" strokeLinecap="round">
           <path data-wave d="M38 40a32 32 0 0 1 44 0" />
           <path data-wave d="M24 27a52 52 0 0 1 72 0" />
           <path data-wave d="M10 14a72 72 0 0 1 100 0" />
           <circle cx="60" cy="56" r="6" fill="#5b21b6" stroke="none" />
         </svg>
-        <span data-tile-ok className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full bg-ok/10 px-3 py-1 text-sm font-bold text-ok">
+        <span data-tile-ok className="absolute bottom-2 left-1/2 flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full bg-ok/10 px-3 py-1 text-sm font-bold text-ok sm:bottom-auto sm:left-auto sm:right-3 sm:top-3 sm:translate-x-0">
           <Check /> Wi-Fi connecté
         </span>
       </div>
