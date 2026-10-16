@@ -34,6 +34,13 @@ export const site = {
     email: "contact@hexoria.fr",
     web: "hexoria.fr",
   },
+  /** Profils officiels (pied de page + données structurées « sameAs »). */
+  social: {
+    facebook: "https://www.facebook.com/profile.php?id=61581932717672",
+    instagram: "https://www.instagram.com/hexoria_web/",
+    malt: "https://www.malt.fr/profile/guillaumedavid3",
+    github: "https://github.com/GuillaumeDavid23",
+  },
   /** Mentions légales (registre : societe.com / RNE). */
   legal: {
     companyName: "HEXORIA",

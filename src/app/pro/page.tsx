@@ -48,7 +48,7 @@ export default function ProPage() {
         <Method />
         <Proof />
       </main>
-      <Footer eyebrow="Professionnels" title="Parlons de votre projet" lead="Un premier échange pour comprendre vos besoins, sans engagement." />
+      <Footer pro eyebrow="Professionnels" title="Parlons de votre projet" lead="Un premier échange pour comprendre vos besoins, sans engagement." />
       <CallBar label="Votre projet" />
       <ScrubReveals />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structured).replace(/</g, "\\u003c") }} />
