@@ -74,14 +74,14 @@ export function Journey() {
         const distance = () => Math.max(0, track.scrollWidth - window.innerWidth);
 
         mm.add(`(min-width: 64rem) and ${MOTION.fine}`, () => {
-          gsap.set("[data-plug]", { x: -40 });
+          gsap.set("[data-plug]", { x: -90 });
           const tl = gsap.timeline({
             defaults: { ease: "none" },
             scrollTrigger: { trigger: pin, start: "top top", end: () => `+=${distance() + window.innerHeight * 0.4}`, scrub: 0.5, pin: true, pinType: "transform", invalidateOnRefresh: true },
           });
           tl.to(track, { x: () => -distance(), duration: 1 }, 0)
             .fromTo("[data-wire]", { scaleX: 0 }, { scaleX: 1, duration: 1 }, 0)
-            .to("[data-plug]", { x: 0, duration: 0.12, ease: "back.out(3)" }, 1)
+            .to("[data-plug]", { x: 14, duration: 0.12, ease: "power3.in" }, 1)
             .to("[data-socket-glow]", { opacity: 1, scale: 1, duration: 0.12 }, 1.05)
             .to("[data-connected]", { opacity: 1, y: 0, duration: 0.12 }, 1.08)
             .to({}, { duration: 0.15 });
@@ -101,11 +101,12 @@ export function Journey() {
               .from(el.querySelectorAll("[data-ring], [data-tick]"), { drawSVG: "0%", duration: 0.8, ease: "power2.out" }, 0.3)
               .fromTo(el.querySelector("[data-dot]"), { backgroundColor: "#efe9fd" }, { backgroundColor: "#5b21b6", duration: 0.4 }, 0.2);
           });
-          gsap.set("[data-plug]", { x: -40 });
+          gsap.set("[data-plug]", { x: -90 });
           gsap.timeline({ scrollTrigger: onEnter("[data-finale]", "top 80%") })
-            .to("[data-plug]", { x: 0, duration: 0.6, ease: "back.out(3)" })
-            .to("[data-socket-glow]", { opacity: 1, scale: 1, duration: 0.5 }, 0.3)
-            .to("[data-connected]", { opacity: 1, y: 0, duration: 0.6, ease: "expo.out" }, 0.4);
+            .to("[data-plug]", { x: 14, duration: 0.7, ease: "power3.in" })
+            .to("[data-plug]", { x: 10, duration: 0.12, yoyo: true, repeat: 1, ease: "power1.out" })
+            .to("[data-socket-glow]", { opacity: 1, scale: 1, duration: 0.5 }, 0.7)
+            .to("[data-connected]", { opacity: 1, y: 0, duration: 0.6, ease: "expo.out" }, 0.8);
         });
       }));
     },
@@ -153,7 +154,7 @@ export function Journey() {
           {/* Fin du câble : la prise se branche */}
           <div data-finale className="flex flex-col items-center justify-center gap-5 px-[var(--gutter)] text-center hz:w-[min(30vw,32rem)] hz:shrink-0 hz:px-0">
             <div className="relative flex items-center">
-              <div data-plug className="relative z-10 flex items-center" aria-hidden="true">
+              <div data-plug className="relative z-0 flex translate-x-[14px] items-center motion-safe:translate-x-0" aria-hidden="true">
                 <span className="h-3 w-12 rounded-l bg-violet" />
                 <span className="grid h-14 w-12 place-items-center rounded-lg bg-violet">
                   <span className="h-6 w-1.5 rounded bg-white/50" />
@@ -163,7 +164,7 @@ export function Journey() {
                   <span className="h-1.5 w-4 rounded-r bg-ink/70" />
                 </span>
               </div>
-              <div className="relative grid size-24 place-items-center rounded-full bg-white shadow-xl ring-1 ring-ink/10" aria-hidden="true">
+              <div className="relative z-10 grid size-24 place-items-center rounded-full bg-white shadow-xl ring-1 ring-ink/10" aria-hidden="true">
                 <span data-socket-glow className="absolute inset-[-14px] scale-75 rounded-full bg-violet/25 opacity-0 blur-md" />
                 <span className="relative flex gap-3">
                   <span className="size-3 rounded-full bg-ink/70" />
