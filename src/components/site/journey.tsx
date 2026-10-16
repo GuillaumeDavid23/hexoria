@@ -74,15 +74,17 @@ export function Journey() {
         const distance = () => Math.max(0, track.scrollWidth - window.innerWidth);
 
         mm.add(`(min-width: 64rem) and ${MOTION.fine}`, () => {
-          gsap.set("[data-plug]", { x: -90 });
+          gsap.set("[data-plug]", { x: -60 });
+          gsap.set("[data-led]", { fill: "#cbd5e1" });
           const tl = gsap.timeline({
             defaults: { ease: "none" },
             scrollTrigger: { trigger: pin, start: "top top", end: () => `+=${distance() + window.innerHeight * 0.4}`, scrub: 0.5, pin: true, pinType: "transform", invalidateOnRefresh: true },
           });
           tl.to(track, { x: () => -distance(), duration: 1 }, 0)
             .fromTo("[data-wire]", { scaleX: 0 }, { scaleX: 1, duration: 1 }, 0)
-            .to("[data-plug]", { x: 14, duration: 0.12, ease: "power3.in" }, 1)
-            .to("[data-socket-glow]", { opacity: 1, scale: 1, duration: 0.12 }, 1.05)
+            .to("[data-plug]", { x: 62, duration: 0.12, ease: "power3.in" }, 1)
+            .to("[data-led]", { fill: "#16a34a", duration: 0.04 }, 1.1)
+            .to("[data-socket-glow]", { opacity: 1, duration: 0.12 }, 1.05)
             .to("[data-connected]", { opacity: 1, y: 0, duration: 0.12 }, 1.08)
             .to({}, { duration: 0.15 });
           gsap.utils.toArray<HTMLElement>("[data-step]").forEach((el, i) => {
@@ -101,11 +103,13 @@ export function Journey() {
               .from(el.querySelectorAll("[data-ring], [data-tick]"), { drawSVG: "0%", duration: 0.8, ease: "power2.out" }, 0.3)
               .fromTo(el.querySelector("[data-dot]"), { backgroundColor: "#efe9fd" }, { backgroundColor: "#5b21b6", duration: 0.4 }, 0.2);
           });
-          gsap.set("[data-plug]", { x: -90 });
+          gsap.set("[data-plug]", { x: -60 });
+            gsap.set("[data-led]", { fill: "#cbd5e1" });
           gsap.timeline({ scrollTrigger: onEnter("[data-finale]", "top 80%") })
-            .to("[data-plug]", { x: 14, duration: 0.7, ease: "power3.in" })
-            .to("[data-plug]", { x: 10, duration: 0.12, yoyo: true, repeat: 1, ease: "power1.out" })
-            .to("[data-socket-glow]", { opacity: 1, scale: 1, duration: 0.5 }, 0.7)
+            .to("[data-plug]", { x: 62, duration: 0.7, ease: "power3.in" })
+            .to("[data-plug]", { x: 59, duration: 0.1, yoyo: true, repeat: 1, ease: "power1.out" })
+            .to("[data-led]", { fill: "#16a34a", duration: 0.2 }, 0.75)
+            .to("[data-socket-glow]", { opacity: 1, duration: 0.5 }, 0.7)
             .to("[data-connected]", { opacity: 1, y: 0, duration: 0.6, ease: "expo.out" }, 0.8);
         });
       }));
@@ -153,30 +157,32 @@ export function Journey() {
 
           {/* Fin du câble : la prise se branche */}
           <div data-finale className="flex flex-col items-center justify-center gap-5 px-[var(--gutter)] text-center hz:w-[min(30vw,32rem)] hz:shrink-0 hz:px-0">
-            <div className="relative isolate flex items-center">
-              {/* halo derrière la fiche ET la prise murale (sinon il délave le bout de la fiche) */}
-              <span
-                data-socket-glow
-                className="absolute right-[-18px] top-1/2 -z-10 size-[calc(6rem+36px)] -translate-y-1/2 scale-75 rounded-full bg-violet/30 opacity-0 blur-lg"
-                aria-hidden="true"
-              />
-              <div data-plug className="relative z-0 flex translate-x-[14px] items-center motion-safe:translate-x-0" aria-hidden="true">
-                <span className="h-3 w-12 rounded-l bg-violet" />
-                <span className="grid h-14 w-12 place-items-center rounded-lg bg-violet">
-                  <span className="h-6 w-1.5 rounded bg-white/50" />
-                </span>
-                <span className="flex flex-col gap-2">
-                  <span className="h-1.5 w-4 rounded-r bg-ink/70" />
-                  <span className="h-1.5 w-4 rounded-r bg-ink/70" />
-                </span>
-              </div>
-              <div className="relative z-10 grid size-24 place-items-center rounded-full bg-white shadow-xl ring-1 ring-ink/10" aria-hidden="true">
-                <span className="relative flex gap-3">
-                  <span className="size-3 rounded-full bg-ink/70" />
-                  <span className="size-3 rounded-full bg-ink/70" />
-                </span>
-              </div>
-            </div>
+            {/* Vue de profil : la fiche (à gauche) entre dans les deux trous de la prise murale (à droite).
+                Les broches sont alignées sur les trous ; la prise est dessinée par-dessus pour les cacher une fois branchées. */}
+            <svg viewBox="0 0 240 110" className="w-[min(78vw,19rem)] overflow-visible" aria-hidden="true">
+              <defs>
+                <radialGradient id="socket-glow">
+                  <stop offset="0" stopColor="#9a6bf2" stopOpacity="0.55" />
+                  <stop offset="1" stopColor="#9a6bf2" stopOpacity="0" />
+                </radialGradient>
+              </defs>
+              {/* mur */}
+              <rect x="196" y="0" width="44" height="110" rx="4" fill="#efe9fd" />
+              <circle data-socket-glow cx="184" cy="55" r="62" fill="url(#socket-glow)" opacity="0" />
+              {/* fiche : câble, corps, broches (position finale = branchée) */}
+              <g data-plug transform="translate(62 0)">
+                <rect x="0" y="50" width="62" height="10" rx="5" fill="#5b21b6" />
+                <rect x="56" y="28" width="46" height="54" rx="12" fill="#5b21b6" />
+                <rect x="76" y="40" width="6" height="30" rx="3" fill="#ffffff" opacity="0.5" />
+                <rect x="100" y="39" width="26" height="7" rx="3.5" fill="#4a4458" />
+                <rect x="100" y="64" width="26" height="7" rx="3.5" fill="#4a4458" />
+              </g>
+              {/* prise murale de profil : plaque, trous face aux broches, voyant */}
+              <rect x="168" y="12" width="32" height="86" rx="10" fill="#ffffff" stroke="#16131f" strokeOpacity="0.12" strokeWidth="2" />
+              <rect x="168" y="37" width="10" height="11" rx="2" fill="#16131f" fillOpacity="0.75" />
+              <rect x="168" y="62" width="10" height="11" rx="2" fill="#16131f" fillOpacity="0.75" />
+              <circle data-led cx="188" cy="24" r="4" fill="#16a34a" />
+            </svg>
             <div data-connected className="translate-y-4 opacity-0 motion-reduce:translate-y-0 motion-reduce:opacity-100">
               <p className="font-display text-[length:var(--step-2)] font-extrabold leading-tight">
                 Et voilà, <span className="text-violet">tout remarche.</span>
