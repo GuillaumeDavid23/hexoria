@@ -153,7 +153,13 @@ export function Journey() {
 
           {/* Fin du câble : la prise se branche */}
           <div data-finale className="flex flex-col items-center justify-center gap-5 px-[var(--gutter)] text-center hz:w-[min(30vw,32rem)] hz:shrink-0 hz:px-0">
-            <div className="relative flex items-center">
+            <div className="relative isolate flex items-center">
+              {/* halo derrière la fiche ET la prise murale (sinon il délave le bout de la fiche) */}
+              <span
+                data-socket-glow
+                className="absolute right-[-18px] top-1/2 -z-10 size-[calc(6rem+36px)] -translate-y-1/2 scale-75 rounded-full bg-violet/30 opacity-0 blur-lg"
+                aria-hidden="true"
+              />
               <div data-plug className="relative z-0 flex translate-x-[14px] items-center motion-safe:translate-x-0" aria-hidden="true">
                 <span className="h-3 w-12 rounded-l bg-violet" />
                 <span className="grid h-14 w-12 place-items-center rounded-lg bg-violet">
@@ -165,7 +171,6 @@ export function Journey() {
                 </span>
               </div>
               <div className="relative z-10 grid size-24 place-items-center rounded-full bg-white shadow-xl ring-1 ring-ink/10" aria-hidden="true">
-                <span data-socket-glow className="absolute inset-[-14px] scale-75 rounded-full bg-violet/25 opacity-0 blur-md" />
                 <span className="relative flex gap-3">
                   <span className="size-3 rounded-full bg-ink/70" />
                   <span className="size-3 rounded-full bg-ink/70" />
