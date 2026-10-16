@@ -1,0 +1,34 @@
+import { site } from "@/content/site";
+import { absoluteUrl } from "@/lib/env";
+import { FAQ } from "./faq";
+
+/** Données structurées : entreprise locale et questions fréquentes (informations du tract uniquement). */
+export function StructuredData() {
+  const data = [
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "@id": absoluteUrl("/#hexoria"),
+      name: site.name,
+      slogan: site.signature,
+      description: `Dépannage informatique et multimédia (ordinateur, téléphone, tablette, imprimante, Wi-Fi, appareils connectés), installation et sauvegarde à domicile à ${site.city} et alentours.`,
+      url: absoluteUrl("/"),
+      logo: absoluteUrl("/icon.svg"),
+      image: absoluteUrl("/opengraph-image"),
+      telephone: site.contact.phoneE164,
+      email: site.contact.email,
+      address: { "@type": "PostalAddress", addressLocality: site.city, addressCountry: "FR" },
+      areaServed: { "@type": "City", name: site.city },
+      makesOffer: ["Dépannage informatique", "Installation informatique", "Sauvegarde de données"].map((name) => ({
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name },
+      })),
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: FAQ.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ];
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, "\\u003c") }} />;
+}

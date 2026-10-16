@@ -1,0 +1,162 @@
+@import "tailwindcss";
+
+@theme {
+  --color-violet: #5b21b6;
+  --color-violet-800: #3b1580;
+  --color-violet-900: #1c0a42;
+  --color-violet-950: #12072d;
+  --color-violet-600: #6d28d9;
+  --color-violet-400: #9a6bf2;
+  --color-lilac: #c9b6fb;
+  --color-lilac-100: #efe9fd;
+  --color-mist: #f7f4fd;
+  --color-ink: #16131f;
+  --color-stone: #5c5870;
+  --color-ok: #16a34a;
+  --color-alert: #e5484d;
+  --color-warn: #f59e0b;
+
+  --font-sans: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Échelle fluide, planchers généreux : le public lit souvent sur téléphone, parfois sans lunettes */
+:root {
+  --gutter: clamp(1.25rem, 4vw, 6rem);
+  --step--1: clamp(0.95rem, 0.88rem + 0.25vw, 1.1rem);
+  --step-0: clamp(1.125rem, 1rem + 0.4vw, 1.4rem);
+  --step-1: clamp(1.3rem, 1.05rem + 0.9vw, 2rem);
+  --step-2: clamp(1.8rem, 1.2rem + 1.8vw, 3.2rem);
+  --step-3: clamp(2.3rem, min(1.2rem + 3.4vw, 7.5vh), 5.5rem);
+  --step-4: clamp(2.8rem, min(1.2rem + 5.6vw, 10vh), 8.5rem);
+  --header-h: clamp(4.25rem, 6vw, 6rem);
+  --scene-h: 100vh;
+  --ui-gap: 0px;
+  color-scheme: light;
+}
+@supports (height: 1lvh) {
+  :root {
+    --scene-h: 100lvh;
+    --ui-gap: calc(100lvh - 100svh);
+  }
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--color-mist);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: var(--step-0);
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-violet);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-violet-400);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+/* défilement horizontal épinglé : grand écran, souris, animations autorisées */
+@custom-variant hz (@media (min-width: 64rem) and (hover: hover) and (prefers-reduced-motion: no-preference));
+@custom-variant short (@media (max-height: 820px) and (min-aspect-ratio: 1/1));
+
+@utility container-x {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  max-width: 1680px;
+}
+
+@utility eyebrow {
+  font-size: var(--step--1);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Trame « circuit imprimé » : points réguliers */
+@utility dots {
+  background-image: radial-gradient(circle at 1px 1px, rgb(91 33 182 / 0.16) 1px, transparent 0);
+  background-size: 28px 28px;
+}
+
+.split-line {
+  overflow: hidden;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+
+@keyframes marquee {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+@keyframes bob {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ping {
+  0% {
+    transform: scale(0.2);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

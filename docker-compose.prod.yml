@@ -1,0 +1,28 @@
+# Production sur le VPS (même serveur que mana-metric, Alpyra et Boufflers).
+# Le Caddy de mana-metric reçoit le HTTPS et relaie vers ce conteneur via le réseau Docker « web ».
+# Bloc à déposer dans /opt/caddy-sites/hexoria.caddy, puis recharger Caddy :
+#
+#   hexoria.fr, www.hexoria.fr {
+#       encode zstd gzip
+#       reverse_proxy hexoria-web:3000
+#   }
+#
+#   cp .env.example .env
+#   docker compose -f docker-compose.prod.yml up -d --build
+services:
+  app:
+    build:
+      context: .
+      target: runner
+      args:
+        SITE_URL: ${SITE_URL:-https://hexoria.fr}
+        SITE_ENV: ${SITE_ENV:-production}
+    image: hexoria-web:latest
+    restart: unless-stopped
+    networks:
+      web:
+        aliases: [hexoria-web]
+
+networks:
+  web:
+    external: true

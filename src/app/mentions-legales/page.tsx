@@ -1,0 +1,56 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { Logo } from "@/components/brand";
+import { site } from "@/content/site";
+
+export const metadata: Metadata = {
+  title: "Mentions légales",
+  description: "Éditeur, hébergeur et données personnelles du site Hexoria.",
+  alternates: { canonical: "/mentions-legales" },
+};
+
+const TODO = "à compléter";
+
+export default function LegalPage() {
+  const l = site.legal;
+  return (
+    <main className="container-x max-w-4xl py-16 sm:py-24">
+      <Link href="/" aria-label="Hexoria, retour à l'accueil" className="text-[1.1rem]">
+        <Logo />
+      </Link>
+      <h1 className="mt-14 font-display text-[length:var(--step-3)] font-extrabold leading-none">Mentions légales</h1>
+      <div className="mt-12 space-y-10 text-stone [&_h2]:mb-2 [&_h2]:font-display [&_h2]:text-[length:var(--step-1)] [&_h2]:font-bold [&_h2]:text-ink">
+        <section>
+          <h2>Éditeur du site</h2>
+          <p>
+            Hexoria — {l.owner ?? TODO}
+            {l.status ? `, ${l.status}` : ""}
+            <br />
+            SIRET : {l.siret ?? TODO}
+            <br />
+            Adresse : {l.address ?? TODO}
+            <br />
+            Téléphone : {site.contact.phone} · Email : <a href={`mailto:${site.contact.email}`} className="text-violet underline">{site.contact.email}</a>
+            <br />
+            Directeur de la publication : {l.owner ?? site.person}
+          </p>
+        </section>
+        <section>
+          <h2>Hébergement</h2>
+          <p>IONOS SE, Elgendorfer Str. 57, 56410 Montabaur, Allemagne — www.ionos.fr</p>
+        </section>
+        <section>
+          <h2>Données personnelles</h2>
+          <p>
+            Ce site ne comporte ni formulaire, ni compte, ni cookie de suivi publicitaire ou de mesure d&apos;audience. Si vous écrivez à{" "}
+            {site.contact.email}, votre message sert uniquement à vous répondre. Vous pouvez demander l&apos;accès, la rectification ou la suppression de
+            vos données à cette même adresse.
+          </p>
+        </section>
+      </div>
+      <Link href="/" className="mt-16 inline-block rounded-full bg-violet px-6 py-3 font-bold text-white">
+        ← Retour à l&apos;accueil
+      </Link>
+    </main>
+  );
+}
