@@ -82,8 +82,6 @@ html.lenis body {
 
 /* défilement horizontal épinglé : grand écran, souris, animations autorisées */
 @custom-variant hz (@media (min-width: 64rem) and (hover: hover) and (prefers-reduced-motion: no-preference));
-/* petit téléphone (étroit ET peu haut) : version la plus compacte des éléments fixés en bas */
-@custom-variant tiny (@media (max-width: 39.999rem) and (max-height: 700px));
 @custom-variant short (@media (max-height: 820px) and (min-aspect-ratio: 1/1));
 
 @utility container-x {

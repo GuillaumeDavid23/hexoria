@@ -95,31 +95,40 @@ export function Consent({ gtmId }: { gtmId: string }) {
   };
 
   if (!open) return null;
-  // Téléphone : bandeau compact collé en bas, sous les boutons de l'accueil (qui restent visibles)
+  // Panneau sombre et contrasté (lisible sur l'accueil clair), en langage simple, qui glisse depuis le bas.
   return (
     <div
       role="dialog"
-      aria-label="Cookies de mesure d'audience"
-      className="fixed inset-x-2 bottom-[calc(0.5rem+env(safe-area-inset-bottom))] z-[60] mx-auto max-w-md rounded-2xl bg-white p-3.5 tiny:flex tiny:items-center tiny:gap-2 tiny:p-2 tiny:pl-3.5 text-ink shadow-[0_24px_60px_-20px_rgba(28,10,66,.55)] ring-1 ring-ink/10 sm:bottom-6 sm:left-6 sm:right-auto sm:mx-0 sm:max-w-sm sm:p-5"
+      aria-labelledby="consent-title"
+      className="fixed inset-x-0 bottom-0 z-[60] animate-[consent-in_.6s_var(--ease-out-expo)_both] p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] sm:inset-x-auto sm:bottom-6 sm:left-6 sm:p-0"
     >
-      <p className="hidden font-display text-lg font-bold sm:block">Un petit cookie&nbsp;?</p>
-      <p className="text-[0.85rem] leading-snug text-stone sm:mt-1.5 sm:text-[0.95rem]">
-        {/* écran peu haut (petit téléphone) : version courte */}
-        <span className="tiny:hidden">J&apos;utilise Google Analytics pour connaître la fréquentation du site, seulement si vous l&apos;acceptez.</span>
-        <span className="hidden tiny:inline">Statistiques (Google Analytics)&nbsp;?</span>{" "}
-        <Link href="/mentions-legales#donnees" className="text-violet underline">
-          <span className="tiny:hidden">En savoir plus</span>
-          <span className="hidden tiny:inline">Infos</span>
-        </Link>
-      </p>
-      <div className="mt-2 grid shrink-0 grid-cols-2 gap-2 sm:mt-4 tiny:mt-0 tiny:gap-1.5">
-        <button onClick={() => decide("denied")} className="cursor-pointer rounded-full py-2 font-bold text-violet ring-2 tiny:px-3 tiny:text-sm ring-violet transition-colors hover:bg-lilac-100 sm:py-3">
-          Refuser
-        </button>
-        <button onClick={() => decide("granted")} className="cursor-pointer rounded-full bg-violet py-2 font-bold text-white tiny:px-3 tiny:text-sm transition-colors hover:bg-violet-800 sm:py-3">
-          Accepter
-        </button>
+      <div className="mx-auto max-w-md rounded-3xl bg-violet-950 p-5 text-white shadow-[0_24px_60px_-16px_rgba(18,7,45,.75)] ring-1 ring-white/15 sm:max-w-sm">
+        <div className="flex items-start gap-3">
+          <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white/10 text-xl" aria-hidden="true">
+            🍪
+          </span>
+          <div>
+            <p id="consent-title" className="font-display text-[1.05rem] font-bold leading-tight">
+              Vous m&apos;aidez à améliorer le site&nbsp;?
+            </p>
+            <p className="mt-1.5 text-[0.9rem] leading-snug text-white/80">
+              J&apos;aimerais savoir quelles pages vous intéressent, grâce à des statistiques de visite (Google Analytics). Jamais de publicité.{" "}
+              <Link href="/mentions-legales#donnees" className="whitespace-nowrap font-semibold text-lilac underline">
+                En savoir plus
+              </Link>
+            </p>
+          </div>
+        </div>
+        <div className="mt-4 grid grid-cols-2 gap-2">
+          <button onClick={() => decide("denied")} className="cursor-pointer rounded-full py-3 font-bold text-white ring-2 ring-white/40 transition-colors hover:bg-white/10">
+            Refuser
+          </button>
+          <button onClick={() => decide("granted")} className="cursor-pointer rounded-full bg-white py-3 font-bold text-violet transition-colors hover:bg-lilac-100">
+            Accepter
+          </button>
+        </div>
       </div>
+      <style>{`@keyframes consent-in{from{transform:translateY(110%);opacity:0}}`}</style>
     </div>
   );
 }
