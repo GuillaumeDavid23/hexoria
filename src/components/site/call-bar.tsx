@@ -6,26 +6,24 @@ import { PhoneIcon } from "./header";
 
 /**
  * Bouton d'appel fixe en bas d'écran (téléphone) : la plupart des visiteurs arrivent
- * par le QR code du tract. Visible après l'accueil, masqué sur l'écran de contact.
+ * par le QR code du tract. Il n'apparaît qu'une fois les boutons de l'accueil sortis
+ * de l'écran (jamais deux boutons d'appel à la fois), et se retire sur l'écran de contact.
  */
 export function CallBar({ label = "Appelez-moi" }: { label?: string }) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    let atContact = false;
+    const cta = document.querySelector("[data-hero-cta]");
     const contact = document.getElementById("contact");
-    const update = () => setShow(window.scrollY > window.innerHeight * 0.5 && !atContact);
-    const io = new IntersectionObserver(([e]) => {
-      atContact = e.isIntersecting;
-      update();
+    const visible = new Map<Element, boolean>();
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => visible.set(e.target, e.isIntersecting));
+      // tant que les boutons de l'accueil sont à l'écran, ou que le contact est affiché : pas de barre
+      setShow(!(cta && visible.get(cta) !== false) && !(contact && visible.get(contact)));
     });
+    if (cta) io.observe(cta);
     if (contact) io.observe(contact);
-    window.addEventListener("scroll", update, { passive: true });
-    update();
-    return () => {
-      io.disconnect();
-      window.removeEventListener("scroll", update);
-    };
+    return () => io.disconnect();
   }, []);
 
   return (

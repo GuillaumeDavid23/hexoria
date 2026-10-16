@@ -72,7 +72,7 @@ export function ProHero() {
           <p data-pro-intro style={{ "--d": "0.48s" } as React.CSSProperties} className="in-fade mt-[clamp(0.75rem,2.5vh,1.75rem)] max-w-[40ch] text-[length:var(--step-1)] leading-snug text-white/80">
             Sites vitrines et applications web que je conçois et développe moi-même, de la maquette à la mise en ligne.
           </p>
-          <div data-pro-intro style={{ "--d": "0.56s" } as React.CSSProperties} className="in-fade mt-[clamp(1rem,3.5vh,2.5rem)] flex flex-wrap gap-3">
+          <div data-pro-intro data-hero-cta style={{ "--d": "0.56s" } as React.CSSProperties} className="in-fade mt-[clamp(1rem,3.5vh,2.5rem)] flex flex-wrap gap-3">
             <a href={telHref} className="flex items-center gap-2.5 rounded-full bg-white px-6 py-3.5 font-bold text-violet transition-colors hover:bg-lilac-100">
               <PhoneIcon className="size-5" /> Parler de votre projet
             </a>
