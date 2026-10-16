@@ -151,7 +151,8 @@ export function Header({ audience = "perso" }: { audience?: Audience }) {
         }`}
       >
         <div className="container-x flex h-full flex-col justify-center gap-1 pt-16">
-          <AudienceSwitch audience={audience} inverted className="mb-8 w-fit text-base" />
+          {/* l'en-tête affiche déjà le sélecteur à partir de md : pas de doublon */}
+          <AudienceSwitch audience={audience} inverted className="mb-8 w-fit text-base md:hidden" />
           {nav.map((n, i) => (
             <a
               key={n.id}
@@ -164,10 +165,10 @@ export function Header({ audience = "perso" }: { audience?: Audience }) {
               {n.label}
             </a>
           ))}
-          <a href={telHref} tabIndex={open ? undefined : -1} className="mt-10 flex items-center justify-center gap-3 rounded-full bg-white py-4 text-[length:var(--step-1)] font-bold text-violet">
+          <a href={telHref} tabIndex={open ? undefined : -1} className="mt-10 flex items-center justify-center gap-3 rounded-full bg-white py-4 sm:hidden text-[length:var(--step-1)] font-bold text-violet">
             <PhoneIcon className="size-5" /> {site.contact.phone}
           </a>
-          <p className="mt-6 text-center text-white/60">
+          <p className="mt-6 text-center text-white/60 sm:mt-10 sm:text-left">
             {site.area}
             <br />
             {site.hours.label}
