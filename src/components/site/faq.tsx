@@ -36,12 +36,12 @@ export function Faq() {
     <section id="questions" data-scene data-theme="light" className="bg-mist py-[clamp(3rem,7vh,5rem)]">
       <div className="container-x grid gap-10 lg:grid-cols-12">
         <div className="lg:col-span-4">
-          <p data-scrub="up" className="eyebrow mb-4 flex items-center gap-4 text-violet">
-            <span aria-hidden="true" className="h-0.5 w-12 rounded bg-violet" /> Questions
-          </p>
-          <h2 data-scrub="up" className="font-display text-[length:var(--step-3)] font-extrabold leading-[0.95] tracking-[-0.03em]">
-            Vous vous <span className="text-violet">demandez peut-être…</span>
+          <h2 data-scrub="up" className="eyebrow mb-4 flex items-center gap-4 text-violet">
+            <span aria-hidden="true" className="h-0.5 w-12 rounded bg-violet" /> Questions fréquentes sur le dépannage informatique
           </h2>
+          <p data-scrub="up" className="font-display text-[length:var(--step-3)] font-extrabold leading-[0.95] tracking-[-0.03em]">
+            Vous vous <span className="text-violet">demandez peut-être…</span>
+          </p>
         </div>
         <div className="grid gap-2.5 lg:col-span-8">
           {FAQ.map((f) => (

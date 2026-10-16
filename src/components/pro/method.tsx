@@ -42,12 +42,12 @@ export function Method() {
       <div className="container-x grid gap-12 lg:grid-cols-12">
         <div className="lg:col-span-5">
           <div className="lg:sticky lg:top-[calc(var(--header-h)+3rem)]">
-            <p data-scrub="up" className="eyebrow mb-4 flex items-center gap-4 text-violet">
-              <span aria-hidden="true" className="h-0.5 w-12 rounded bg-violet" /> Méthode
-            </p>
-            <h2 data-scrub="up" className="font-display text-[length:var(--step-4)] font-extrabold leading-[0.95] tracking-[-0.03em]">
-              Cinq étapes, <span className="text-violet">zéro flou.</span>
+            <h2 data-scrub="up" className="eyebrow mb-4 flex items-center gap-4 text-violet">
+              <span aria-hidden="true" className="h-0.5 w-12 rounded bg-violet" /> Méthode de création de votre site web
             </h2>
+            <p data-scrub="up" className="font-display text-[length:var(--step-4)] font-extrabold leading-[0.95] tracking-[-0.03em]">
+              Cinq étapes, <span className="text-violet">zéro flou.</span>
+            </p>
             <p data-scrub="up" className="mt-5 max-w-[36ch] text-stone">
               Un seul interlocuteur, moi, du premier échange à la mise en ligne, et après.
             </p>

@@ -356,12 +356,12 @@ export function Services() {
   return (
     <section ref={root} id="services" data-theme="light" className="relative bg-mist pb-[clamp(1.5rem,4vh,3rem)]">
       <div className="container-x pb-[clamp(1rem,3vh,2.25rem)] pt-[clamp(3rem,7vh,5rem)]">
-        <p data-scrub="up" className="eyebrow mb-4 flex items-center gap-4 text-violet">
-          <span aria-hidden="true" className="h-0.5 w-12 rounded bg-violet" /> Services
-        </p>
-        <h2 data-scrub="up" className="max-w-[18ch] font-display text-[length:var(--step-4)] font-extrabold leading-[0.95] tracking-[-0.03em] text-balance">
-          Quatre façons de vous <span className="text-violet">simplifier la vie.</span>
+        <h2 data-scrub="up" className="eyebrow mb-4 flex items-center gap-4 text-violet">
+          <span aria-hidden="true" className="h-0.5 w-12 rounded bg-violet" /> Dépannage, installation et sauvegarde à domicile
         </h2>
+        <p data-scrub="up" className="max-w-[18ch] font-display text-[length:var(--step-4)] font-extrabold leading-[0.95] tracking-[-0.03em] text-balance">
+          Quatre façons de vous <span className="text-violet">simplifier la vie.</span>
+        </p>
       </div>
 
       <div className="container-x">

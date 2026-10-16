@@ -139,12 +139,12 @@ export function Offers() {
   return (
     <section ref={root} id="offres" data-theme="light" className="bg-mist py-[clamp(3rem,7vh,5rem)]">
       <div className="container-x">
-        <p data-scrub="up" className="eyebrow mb-4 flex items-center gap-4 text-violet">
-          <span aria-hidden="true" className="h-0.5 w-12 rounded bg-violet" /> Offres
-        </p>
-        <h2 data-scrub="up" className="max-w-[18ch] font-display text-[length:var(--step-4)] font-extrabold leading-[0.95] tracking-[-0.03em] text-balance">
-          Du site vitrine <span className="text-violet">à l&apos;application.</span>
+        <h2 data-scrub="up" className="eyebrow mb-4 flex items-center gap-4 text-violet">
+          <span aria-hidden="true" className="h-0.5 w-12 rounded bg-violet" /> Création de site vitrine et d&apos;application web
         </h2>
+        <p data-scrub="up" className="max-w-[18ch] font-display text-[length:var(--step-4)] font-extrabold leading-[0.95] tracking-[-0.03em] text-balance">
+          Du site vitrine <span className="text-violet">à l&apos;application.</span>
+        </p>
 
         <div className="mt-[clamp(2.5rem,7vh,5rem)] grid gap-6 lg:grid-cols-2">
           {OFFERS.map((o) => (

@@ -124,12 +124,12 @@ export function Journey() {
         <div data-track className="relative flex flex-col gap-10 hz:w-max hz:flex-row hz:items-stretch hz:gap-[clamp(1.5rem,3vw,4rem)] hz:px-[var(--gutter)]">
           {/* Intro */}
           <div className="px-[var(--gutter)] hz:flex hz:w-[min(34vw,40rem)] hz:shrink-0 hz:flex-col hz:justify-center hz:px-0">
-            <p className="eyebrow mb-4 flex items-center gap-4 text-violet">
-              <span aria-hidden="true" className="h-0.5 w-12 rounded bg-violet" /> Comment ça se passe
-            </p>
-            <h2 className="font-display text-[length:var(--step-4)] font-extrabold leading-[0.95] tracking-[-0.03em] text-balance">
-              Simple, <span className="text-violet">du début à la fin.</span>
+            <h2 className="eyebrow mb-4 flex items-center gap-4 text-violet">
+              <span aria-hidden="true" className="h-0.5 w-12 rounded bg-violet" /> Comment se passe un dépannage informatique à domicile
             </h2>
+            <p className="font-display text-[length:var(--step-4)] font-extrabold leading-[0.95] tracking-[-0.03em] text-balance">
+              Simple, <span className="text-violet">du début à la fin.</span>
+            </p>
             <p className="mt-5 max-w-[36ch] text-stone">Quatre étapes, aucune mauvaise surprise. Vous savez toujours ce qui se passe.</p>
           </div>
 
