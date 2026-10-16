@@ -218,3 +218,9 @@ html.lenis body {
     stroke-dashoffset: 1;
   }
 }
+
+/* Menu mobile ouvert : pas de seconde barre d'appel par-dessus (voir header.tsx) */
+html[data-menu-open] [data-zone="barre-appel"] {
+  visibility: hidden;
+  opacity: 0;
+}

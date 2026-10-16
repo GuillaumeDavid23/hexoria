@@ -86,6 +86,8 @@ export function Header({ audience = "perso" }: { audience?: Audience }) {
   useEffect(() => {
     if (open) lenis?.stop();
     else lenis?.start();
+    // le menu a son propre bouton d'appel : la barre d'appel fixe se retire pendant qu'il est ouvert
+    document.documentElement.toggleAttribute("data-menu-open", open);
   }, [open, lenis]);
 
   const link = (id: string) => (e: React.MouseEvent) => {
