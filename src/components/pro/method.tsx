@@ -16,7 +16,7 @@ export function Method() {
 
   useGSAP(
     (context) => {
-      deferInit(() => context.add(() => {
+      return deferInit(() => context.add(() => {
         const mm = gsap.matchMedia();
         mm.add({ fine: MOTION.fine, coarse: MOTION.coarse }, (ctx) => {
           const coarse = ctx.conditions?.coarse;

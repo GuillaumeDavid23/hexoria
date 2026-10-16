@@ -12,8 +12,8 @@ import { SmoothScroll } from "@/components/site/smooth-scroll";
 import { site } from "@/content/site";
 import { absoluteUrl } from "@/lib/env";
 
-const title = `Création de site web vitrine et SaaS · ${site.city}`;
-const description = `Développeur web près de ${site.city} : sites vitrines sur mesure et applications web / SaaS, de la maquette à la mise en ligne. ${site.contact.phone}.`;
+const title = `Création de site web et d'application · ${site.city}`;
+const description = `Développeur Symfony / PHP et React près de ${site.city} : sites vitrines, applications web, SaaS et mobiles (React Native), sur mesure. ${site.contact.phone}.`;
 
 export const metadata: Metadata = {
   title,
@@ -28,7 +28,8 @@ const structured = {
   "@type": "ItemList",
   itemListElement: [
     { name: "Création de site vitrine", description: "Site sur mesure adapté au téléphone, référencement local, formulaire de contact, mise en ligne." },
-    { name: "Développement d'application web et SaaS", description: "Espace client, back-office, devis, réservations, tableaux de bord, comptes utilisateurs." },
+    { name: "Développement d'application web et SaaS", description: "Symfony / PHP et React : espace client, back-office, devis, réservations, tableaux de bord." },
+    { name: "Développement d'application mobile", description: "Application iOS et Android en React Native, reliée à votre back-office." },
   ].map((s, i) => ({
     "@type": "ListItem",
     position: i + 1,

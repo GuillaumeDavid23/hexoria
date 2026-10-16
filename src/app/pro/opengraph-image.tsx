@@ -14,7 +14,7 @@ export default function OpengraphImage() {
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", fontSize: 96, fontWeight: 800, lineHeight: 1 }}>Votre site web,</div>
           <div style={{ display: "flex", fontSize: 96, fontWeight: 800, lineHeight: 1.05, color: "#c9b6fb" }}>sur mesure.</div>
-          <div style={{ display: "flex", fontSize: 38, marginTop: 28, color: "#e9e3f7" }}>Sites vitrines · Applications web & SaaS</div>
+          <div style={{ display: "flex", fontSize: 38, marginTop: 28, color: "#e9e3f7" }}>Sites vitrines · Applications web, mobiles & SaaS</div>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
           <div style={{ display: "flex", fontSize: 30, color: "#b8acd6" }}>{site.contact.web}</div>

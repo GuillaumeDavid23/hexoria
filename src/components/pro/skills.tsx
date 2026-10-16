@@ -3,14 +3,14 @@
 import { useRef } from "react";
 import { deferInit, gsap, MOTION, onEnter, SplitText, useGSAP } from "@/components/site/smooth-scroll";
 
-const ROW_A = ["Next.js", "React", "TypeScript", "Tailwind CSS", "GSAP", "Animations au défilement", "Accessibilité", "SEO technique"];
-const ROW_B = ["Symfony", "PHP", "Node.js", "API", "PostgreSQL", "SQLite", "Docker", "Linux", "VPS", "HTTPS"];
+const ROW_A = ["Symfony", "PHP", "Doctrine", "API", "PostgreSQL", "Docker", "Linux", "VPS", "HTTPS"];
+const ROW_B = ["React", "React Native", "Next.js", "TypeScript", "Tailwind CSS", "GSAP", "Accessibilité", "SEO technique"];
 
 const PILLARS = [
-  { k: "Interface", t: "Des pages rapides, lisibles sur tous les écrans, avec des animations qui donnent envie de lire.", tech: "React · Next.js · TypeScript · Tailwind" },
-  { k: "Back-office", t: "La logique métier, les comptes, les données : solide et pensé pour durer.", tech: "Symfony · PHP · Node.js · API" },
-  { k: "Données", t: "Vos informations structurées, sauvegardées, exportables.", tech: "PostgreSQL · SQLite" },
-  { k: "Mise en ligne", t: "Hébergement, nom de domaine, HTTPS, déploiement et suivi.", tech: "Docker · Linux · VPS" },
+  { k: "Back-end & métier", t: "Mon socle. La logique métier, les comptes, les données et le back-office : solide et pensé pour durer.", tech: "Symfony · PHP · Doctrine · API" },
+  { k: "Interfaces web", t: "Des pages rapides, lisibles sur tous les écrans, avec des animations qui donnent envie de lire.", tech: "React · Next.js · TypeScript · Tailwind" },
+  { k: "Applications mobiles", t: "Une application iOS et Android à partir d'une même base de code, reliée à votre back-office.", tech: "React Native" },
+  { k: "Mise en ligne", t: "Base de données, hébergement, nom de domaine, HTTPS, déploiement et suivi.", tech: "PostgreSQL · Docker · Linux · VPS" },
 ];
 
 export function Skills() {
@@ -18,7 +18,7 @@ export function Skills() {
 
   useGSAP(
     (context) => {
-      deferInit(() => context.add(() => {
+      return deferInit(() => context.add(() => {
         const mm = gsap.matchMedia();
         mm.add({ fine: MOTION.fine, coarse: MOTION.coarse }, (ctx) => {
           const coarse = ctx.conditions?.coarse;
@@ -65,7 +65,7 @@ export function Skills() {
           <span aria-hidden="true" className="h-0.5 w-12 rounded bg-lilac" /> Compétences
         </p>
         <h2 data-skills-lead className="max-w-[26ch] font-display text-[clamp(1.7rem,min(0.9rem+2.7vw,6vh),4.6rem)] font-bold leading-[1.05] tracking-[-0.02em]">
-          Je maîtrise toute la chaîne&nbsp;: de l&apos;interface au serveur, sans intermédiaire.
+          Symfony et PHP pour le cœur métier, React et React Native pour le web et le mobile&nbsp;: je maîtrise toute la chaîne, sans intermédiaire.
         </h2>
       </div>
 

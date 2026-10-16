@@ -94,10 +94,10 @@ const OFFERS = [
   },
   {
     key: "app",
-    tag: "Application web & SaaS",
+    tag: "Application web, mobile & SaaS",
     title: "Un outil métier taillé pour vous.",
-    text: "Quand un tableur ne suffit plus : une application web qui colle à votre façon de travailler, accessible partout.",
-    items: ["Espace client et back-office", "Devis, réservations, suivi, tableaux de bord", "Comptes utilisateurs et droits d'accès", "Hébergement, sauvegardes et évolutions"],
+    text: "Quand un tableur ne suffit plus : une application qui colle à votre façon de travailler, sur ordinateur comme sur téléphone.",
+    items: ["Espace client et back-office", "Devis, réservations, suivi, tableaux de bord", "Application mobile iOS et Android", "Hébergement, sauvegardes et évolutions"],
     art: <AppArt />,
   },
 ];
@@ -109,7 +109,7 @@ export function Offers() {
 
   useGSAP(
     (context) => {
-      deferInit(() => context.add(() => {
+      return deferInit(() => context.add(() => {
         const mm = gsap.matchMedia();
         mm.add({ fine: MOTION.fine, coarse: MOTION.coarse }, (ctx) => {
           const coarse = ctx.conditions?.coarse;

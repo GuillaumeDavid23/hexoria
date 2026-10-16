@@ -15,7 +15,7 @@ export function Clarity() {
 
   useGSAP(
     (context) => {
-      deferInit(() => context.add(() => {
+      return deferInit(() => context.add(() => {
         const mm = gsap.matchMedia();
         const split = SplitText.create("[data-manifesto]", { type: "words", wordsClass: "word", aria: "none" });
         const counters = gsap.utils.toArray<HTMLElement>("[data-count]");

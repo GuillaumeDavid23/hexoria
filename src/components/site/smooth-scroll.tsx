@@ -39,12 +39,13 @@ export const onEnter = (trigger: Element | string, start = "top 85%") => ({ trig
  * quand le navigateur est libre, pour ne pas bloquer l'affichage et les premiers gestes (mobile).
  * L'ordre d'appel (ordre du document) est conservé, puis les déclencheurs sont recalculés.
  */
-const queue: (() => void)[] = [];
+const queue: { fn: () => void; off: boolean }[] = [];
 let pending = false;
 const idle = (cb: () => void) =>
   typeof window.requestIdleCallback === "function" ? window.requestIdleCallback(cb, { timeout: 900 }) : setTimeout(cb, 120);
 function drain() {
-  queue.shift()?.();
+  const job = queue.shift();
+  if (job && !job.off) job.fn();
   if (queue.length) idle(drain);
   else {
     pending = false;
@@ -52,12 +53,17 @@ function drain() {
     ScrollTrigger.refresh();
   }
 }
+/** Renvoie une fonction d'annulation : à retourner depuis useGSAP (démontage, double rendu de dev). */
 export function deferInit(fn: () => void) {
-  queue.push(fn);
+  const job = { fn, off: false };
+  queue.push(job);
   if (!pending) {
     pending = true;
     idle(drain);
   }
+  return () => {
+    job.off = true;
+  };
 }
 
 const LenisContext = createContext<Lenis | null>(null);

@@ -8,13 +8,13 @@ import { gsap, MOTION, scrollToId, scrubFor, useGSAP, useLenis } from "@/compone
 
 // Quelques lignes de code « tapées » à l'arrivée (couleurs façon éditeur)
 const CODE: [string, string][][] = [
-  [["#c9b6fb", "export default"], ["#fff", " function "], ["#f5c76b", "Accueil"], ["#fff", "() {"]],
-  [["#fff", "  "], ["#c9b6fb", "return"], ["#fff", " ("]],
-  [["#fff", "    <"], ["#7dd3fc", "Hero"], ["#9a6bf2", " titre"], ["#fff", "="], ["#86efac", '"Votre activité"'], ["#fff", " />"]],
-  [["#fff", "    <"], ["#7dd3fc", "Services"], ["#9a6bf2", " liste"], ["#fff", "={offres} />"]],
-  [["#fff", "    <"], ["#7dd3fc", "Avis"], ["#9a6bf2", " clients"], ["#fff", " />"]],
-  [["#fff", "    <"], ["#7dd3fc", "Contact"], ["#9a6bf2", " rdv"], ["#fff", " />"]],
-  [["#fff", "  );"]],
+  [["#f5c76b", "#[Route"], ["#fff", "("], ["#86efac", "'/'"], ["#fff", ", name: "], ["#86efac", "'accueil'"], ["#fff", ")]"]],
+  [["#c9b6fb", "public function"], ["#7dd3fc", " accueil"], ["#fff", "(): "], ["#f5c76b", "Response"]],
+  [["#fff", "{"]],
+  [["#fff", "  "], ["#c9b6fb", "return"], ["#fff", " $this->"], ["#7dd3fc", "render"], ["#fff", "("], ["#86efac", "'accueil.html.twig'"], ["#fff", ", ["]],
+  [["#fff", "    "], ["#86efac", "'titre'"], ["#fff", " => "], ["#86efac", "'Votre activité'"], ["#fff", ","]],
+  [["#fff", "    "], ["#86efac", "'offres'"], ["#fff", " => $this->offres->"], ["#7dd3fc", "toutes"], ["#fff", "(),"]],
+  [["#fff", "  ]);"]],
   [["#fff", "}"]],
 ];
 
@@ -59,7 +59,7 @@ export function ProHero() {
       <div className="container-x relative grid h-full content-center gap-[clamp(1.5rem,4vh,3rem)] pt-[var(--header-h)] lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-[clamp(2rem,4vw,5rem)]">
         <div>
           <h1 data-pro-intro style={{ "--d": "0.4s" } as React.CSSProperties} className="in-fade eyebrow mb-[clamp(0.75rem,2.5vh,1.75rem)] text-[0.78rem] text-lilac sm:text-[length:var(--step--1)]">
-            Création de sites web · Vitrine &amp; SaaS
+            Création de sites &amp; applications · Vitrine, SaaS, mobile
           </h1>
           <p className="font-display text-[clamp(2.3rem,min(1rem+4.4vw,10vh),7rem)] font-extrabold leading-[0.95] tracking-[-0.035em]">
             <span data-line className="in-rise split-line block" style={{ "--d": "0.1s" } as React.CSSProperties}>
@@ -70,7 +70,7 @@ export function ProHero() {
             </span>
           </p>
           <p data-pro-intro style={{ "--d": "0.48s" } as React.CSSProperties} className="in-fade mt-[clamp(0.75rem,2.5vh,1.75rem)] max-w-[40ch] text-[length:var(--step-1)] leading-snug text-white/80">
-            Sites vitrines et applications web que je conçois et développe moi-même, de la maquette à la mise en ligne.
+            Sites vitrines, applications web et mobiles que je conçois et développe moi-même, de la maquette à la mise en ligne.
           </p>
           <div data-pro-intro data-hero-cta style={{ "--d": "0.56s" } as React.CSSProperties} className="in-fade mt-[clamp(1rem,3.5vh,2.5rem)] flex flex-wrap gap-3">
             <a href={telHref} className="flex items-center gap-2.5 rounded-full bg-white px-6 py-3.5 font-bold text-violet transition-colors hover:bg-lilac-100">
@@ -97,7 +97,7 @@ export function ProHero() {
               <span className="size-2.5 rounded-full bg-alert/80" />
               <span className="size-2.5 rounded-full bg-warn/80" />
               <span className="size-2.5 rounded-full bg-ok/80" />
-              <span className="ml-3 text-xs text-white/50">accueil.tsx</span>
+              <span className="ml-3 text-xs text-white/50">AccueilController.php</span>
             </div>
             <div className="space-y-1.5 p-4 font-mono text-[clamp(0.62rem,1.05vw,0.95rem)] leading-relaxed">
               {CODE.map((line, i) => (

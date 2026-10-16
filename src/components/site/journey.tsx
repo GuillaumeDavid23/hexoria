@@ -67,7 +67,7 @@ export function Journey() {
 
   useGSAP(
     (context) => {
-      deferInit(() => context.add(() => {
+      return deferInit(() => context.add(() => {
         const mm = gsap.matchMedia();
         const pin = root.current!.querySelector<HTMLElement>("[data-pin]")!;
         const track = root.current!.querySelector<HTMLElement>("[data-track]")!;

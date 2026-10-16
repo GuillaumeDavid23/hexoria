@@ -11,7 +11,7 @@ import { deferInit, gsap, MOTION, onEnter, useGSAP } from "./smooth-scroll";
  */
 export function ScrubReveals() {
   useGSAP((context) => {
-    deferInit(() => context.add(() => {
+    return deferInit(() => context.add(() => {
       const mm = gsap.matchMedia();
       mm.add({ fine: MOTION.fine, coarse: MOTION.coarse }, (ctx) => {
         const coarse = ctx.conditions?.coarse;
