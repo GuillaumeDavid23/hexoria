@@ -294,12 +294,15 @@ export function Services() {
                 : { ease: "none", scrollTrigger: { trigger: card, start: "top 95%", end: "top 70%", scrub: 0.6 } }),
             });
             // 2. l'illustration ne s'anime que lorsqu'elle est réellement visible :
-            //    téléphone → quand l'illustration (sous le texte) entre bien dans l'écran ;
-            //    grand écran → pendant que la carte monte se poser (jusqu'à son point d'arrêt sous l'en-tête).
+            //    téléphone → quand le centre de l'illustration (sous le texte) atteint le milieu de l'écran ;
+            //    grand écran → idem, centre de l'illustration au milieu de l'écran.
+            // Grand écran : jouée d'un trait (≈ 1,4 s) quand le centre de l'illustration passe le milieu de l'écran,
+            // rejouée à l'envers si l'on remonte (un scrub n'aurait presque pas de course : la carte se pose juste après).
             const st = coarse
-              ? onEnter(art, "top 65%")
-              : { trigger: card, start: "top 55%", end: "top top+=100", scrub: 0.6 };
+              ? onEnter(art, "center 55%")
+              : { trigger: art, start: "center 55%", toggleActions: "play none none reverse" };
             const tl = gsap.timeline({ defaults: { ease: "none" }, scrollTrigger: st });
+            tl.timeScale(0.8); // ≈ 1,4 s : le temps de voir la jauge monter, la page sortir, la copie se faire
 
             switch (card.dataset.service) {
               case "repair": {
