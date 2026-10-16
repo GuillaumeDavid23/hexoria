@@ -167,7 +167,11 @@ export function Header({ audience = "perso" }: { audience?: Audience }) {
           <a href={telHref} tabIndex={open ? undefined : -1} className="mt-10 flex items-center justify-center gap-3 rounded-full bg-white py-4 text-[length:var(--step-1)] font-bold text-violet">
             <PhoneIcon className="size-5" /> {site.contact.phone}
           </a>
-          <p className="mt-6 text-center text-white/60">{site.area}</p>
+          <p className="mt-6 text-center text-white/60">
+            {site.area}
+            <br />
+            {site.hours.label}
+          </p>
         </div>
       </div>
     </>

@@ -64,6 +64,10 @@ export function Footer({
           </a>
         </div>
         <p className="mt-8 max-w-[44ch] text-white/70">{lead}</p>
+        <p className="mt-2 flex items-center gap-2 text-white/70">
+          <span aria-hidden="true" className="size-2 rounded-full bg-ok" />
+          {site.hours.label}
+        </p>
       </div>
 
       <div className="container-x relative z-10 flex flex-wrap items-center justify-between gap-x-8 gap-y-3 border-t border-white/10 py-6 pb-[calc(1.5rem+5rem)] text-[length:var(--step--1)] text-white/60 sm:pb-6">

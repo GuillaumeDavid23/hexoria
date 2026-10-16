@@ -26,6 +26,8 @@ export const site = {
   ],
   /** Conteneur Google Tag Manager (chargé seulement en production, après consentement). */
   gtmId: "GTM-NMPMQBVJ",
+  /** Horaires (identiques à la fiche Google Business Profile). */
+  hours: { label: "Du lundi au vendredi, 9 h – 18 h", days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "09:00", closes: "18:00" },
   contact: {
     phone: "03 22 29 00 38",
     phoneE164: "+33322290038",
