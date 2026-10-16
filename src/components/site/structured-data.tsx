@@ -17,7 +17,6 @@ export function StructuredData() {
       image: absoluteUrl("/opengraph-image"),
       telephone: site.contact.phoneE164,
       openingHoursSpecification: { "@type": "OpeningHoursSpecification", dayOfWeek: site.hours.days, opens: site.hours.opens, closes: site.hours.closes },
-      email: site.contact.email,
       sameAs: Object.values(site.social),
       legalName: site.legal.companyName,
       vatID: site.legal.vat,

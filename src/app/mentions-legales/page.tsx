@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Logo } from "@/components/brand";
 import { ConsentLink } from "@/components/site/consent";
+import { EmailLink } from "@/components/site/email-link";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -30,7 +31,7 @@ export default function LegalPage() {
             <br />
             TVA intracommunautaire : {l.vat}
             <br />
-            Téléphone : {site.contact.phone} · Email : <a href={`mailto:${site.contact.email}`} className="text-violet underline">{site.contact.email}</a>
+            Téléphone : {site.contact.phone} · Email : <EmailLink className="text-violet underline" />
             <br />
             Directeur de la publication : {l.president}, président
           </p>
@@ -42,7 +43,7 @@ export default function LegalPage() {
         <section id="donnees">
           <h2>Données personnelles et cookies</h2>
           <p>
-            Ce site ne comporte ni formulaire ni compte. Si vous écrivez à {site.contact.email}, votre message sert uniquement à vous répondre.
+            Ce site ne comporte ni formulaire ni compte. Si vous écrivez à <EmailLink className="text-violet underline" />, votre message sert uniquement à vous répondre.
           </p>
           <p className="mt-3">
             <strong>Mesure d&apos;audience.</strong> Avec votre accord seulement, le site utilise Google Analytics (Google Ireland Ltd), via Google Tag
@@ -50,7 +51,7 @@ export default function LegalPage() {
             conservé 13 mois et vous pouvez le modifier à tout moment&nbsp;: <ConsentLink className="text-violet underline" />.
           </p>
           <p className="mt-3">
-            Vous pouvez demander l&apos;accès, la rectification ou la suppression de vos données à {site.contact.email}.
+            Vous pouvez demander l&apos;accès, la rectification ou la suppression de vos données à <EmailLink className="text-violet underline" />.
           </p>
         </section>
       </div>

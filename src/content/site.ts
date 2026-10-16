@@ -31,7 +31,8 @@ export const site = {
   contact: {
     phone: "03 22 29 00 38",
     phoneE164: "+33322290038",
-    email: "contact@hexoria.fr",
+    /** en deux morceaux : jamais d'adresse complète dans le HTML (voir components/site/email-link.tsx) */
+    email: { user: "contact", domain: "hexoria.fr" },
     web: "hexoria.fr",
   },
   /** Profils officiels (pied de page + données structurées « sameAs »). */
@@ -55,4 +56,3 @@ export const site = {
 };
 
 export const telHref = `tel:${site.contact.phoneE164}`;
-export const mailHref = `mailto:${site.contact.email}`;

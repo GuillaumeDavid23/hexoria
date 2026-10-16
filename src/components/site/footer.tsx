@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { useRef } from "react";
 import { Logo, Mark } from "@/components/brand";
-import { mailHref, site, telHref } from "@/content/site";
+import { site, telHref } from "@/content/site";
 import { ConsentLink } from "./consent";
+import { EmailLink } from "./email-link";
 import { PhoneIcon } from "./header";
 import { deferInit, gsap, MOTION, onEnter, useGSAP } from "./smooth-scroll";
 
@@ -80,9 +81,7 @@ export function Footer({
           <a href={telHref} className="flex items-center gap-2.5 rounded-full bg-white px-7 py-4 text-[length:var(--step-0)] font-bold text-violet transition-colors hover:bg-lilac-100">
             <PhoneIcon className="size-5" /> Appeler maintenant
           </a>
-          <a href={mailHref} className="rounded-full px-7 py-4 text-[length:var(--step-0)] font-semibold ring-2 ring-white/25 transition-colors hover:bg-white/10">
-            {site.contact.email}
-          </a>
+          <EmailLink className="rounded-full px-7 py-4 text-[length:var(--step-0)] font-semibold ring-2 ring-white/25 transition-colors hover:bg-white/10" />
           {SOCIAL.filter((r) => pro || !r.pro).map((r) => (
             <a
               key={r.key}
