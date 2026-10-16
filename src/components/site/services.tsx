@@ -281,15 +281,25 @@ export function Services() {
             });
           }
 
-          // Chaque illustration s'anime à l'arrivée de sa carte
           cards.forEach((card) => {
             const q = gsap.utils.selector(card);
+            const art = card.querySelector<HTMLElement>("[data-art]")!;
+            // 1. le texte apparaît dès l'arrivée de la carte
+            gsap.from(q("[data-copy] > *"), {
+              y: 30,
+              opacity: 0,
+              stagger: 0.05,
+              ...(coarse
+                ? { duration: 0.9, ease: "expo.out", scrollTrigger: onEnter(card, "top 80%") }
+                : { ease: "none", scrollTrigger: { trigger: card, start: "top 95%", end: "top 70%", scrub: 0.6 } }),
+            });
+            // 2. l'illustration ne s'anime que lorsqu'elle est réellement visible :
+            //    téléphone → quand l'illustration (sous le texte) entre bien dans l'écran ;
+            //    grand écran → pendant que la carte monte se poser (jusqu'à son point d'arrêt sous l'en-tête).
             const st = coarse
-              ? onEnter(card, "top 75%")
-              : { trigger: card, start: "top 85%", end: "top top+=100", scrub: 0.6 };
+              ? onEnter(art, "top 65%")
+              : { trigger: card, start: "top 55%", end: "top top+=100", scrub: 0.6 };
             const tl = gsap.timeline({ defaults: { ease: "none" }, scrollTrigger: st });
-            // le texte apparaît d'abord (lisible tôt), l'illustration se joue sur le reste du trajet
-            tl.from(q("[data-copy] > *"), { y: 30, opacity: 0, duration: 0.2, stagger: 0.03, ease: "expo.out" }, 0);
 
             switch (card.dataset.service) {
               case "repair": {
@@ -377,7 +387,7 @@ export function Services() {
                     ))}
                   </ul>
                 </div>
-                <div className="h-[clamp(14rem,34svh,24rem)] lg:h-[min(60svh,34rem)]" aria-hidden="true">
+                <div data-art className="h-[clamp(14rem,34svh,24rem)] lg:h-[min(60svh,34rem)]" aria-hidden="true">
                   {s.art}
                 </div>
               </div>
