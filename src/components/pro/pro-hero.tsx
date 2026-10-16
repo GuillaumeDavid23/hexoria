@@ -35,14 +35,14 @@ export function ProHero() {
         // Défilement : l'éditeur recule, le site apparaît et se construit bloc par bloc
         const tl = gsap.timeline({
           defaults: { ease: "none" },
-          scrollTrigger: { trigger: root.current, start: "top top", end: coarse ? "+=110%" : "+=140%", scrub: scrubFor(coarse), pin: true, anticipatePin: 1 },
+          scrollTrigger: { trigger: root.current, start: "top top", end: coarse ? "+=95%" : "+=110%", scrub: scrubFor(coarse), pin: true, anticipatePin: 1 },
         });
         tl.to("[data-editor]", { xPercent: -14, yPercent: -10, rotate: -4, scale: 0.86, opacity: 0.35, duration: 0.4 }, 0)
           .fromTo("[data-browser]", { xPercent: 18, yPercent: 14, rotate: 4, opacity: 0 }, { xPercent: 0, yPercent: 0, rotate: 0, opacity: 1, duration: 0.4 }, 0.05)
           .from("[data-block]", { y: 30, opacity: 0, scale: 0.94, duration: 0.18, stagger: 0.06 }, 0.3)
           .from("[data-ring-arc]", { drawSVG: "0%", duration: 0.3, stagger: 0.06 }, 0.6)
           .from("[data-ring-ok]", { scale: 0, duration: 0.1, stagger: 0.06, ease: "back.out(2)" }, 0.8)
-          .to({}, { duration: 0.2 });
+          .to({}, { duration: 0.1 });
       });
     },
     { scope: root },

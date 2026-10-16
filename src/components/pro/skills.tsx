@@ -37,7 +37,7 @@ export function Skills() {
             y: 60,
             opacity: 0,
             stagger: 0.1,
-            ...(coarse ? { duration: 1, ease: "expo.out", scrollTrigger: onEnter("[data-pillars]") } : { ease: "none", scrollTrigger: { trigger: "[data-pillars]", start: "top 95%", end: "top 55%", scrub: 0.6 } }),
+            ...(coarse ? { duration: 1, ease: "expo.out", scrollTrigger: onEnter("[data-pillars]") } : { ease: "none", scrollTrigger: { trigger: "[data-pillars]", start: "top 100%", end: "top 75%", scrub: 0.6 } }),
           });
           return () => split.revert();
         });
@@ -59,7 +59,7 @@ export function Skills() {
   );
 
   return (
-    <section ref={root} id="competences" data-scene data-theme="dark" className="overflow-hidden bg-violet-950 py-[clamp(5rem,14vh,10rem)] text-white">
+    <section ref={root} id="competences" data-scene data-theme="dark" className="overflow-hidden bg-violet-950 py-[clamp(4rem,10vh,7rem)] text-white">
       <div className="container-x">
         <p className="eyebrow mb-4 flex items-center gap-4 text-lilac">
           <span aria-hidden="true" className="h-0.5 w-12 rounded bg-lilac" /> Compétences

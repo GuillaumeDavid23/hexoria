@@ -156,7 +156,7 @@ export function Hero() {
         // et la phrase « y voir clair » devient nette.
         const tl = gsap.timeline({
           defaults: { ease: "none" },
-          scrollTrigger: { trigger: root.current, start: "top top", end: coarse ? "+=110%" : "+=130%", scrub: scrubFor(coarse), pin: true, anticipatePin: 1 },
+          scrollTrigger: { trigger: root.current, start: "top top", end: coarse ? "+=95%" : "+=105%", scrub: scrubFor(coarse), pin: true, anticipatePin: 1 },
         });
         const wins = gsap.utils.toArray<HTMLElement>("[data-win]");
         wins.forEach((w, i) => {
@@ -171,7 +171,7 @@ export function Hero() {
           .fromTo("[data-clear]", { filter: "blur(5px)", opacity: 0.6 }, { filter: "blur(0px)", opacity: 1, duration: 0.45 }, 0.3)
           .from("[data-underline]", { drawSVG: "0%", duration: 0.3 }, 0.62)
           .to("[data-scroll-cue]", { autoAlpha: 0, duration: 0.15 }, 0)
-          .to({}, { duration: 0.25 });
+          .to({}, { duration: 0.12 });
 
         // Le mot du titre défile : ordinateur → téléphone → imprimante…
         const box = root.current!.querySelector<HTMLElement>("[data-words]")!;

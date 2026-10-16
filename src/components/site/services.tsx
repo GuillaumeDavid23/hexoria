@@ -285,10 +285,11 @@ export function Services() {
           cards.forEach((card) => {
             const q = gsap.utils.selector(card);
             const st = coarse
-              ? onEnter(card, "top 60%")
-              : { trigger: card, start: "top 75%", end: "top top+=100", scrub: 0.6 };
+              ? onEnter(card, "top 75%")
+              : { trigger: card, start: "top 85%", end: "top top+=100", scrub: 0.6 };
             const tl = gsap.timeline({ defaults: { ease: "none" }, scrollTrigger: st });
-            tl.from(q("[data-copy] > *"), { y: 40, opacity: 0, duration: 0.5, stagger: 0.06, ease: "expo.out" }, 0);
+            // le texte apparaît d'abord (lisible tôt), l'illustration se joue sur le reste du trajet
+            tl.from(q("[data-copy] > *"), { y: 30, opacity: 0, duration: 0.2, stagger: 0.03, ease: "expo.out" }, 0);
 
             switch (card.dataset.service) {
               case "repair": {
@@ -341,7 +342,7 @@ export function Services() {
 
   return (
     <section ref={root} id="services" data-theme="light" className="relative bg-mist pb-[4vh]">
-      <div className="container-x pb-[clamp(2rem,6vh,5rem)] pt-[clamp(5rem,14vh,10rem)]">
+      <div className="container-x pb-[clamp(2rem,6vh,5rem)] pt-[clamp(4rem,10vh,7rem)]">
         <p data-scrub="up" className="eyebrow mb-4 flex items-center gap-4 text-violet">
           <span aria-hidden="true" className="h-0.5 w-12 rounded bg-violet" /> Services
         </p>
@@ -375,7 +376,7 @@ export function Services() {
                     ))}
                   </ul>
                 </div>
-                <div className="h-[clamp(16rem,42svh,30rem)] lg:h-[min(60svh,34rem)]" aria-hidden="true">
+                <div className="h-[clamp(14rem,34svh,24rem)] lg:h-[min(60svh,34rem)]" aria-hidden="true">
                   {s.art}
                 </div>
               </div>

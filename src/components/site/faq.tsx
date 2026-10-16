@@ -33,7 +33,7 @@ export const FAQ = [
 
 export function Faq() {
   return (
-    <section id="questions" data-scene data-theme="light" className="bg-mist py-[clamp(5rem,14vh,10rem)]">
+    <section id="questions" data-scene data-theme="light" className="bg-mist py-[clamp(4rem,10vh,7rem)]">
       <div className="container-x grid gap-10 lg:grid-cols-12">
         <div className="lg:col-span-4">
           <p data-scrub="up" className="eyebrow mb-4 flex items-center gap-4 text-violet">
@@ -43,12 +43,12 @@ export function Faq() {
             Vous vous <span className="text-violet">demandez peut-être…</span>
           </h2>
         </div>
-        <div className="grid gap-3 lg:col-span-8">
+        <div className="grid gap-2.5 lg:col-span-8">
           {FAQ.map((f) => (
             <details key={f.q} data-scrub="up" className="group rounded-2xl bg-white ring-1 ring-ink/5 transition-shadow open:shadow-[0_24px_50px_-30px_rgba(28,10,66,.4)]">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 p-[clamp(1.1rem,2vw,1.75rem)] font-display text-[length:var(--step-1)] font-bold leading-snug [&::-webkit-details-marker]:hidden">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 px-[clamp(1.1rem,2vw,1.75rem)] py-[clamp(0.9rem,1.4vw,1.25rem)] font-display text-[length:var(--step-0)] font-bold leading-snug [&::-webkit-details-marker]:hidden">
                 {f.q}
-                <span className="relative grid size-10 shrink-0 place-items-center rounded-full bg-lilac-100 text-violet transition-transform duration-500 ease-out-expo group-open:rotate-45 group-open:bg-violet group-open:text-white" aria-hidden="true">
+                <span className="relative grid size-9 shrink-0 place-items-center rounded-full bg-lilac-100 text-violet transition-transform duration-500 ease-out-expo group-open:rotate-45 group-open:bg-violet group-open:text-white" aria-hidden="true">
                   <span className="absolute h-0.5 w-4 rounded bg-current" />
                   <span className="absolute h-4 w-0.5 rounded bg-current" />
                 </span>

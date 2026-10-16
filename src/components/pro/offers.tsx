@@ -117,9 +117,9 @@ export function Offers() {
             const q = gsap.utils.selector(card);
             const tl = gsap.timeline({
               defaults: { ease: "none" },
-              scrollTrigger: coarse ? onEnter(card, "top 75%") : { trigger: card, start: "top 95%", end: "top 35%", scrub: 0.6 },
+              scrollTrigger: coarse ? onEnter(card, "top 75%") : { trigger: card, start: "top 100%", end: "top 40%", scrub: 0.6 },
             });
-            tl.from(card, { y: 100, opacity: 0, rotate: i ? 2 : -2, duration: 0.5, ease: "expo.out" }, 0);
+            tl.from(card, { y: 80, opacity: 0, rotate: i ? 2 : -2, duration: 0.25, ease: "expo.out" }, 0);
             if (card.dataset.offer === "vitrine") {
               tl.from(q("[data-o-desk]"), { x: -40, opacity: 0, duration: 0.4 }, 0.2)
                 .from(q("[data-o-b]"), { y: 14, opacity: 0, duration: 0.2, stagger: 0.05 }, 0.35)
@@ -137,7 +137,7 @@ export function Offers() {
   );
 
   return (
-    <section ref={root} id="offres" data-theme="light" className="bg-mist py-[clamp(5rem,14vh,10rem)]">
+    <section ref={root} id="offres" data-theme="light" className="bg-mist py-[clamp(4rem,10vh,7rem)]">
       <div className="container-x">
         <p data-scrub="up" className="eyebrow mb-4 flex items-center gap-4 text-violet">
           <span aria-hidden="true" className="h-0.5 w-12 rounded bg-violet" /> Offres

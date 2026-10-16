@@ -28,7 +28,7 @@ export function Method() {
             gsap.from(el.querySelector("[data-m-body]"), {
               x: 40,
               opacity: 0,
-              ...(coarse ? { duration: 1, ease: "expo.out", scrollTrigger: onEnter(el, "top 80%") } : { ease: "none", scrollTrigger: { trigger: el, start: "top 90%", end: "top 60%", scrub: 0.6 } }),
+              ...(coarse ? { duration: 1, ease: "expo.out", scrollTrigger: onEnter(el, "top 80%") } : { ease: "none", scrollTrigger: { trigger: el, start: "top 100%", end: "top 78%", scrub: 0.6 } }),
             });
           });
         });
@@ -38,7 +38,7 @@ export function Method() {
   );
 
   return (
-    <section ref={root} id="methode" data-theme="light" className="bg-white py-[clamp(5rem,14vh,10rem)]">
+    <section ref={root} id="methode" data-theme="light" className="bg-white py-[clamp(4rem,10vh,7rem)]">
       <div className="container-x grid gap-12 lg:grid-cols-12">
         <div className="lg:col-span-5">
           <div className="lg:sticky lg:top-[calc(var(--header-h)+3rem)]">
