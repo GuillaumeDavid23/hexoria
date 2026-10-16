@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { gsap, MOTION, onEnter, SplitText, useGSAP } from "@/components/site/smooth-scroll";
+import { deferInit, gsap, MOTION, onEnter, SplitText, useGSAP } from "@/components/site/smooth-scroll";
 
 const ROW_A = ["Next.js", "React", "TypeScript", "Tailwind CSS", "GSAP", "Animations au défilement", "Accessibilité", "SEO technique"];
 const ROW_B = ["Symfony", "PHP", "Node.js", "API", "PostgreSQL", "SQLite", "Docker", "Linux", "VPS", "HTTPS"];
@@ -17,29 +17,31 @@ export function Skills() {
   const root = useRef<HTMLElement>(null);
 
   useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add({ fine: MOTION.fine, coarse: MOTION.coarse }, (ctx) => {
-        const coarse = ctx.conditions?.coarse;
-        // les deux bandeaux glissent en sens contraire au rythme du défilement
-        const band = { trigger: root.current, start: "top bottom", end: "bottom top", scrub: true };
-        gsap.fromTo("[data-row-a]", { xPercent: 0 }, { xPercent: -30, ease: "none", scrollTrigger: band });
-        gsap.fromTo("[data-row-b]", { xPercent: -30 }, { xPercent: 0, ease: "none", scrollTrigger: band });
+    (context) => {
+      deferInit(() => context.add(() => {
+        const mm = gsap.matchMedia();
+        mm.add({ fine: MOTION.fine, coarse: MOTION.coarse }, (ctx) => {
+          const coarse = ctx.conditions?.coarse;
+          // les deux bandeaux glissent en sens contraire au rythme du défilement
+          const band = { trigger: root.current, start: "top bottom", end: "bottom top", scrub: true };
+          gsap.fromTo("[data-row-a]", { xPercent: 0 }, { xPercent: -30, ease: "none", scrollTrigger: band });
+          gsap.fromTo("[data-row-b]", { xPercent: -30 }, { xPercent: 0, ease: "none", scrollTrigger: band });
 
-        const split = SplitText.create("[data-skills-lead]", { type: "words" });
-        const tl = gsap.timeline({
-          defaults: { ease: "none" },
-          scrollTrigger: coarse ? onEnter("[data-skills-lead]", "top 70%") : { trigger: "[data-skills-lead]", start: "top 85%", end: "bottom 45%", scrub: 0.6 },
+          const split = SplitText.create("[data-skills-lead]", { type: "words", aria: "none" });
+          const tl = gsap.timeline({
+            defaults: { ease: "none" },
+            scrollTrigger: coarse ? onEnter("[data-skills-lead]", "top 70%") : { trigger: "[data-skills-lead]", start: "top 85%", end: "bottom 45%", scrub: 0.6 },
+          });
+          tl.fromTo(split.words, { opacity: 0.4 }, { opacity: 1, stagger: { amount: 1 }, duration: 0.4 });
+          gsap.from("[data-pillar]", {
+            y: 60,
+            opacity: 0,
+            stagger: 0.1,
+            ...(coarse ? { duration: 1, ease: "expo.out", scrollTrigger: onEnter("[data-pillars]") } : { ease: "none", scrollTrigger: { trigger: "[data-pillars]", start: "top 95%", end: "top 55%", scrub: 0.6 } }),
+          });
+          return () => split.revert();
         });
-        tl.fromTo(split.words, { opacity: 0.15 }, { opacity: 1, stagger: { amount: 1 }, duration: 0.4 });
-        gsap.from("[data-pillar]", {
-          y: 60,
-          opacity: 0,
-          stagger: 0.1,
-          ...(coarse ? { duration: 1, ease: "expo.out", scrollTrigger: onEnter("[data-pillars]") } : { ease: "none", scrollTrigger: { trigger: "[data-pillars]", start: "top 95%", end: "top 55%", scrub: 0.6 } }),
-        });
-        return () => split.revert();
-      });
+      }));
     },
     { scope: root },
   );

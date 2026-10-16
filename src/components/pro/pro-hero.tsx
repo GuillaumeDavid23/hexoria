@@ -30,13 +30,7 @@ export function ProHero() {
       mm.add({ fine: MOTION.fine, coarse: MOTION.coarse }, (ctx) => {
         const coarse = ctx.conditions?.coarse;
 
-        // Entrée : titre, puis le code s'écrit ligne à ligne
-        const intro = gsap.timeline({ defaults: { ease: "expo.out" } });
-        intro
-          .from("[data-line] > span", { yPercent: 110, duration: 1.3, stagger: 0.1 }, 0.1)
-          .from("[data-pro-intro]", { y: 20, autoAlpha: 0, duration: 1, stagger: 0.08 }, 0.4)
-          .from("[data-editor]", { y: 60, autoAlpha: 0, duration: 1.2 }, 0.3)
-          .from("[data-code]", { clipPath: "inset(0 100% 0 0)", duration: 0.5, ease: "steps(14)", stagger: 0.22 }, 0.8);
+        // L'entrée (titre, éditeur, code tapé) est en CSS : voir .in-* dans globals.css
 
         // Défilement : l'éditeur recule, le site apparaît et se construit bloc par bloc
         const tl = gsap.timeline({
@@ -64,21 +58,21 @@ export function ProHero() {
 
       <div className="container-x relative grid h-full content-center gap-[clamp(1.5rem,4vh,3rem)] pt-[var(--header-h)] lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-[clamp(2rem,4vw,5rem)]">
         <div>
-          <h1 data-pro-intro className="eyebrow mb-[clamp(0.75rem,2.5vh,1.75rem)] text-[0.78rem] text-lilac sm:text-[length:var(--step--1)]">
+          <h1 data-pro-intro style={{ "--d": "0.4s" } as React.CSSProperties} className="in-fade eyebrow mb-[clamp(0.75rem,2.5vh,1.75rem)] text-[0.78rem] text-lilac sm:text-[length:var(--step--1)]">
             Création de sites web · Vitrine &amp; SaaS
           </h1>
           <p className="font-display text-[clamp(2.3rem,min(1rem+4.4vw,10vh),7rem)] font-extrabold leading-[0.95] tracking-[-0.035em]">
-            <span data-line className="split-line block">
+            <span data-line className="in-rise split-line block" style={{ "--d": "0.1s" } as React.CSSProperties}>
               <span className="block">Votre site web,</span>
             </span>
-            <span data-line className="split-line block">
+            <span data-line className="in-rise split-line block" style={{ "--d": "0.2s" } as React.CSSProperties}>
               <span className="block text-lilac">sur mesure.</span>
             </span>
           </p>
-          <p data-pro-intro className="mt-[clamp(0.75rem,2.5vh,1.75rem)] max-w-[40ch] text-[length:var(--step-1)] leading-snug text-white/80">
+          <p data-pro-intro style={{ "--d": "0.48s" } as React.CSSProperties} className="in-fade mt-[clamp(0.75rem,2.5vh,1.75rem)] max-w-[40ch] text-[length:var(--step-1)] leading-snug text-white/80">
             Sites vitrines et applications web que je conçois et développe moi-même, de la maquette à la mise en ligne.
           </p>
-          <div data-pro-intro className="mt-[clamp(1rem,3.5vh,2.5rem)] flex flex-wrap gap-3">
+          <div data-pro-intro style={{ "--d": "0.56s" } as React.CSSProperties} className="in-fade mt-[clamp(1rem,3.5vh,2.5rem)] flex flex-wrap gap-3">
             <a href={telHref} className="flex items-center gap-2.5 rounded-full bg-white px-6 py-3.5 font-bold text-violet transition-colors hover:bg-lilac-100">
               <PhoneIcon className="size-5" /> Parler de votre projet
             </a>
@@ -97,6 +91,7 @@ export function ProHero() {
 
         {/* Éditeur de code → site web */}
         <div className="relative mx-auto h-[clamp(14rem,36svh,34rem)] w-full max-w-[40rem] lg:h-[min(62svh,34rem)]" aria-hidden="true">
+          <div className="in-fade absolute inset-0" style={{ "--d": "0.3s" } as React.CSSProperties}>
           <div data-editor className="absolute inset-0 overflow-hidden rounded-2xl bg-[#1b1233] shadow-2xl ring-1 ring-white/10">
             <div className="flex items-center gap-1.5 border-b border-white/10 px-4 py-2.5">
               <span className="size-2.5 rounded-full bg-alert/80" />
@@ -108,7 +103,7 @@ export function ProHero() {
               {CODE.map((line, i) => (
                 <div key={i} className="flex gap-4">
                   <span className="w-4 shrink-0 text-right text-white/25">{i + 1}</span>
-                  <span data-code className="whitespace-pre">
+                  <span data-code className="in-type whitespace-pre" style={{ "--d": `${0.8 + i * 0.22}s` } as React.CSSProperties}>
                     {line.map(([c, t], j) => (
                       <span key={j} style={{ color: c }}>
                         {t}
@@ -120,6 +115,7 @@ export function ProHero() {
             </div>
           </div>
 
+          </div>
           <div data-browser className="absolute inset-0 overflow-hidden rounded-2xl bg-white text-ink opacity-0 shadow-[0_40px_90px_-30px_rgba(0,0,0,.7)] motion-reduce:opacity-100">
             <div className="flex items-center gap-3 border-b border-ink/5 bg-mist px-4 py-2.5">
               <span className="flex gap-1.5">

@@ -3,7 +3,7 @@
 import { useRef, type ReactNode } from "react";
 import { site, telHref } from "@/content/site";
 import { PhoneIcon } from "./header";
-import { gsap, MOTION, onEnter, useGSAP } from "./smooth-scroll";
+import { deferInit, gsap, MOTION, onEnter, useGSAP } from "./smooth-scroll";
 
 const icon = (d: ReactNode) => (
   <svg viewBox="0 0 48 48" className="size-full" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -66,46 +66,48 @@ export function Journey() {
   const root = useRef<HTMLElement>(null);
 
   useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      const pin = root.current!.querySelector<HTMLElement>("[data-pin]")!;
-      const track = root.current!.querySelector<HTMLElement>("[data-track]")!;
-      const distance = () => Math.max(0, track.scrollWidth - window.innerWidth);
+    (context) => {
+      deferInit(() => context.add(() => {
+        const mm = gsap.matchMedia();
+        const pin = root.current!.querySelector<HTMLElement>("[data-pin]")!;
+        const track = root.current!.querySelector<HTMLElement>("[data-track]")!;
+        const distance = () => Math.max(0, track.scrollWidth - window.innerWidth);
 
-      mm.add(`(min-width: 64rem) and ${MOTION.fine}`, () => {
-        gsap.set("[data-plug]", { x: -40 });
-        const tl = gsap.timeline({
-          defaults: { ease: "none" },
-          scrollTrigger: { trigger: pin, start: "top top", end: () => `+=${distance() + window.innerHeight * 0.4}`, scrub: 0.5, pin: true, invalidateOnRefresh: true },
+        mm.add(`(min-width: 64rem) and ${MOTION.fine}`, () => {
+          gsap.set("[data-plug]", { x: -40 });
+          const tl = gsap.timeline({
+            defaults: { ease: "none" },
+            scrollTrigger: { trigger: pin, start: "top top", end: () => `+=${distance() + window.innerHeight * 0.4}`, scrub: 0.5, pin: true, pinType: "transform", invalidateOnRefresh: true },
+          });
+          tl.to(track, { x: () => -distance(), duration: 1 }, 0)
+            .fromTo("[data-wire]", { scaleX: 0 }, { scaleX: 1, duration: 1 }, 0)
+            .to("[data-plug]", { x: 0, duration: 0.12, ease: "back.out(3)" }, 1)
+            .to("[data-socket-glow]", { opacity: 1, scale: 1, duration: 0.12 }, 1.05)
+            .to("[data-connected]", { opacity: 1, y: 0, duration: 0.12 }, 1.08)
+            .to({}, { duration: 0.15 });
+          gsap.utils.toArray<HTMLElement>("[data-step]").forEach((el, i) => {
+            tl.from(el.querySelectorAll("[data-ring], [data-tick]"), { drawSVG: "0%", duration: 0.12 }, 0.08 + i * 0.22);
+            tl.fromTo(el.querySelector("[data-dot]"), { backgroundColor: "#efe9fd", scale: 0.7 }, { backgroundColor: "#5b21b6", scale: 1, duration: 0.06 }, 0.08 + i * 0.22);
+          });
+          gsap.from("[data-step]", { y: 80, opacity: 0, ease: "none", stagger: 0.05, scrollTrigger: { trigger: pin, start: "top 95%", end: "top 40%", scrub: 0.6 } });
         });
-        tl.to(track, { x: () => -distance(), duration: 1 }, 0)
-          .fromTo("[data-wire]", { scaleX: 0 }, { scaleX: 1, duration: 1 }, 0)
-          .to("[data-plug]", { x: 0, duration: 0.12, ease: "back.out(3)" }, 1)
-          .to("[data-socket-glow]", { opacity: 1, scale: 1, duration: 0.12 }, 1.05)
-          .to("[data-connected]", { opacity: 1, y: 0, duration: 0.12 }, 1.08)
-          .to({}, { duration: 0.15 });
-        gsap.utils.toArray<HTMLElement>("[data-step]").forEach((el, i) => {
-          tl.from(el.querySelectorAll("[data-ring], [data-tick]"), { drawSVG: "0%", duration: 0.12 }, 0.08 + i * 0.22);
-          tl.fromTo(el.querySelector("[data-dot]"), { backgroundColor: "#efe9fd", scale: 0.7 }, { backgroundColor: "#5b21b6", scale: 1, duration: 0.06 }, 0.08 + i * 0.22);
-        });
-        gsap.from("[data-step]", { y: 80, opacity: 0, ease: "none", stagger: 0.05, scrollTrigger: { trigger: pin, start: "top 95%", end: "top 40%", scrub: 0.6 } });
-      });
 
-      mm.add(`(max-width: 63.999rem), (hover: none)`, () => {
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-        gsap.fromTo("[data-vwire]", { scaleY: 0 }, { scaleY: 1, ease: "none", scrollTrigger: { trigger: "[data-steps]", start: "top 70%", end: "bottom 60%", scrub: true } });
-        gsap.utils.toArray<HTMLElement>("[data-step]").forEach((el) => {
-          const tl = gsap.timeline({ scrollTrigger: onEnter(el, "top 75%") });
-          tl.from(el, { y: 50, opacity: 0, duration: 1, ease: "expo.out" })
-            .from(el.querySelectorAll("[data-ring], [data-tick]"), { drawSVG: "0%", duration: 0.8, ease: "power2.out" }, 0.3)
-            .fromTo(el.querySelector("[data-dot]"), { backgroundColor: "#efe9fd" }, { backgroundColor: "#5b21b6", duration: 0.4 }, 0.2);
+        mm.add(`(max-width: 63.999rem), (hover: none)`, () => {
+          if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+          gsap.fromTo("[data-vwire]", { scaleY: 0 }, { scaleY: 1, ease: "none", scrollTrigger: { trigger: "[data-steps]", start: "top 70%", end: "bottom 60%", scrub: true } });
+          gsap.utils.toArray<HTMLElement>("[data-step]").forEach((el) => {
+            const tl = gsap.timeline({ scrollTrigger: onEnter(el, "top 75%") });
+            tl.from(el, { y: 50, opacity: 0, duration: 1, ease: "expo.out" })
+              .from(el.querySelectorAll("[data-ring], [data-tick]"), { drawSVG: "0%", duration: 0.8, ease: "power2.out" }, 0.3)
+              .fromTo(el.querySelector("[data-dot]"), { backgroundColor: "#efe9fd" }, { backgroundColor: "#5b21b6", duration: 0.4 }, 0.2);
+          });
+          gsap.set("[data-plug]", { x: -40 });
+          gsap.timeline({ scrollTrigger: onEnter("[data-finale]", "top 80%") })
+            .to("[data-plug]", { x: 0, duration: 0.6, ease: "back.out(3)" })
+            .to("[data-socket-glow]", { opacity: 1, scale: 1, duration: 0.5 }, 0.3)
+            .to("[data-connected]", { opacity: 1, y: 0, duration: 0.6, ease: "expo.out" }, 0.4);
         });
-        gsap.set("[data-plug]", { x: -40 });
-        gsap.timeline({ scrollTrigger: onEnter("[data-finale]", "top 80%") })
-          .to("[data-plug]", { x: 0, duration: 0.6, ease: "back.out(3)" })
-          .to("[data-socket-glow]", { opacity: 1, scale: 1, duration: 0.5 }, 0.3)
-          .to("[data-connected]", { opacity: 1, y: 0, duration: 0.6, ease: "expo.out" }, 0.4);
-      });
+      }));
     },
     { scope: root },
   );

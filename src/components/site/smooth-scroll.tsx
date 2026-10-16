@@ -34,6 +34,32 @@ export const scrubFor = (coarse: boolean | undefined) => (coarse ? 0.2 : 0.6);
 /** Déclencheur « jouer une fois à l'entrée » (tactile). */
 export const onEnter = (trigger: Element | string, start = "top 85%") => ({ trigger, start, once: true });
 
+/**
+ * Préparation différée des animations hors écran : chaque section est mise en place à son tour,
+ * quand le navigateur est libre, pour ne pas bloquer l'affichage et les premiers gestes (mobile).
+ * L'ordre d'appel (ordre du document) est conservé, puis les déclencheurs sont recalculés.
+ */
+const queue: (() => void)[] = [];
+let pending = false;
+const idle = (cb: () => void) =>
+  typeof window.requestIdleCallback === "function" ? window.requestIdleCallback(cb, { timeout: 900 }) : setTimeout(cb, 120);
+function drain() {
+  queue.shift()?.();
+  if (queue.length) idle(drain);
+  else {
+    pending = false;
+    ScrollTrigger.sort();
+    ScrollTrigger.refresh();
+  }
+}
+export function deferInit(fn: () => void) {
+  queue.push(fn);
+  if (!pending) {
+    pending = true;
+    idle(drain);
+  }
+}
+
 const LenisContext = createContext<Lenis | null>(null);
 export const useLenis = () => useContext(LenisContext);
 

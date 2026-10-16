@@ -5,7 +5,7 @@ import { useRef } from "react";
 import { Logo, Mark } from "@/components/brand";
 import { mailHref, site, telHref } from "@/content/site";
 import { PhoneIcon } from "./header";
-import { gsap, MOTION, onEnter, useGSAP } from "./smooth-scroll";
+import { deferInit, gsap, MOTION, onEnter, useGSAP } from "./smooth-scroll";
 
 /** Dernier écran : le numéro, en très grand. */
 export function Footer({
@@ -20,17 +20,19 @@ export function Footer({
   const root = useRef<HTMLElement>(null);
 
   useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add({ fine: MOTION.fine, coarse: MOTION.coarse }, (ctx) => {
-        const coarse = ctx.conditions?.coarse;
-        const tl = gsap.timeline({ scrollTrigger: onEnter(root.current!, coarse ? "top 70%" : "top 55%") });
-        tl.from("[data-contact] > *", { y: 50, opacity: 0, duration: 1.1, stagger: 0.08, ease: "expo.out" }, 0)
-          .from("[data-number]", { duration: 1.4, scrambleText: { text: "{original}", chars: "0123456789", speed: 0.6, revealDelay: 0.3 } }, 0.2);
-        // le pictogramme en filigrane tourne et ses pistes se dessinent pendant l'approche
-        gsap.fromTo("[data-ghost]", { rotate: -25, scale: 0.85 }, { rotate: 0, scale: 1, ease: "none", scrollTrigger: { trigger: root.current, start: "top bottom", end: "bottom bottom", scrub: true } });
-        gsap.from("[data-ghost] [data-trace]", { drawSVG: "0%", ease: "none", scrollTrigger: { trigger: root.current, start: "top 90%", end: "top 20%", scrub: true } });
-      });
+    (context) => {
+      deferInit(() => context.add(() => {
+        const mm = gsap.matchMedia();
+        mm.add({ fine: MOTION.fine, coarse: MOTION.coarse }, (ctx) => {
+          const coarse = ctx.conditions?.coarse;
+          const tl = gsap.timeline({ scrollTrigger: onEnter(root.current!, coarse ? "top 70%" : "top 55%") });
+          tl.from("[data-contact] > *", { y: 50, opacity: 0, duration: 1.1, stagger: 0.08, ease: "expo.out" }, 0)
+            .from("[data-number]", { duration: 1.4, scrambleText: { text: "{original}", chars: "0123456789", speed: 0.6, revealDelay: 0.3 } }, 0.2);
+          // le pictogramme en filigrane tourne et ses pistes se dessinent pendant l'approche
+          gsap.fromTo("[data-ghost]", { rotate: -25, scale: 0.85 }, { rotate: 0, scale: 1, ease: "none", scrollTrigger: { trigger: root.current, start: "top bottom", end: "bottom bottom", scrub: true } });
+          gsap.from("[data-ghost] [data-trace]", { drawSVG: "0%", ease: "none", scrollTrigger: { trigger: root.current, start: "top 90%", end: "top 20%", scrub: true } });
+        });
+      }));
     },
     { scope: root },
   );

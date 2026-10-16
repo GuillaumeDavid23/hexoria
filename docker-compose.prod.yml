@@ -2,9 +2,12 @@
 # Le Caddy de mana-metric reçoit le HTTPS et relaie vers ce conteneur via le réseau Docker « web ».
 # Bloc à déposer dans /opt/caddy-sites/hexoria.caddy, puis recharger Caddy :
 #
-#   hexoria.fr, www.hexoria.fr {
+#   hexoria.fr {
 #       encode zstd gzip
 #       reverse_proxy hexoria-web:3000
+#   }
+#   www.hexoria.fr {
+#       redir https://hexoria.fr{uri} permanent
 #   }
 #
 #   cp .env.example .env

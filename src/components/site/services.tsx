@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, type ReactNode } from "react";
-import { gsap, MOTION, onEnter, useGSAP } from "./smooth-scroll";
+import { deferInit, gsap, MOTION, onEnter, useGSAP } from "./smooth-scroll";
 
 const Check = ({ className = "size-4" }: { className?: string }) => (
   <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -260,79 +260,81 @@ export function Services() {
   const root = useRef<HTMLElement>(null);
 
   useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add({ fine: MOTION.fine, coarse: MOTION.coarse }, (ctx) => {
-        const coarse = ctx.conditions?.coarse;
-        const cards = gsap.utils.toArray<HTMLElement>("[data-service]");
+    (context) => {
+      deferInit(() => context.add(() => {
+        const mm = gsap.matchMedia();
+        mm.add({ fine: MOTION.fine, coarse: MOTION.coarse }, (ctx) => {
+          const coarse = ctx.conditions?.coarse;
+          const cards = gsap.utils.toArray<HTMLElement>("[data-service]");
 
-        // Pile de cartes (grand écran assez haut ; sinon défilement normal pour tout lire) : la carte suivante vient se poser sur la précédente, qui recule
-        if (!coarse && window.matchMedia("(min-width: 64rem)").matches && !window.matchMedia("(max-height: 820px) and (min-aspect-ratio: 1/1)").matches) {
-          cards.forEach((card, i) => {
-            const next = cards[i + 1];
-            if (!next) return;
-            gsap.fromTo(card.firstElementChild, { scale: 1, filter: "brightness(1)" }, {
-              scale: 0.93,
-              filter: "brightness(0.94)",
-              ease: "none",
-              scrollTrigger: { trigger: next, start: "top bottom", end: "top top+=120", scrub: true },
+          // Pile de cartes (grand écran assez haut ; sinon défilement normal pour tout lire) : la carte suivante vient se poser sur la précédente, qui recule
+          if (!coarse && window.matchMedia("(min-width: 64rem)").matches && !window.matchMedia("(max-height: 820px) and (min-aspect-ratio: 1/1)").matches) {
+            cards.forEach((card, i) => {
+              const next = cards[i + 1];
+              if (!next) return;
+              gsap.fromTo(card.firstElementChild, { scale: 1, filter: "brightness(1)" }, {
+                scale: 0.93,
+                filter: "brightness(0.94)",
+                ease: "none",
+                scrollTrigger: { trigger: next, start: "top bottom", end: "top top+=120", scrub: true },
+              });
             });
-          });
-        }
-
-        // Chaque illustration s'anime à l'arrivée de sa carte
-        cards.forEach((card) => {
-          const q = gsap.utils.selector(card);
-          const st = coarse
-            ? onEnter(card, "top 60%")
-            : { trigger: card, start: "top 75%", end: "top top+=100", scrub: 0.6 };
-          const tl = gsap.timeline({ defaults: { ease: "none" }, scrollTrigger: st });
-          tl.from(q("[data-copy] > *"), { y: 40, opacity: 0, duration: 0.5, stagger: 0.06, ease: "expo.out" }, 0);
-
-          switch (card.dataset.service) {
-            case "repair": {
-              tl.fromTo(q("[data-needle]"), { rotate: -78, svgOrigin: "100 100" }, { rotate: 70, svgOrigin: "100 100", duration: 1, ease: "power2.inOut" }, 0.2)
-                .fromTo(q("[data-gauge]"), { drawSVG: "0% 8%" }, { drawSVG: "0% 100%", duration: 1, ease: "power2.inOut" }, 0.2)
-                .from(q("[data-popup]"), { scale: 0.6, opacity: 0, duration: 0.25, stagger: 0.08, ease: "back.out(2)" }, 0)
-                .to(q("[data-popup]"), { scale: 0.4, opacity: 0, y: -30, duration: 0.3, stagger: 0.12, ease: "power2.in" }, 0.6)
-                .to(q("[data-slow]"), { opacity: 0, duration: 0.15 }, 0.9)
-                .to(q("[data-fast]"), { opacity: 1, duration: 0.15 }, 0.95);
-              break;
-            }
-            case "setup": {
-              tl.from(q("[data-tile]"), { y: 50, opacity: 0, scale: 0.92, duration: 0.5, stagger: 0.1, ease: "expo.out" }, 0)
-                .from(q("[data-wave]"), { drawSVG: "50% 50%", opacity: 0, duration: 0.3, stagger: 0.15 }, 0.35)
-                .from(q("[data-tile-ok]"), { scale: 0, opacity: 0, duration: 0.2, ease: "back.out(2)" }, 0.85)
-                .fromTo(q("[data-paper]"), { yPercent: 70 }, { yPercent: -10, duration: 0.6, ease: "power1.inOut" }, 0.5)
-                .to(q("[data-screen]"), { opacity: 1, duration: 0.3 }, 0.7)
-                .to(q("[data-phone-screen]"), { opacity: 1, duration: 0.3 }, 0.8)
-                .fromTo(q("[data-phone]"), { rotate: 0 }, { rotate: 8, duration: 0.05, yoyo: true, repeat: 5 }, 0.55);
-              break;
-            }
-            case "event": {
-              tl.from(q("[data-ev-phone]"), { y: 60, rotate: -6, opacity: 0, duration: 0.45, ease: "expo.out" }, 0)
-                .from(q("[data-ev-cover]"), { scaleY: 0, transformOrigin: "top", duration: 0.3 }, 0.2)
-                .from(q("[data-ev-flourish]"), { drawSVG: "0%", duration: 0.35 }, 0.3)
-                .from(q("[data-ev-names]"), { y: 14, opacity: 0, duration: 0.2 }, 0.4)
-                .from(q("[data-ev-line]"), { y: 16, opacity: 0, duration: 0.2, stagger: 0.07 }, 0.45)
-                .to(q("[data-ev-btn]"), { opacity: 0, duration: 0.08 }, 0.8)
-                .to(q("[data-ev-ok]"), { opacity: 1, duration: 0.08 }, 0.8)
-                .from(q("[data-ev-reply]"), { scale: 0.5, opacity: 0, y: 20, duration: 0.2, stagger: 0.08, ease: "back.out(2)" }, 0.82);
-              break;
-            }
-            case "backup": {
-              const pct = q("[data-pct]")[0];
-              const obj = { v: 0 };
-              tl.to(q("[data-file]"), { x: () => 220, y: -10, scale: 0.3, opacity: 0, duration: 0.45, stagger: 0.08, ease: "power2.in" }, 0.2)
-                .fromTo(q("[data-bar]"), { scaleX: 0 }, { scaleX: 1, duration: 0.8 }, 0.2)
-                .to(obj, { v: 100, duration: 0.8, onUpdate: () => (pct.textContent = String(Math.round(obj.v))) }, 0.2)
-                .fromTo(q("[data-disk]"), { scale: 1 }, { scale: 1.06, duration: 0.1, yoyo: true, repeat: 3 }, 0.6)
-                .to(q("[data-done]"), { opacity: 1, duration: 0.15 }, 1);
-              break;
-            }
           }
+
+          // Chaque illustration s'anime à l'arrivée de sa carte
+          cards.forEach((card) => {
+            const q = gsap.utils.selector(card);
+            const st = coarse
+              ? onEnter(card, "top 60%")
+              : { trigger: card, start: "top 75%", end: "top top+=100", scrub: 0.6 };
+            const tl = gsap.timeline({ defaults: { ease: "none" }, scrollTrigger: st });
+            tl.from(q("[data-copy] > *"), { y: 40, opacity: 0, duration: 0.5, stagger: 0.06, ease: "expo.out" }, 0);
+
+            switch (card.dataset.service) {
+              case "repair": {
+                tl.fromTo(q("[data-needle]"), { rotate: -78, svgOrigin: "100 100" }, { rotate: 70, svgOrigin: "100 100", duration: 1, ease: "power2.inOut" }, 0.2)
+                  .fromTo(q("[data-gauge]"), { drawSVG: "0% 8%" }, { drawSVG: "0% 100%", duration: 1, ease: "power2.inOut" }, 0.2)
+                  .from(q("[data-popup]"), { scale: 0.6, opacity: 0, duration: 0.25, stagger: 0.08, ease: "back.out(2)" }, 0)
+                  .to(q("[data-popup]"), { scale: 0.4, opacity: 0, y: -30, duration: 0.3, stagger: 0.12, ease: "power2.in" }, 0.6)
+                  .to(q("[data-slow]"), { opacity: 0, duration: 0.15 }, 0.9)
+                  .to(q("[data-fast]"), { opacity: 1, duration: 0.15 }, 0.95);
+                break;
+              }
+              case "setup": {
+                tl.from(q("[data-tile]"), { y: 50, opacity: 0, scale: 0.92, duration: 0.5, stagger: 0.1, ease: "expo.out" }, 0)
+                  .from(q("[data-wave]"), { drawSVG: "50% 50%", opacity: 0, duration: 0.3, stagger: 0.15 }, 0.35)
+                  .from(q("[data-tile-ok]"), { scale: 0, opacity: 0, duration: 0.2, ease: "back.out(2)" }, 0.85)
+                  .fromTo(q("[data-paper]"), { yPercent: 70 }, { yPercent: -10, duration: 0.6, ease: "power1.inOut" }, 0.5)
+                  .to(q("[data-screen]"), { opacity: 1, duration: 0.3 }, 0.7)
+                  .to(q("[data-phone-screen]"), { opacity: 1, duration: 0.3 }, 0.8)
+                  .fromTo(q("[data-phone]"), { rotate: 0 }, { rotate: 8, duration: 0.05, yoyo: true, repeat: 5 }, 0.55);
+                break;
+              }
+              case "event": {
+                tl.from(q("[data-ev-phone]"), { y: 60, rotate: -6, opacity: 0, duration: 0.45, ease: "expo.out" }, 0)
+                  .from(q("[data-ev-cover]"), { scaleY: 0, transformOrigin: "top", duration: 0.3 }, 0.2)
+                  .from(q("[data-ev-flourish]"), { drawSVG: "0%", duration: 0.35 }, 0.3)
+                  .from(q("[data-ev-names]"), { y: 14, opacity: 0, duration: 0.2 }, 0.4)
+                  .from(q("[data-ev-line]"), { y: 16, opacity: 0, duration: 0.2, stagger: 0.07 }, 0.45)
+                  .to(q("[data-ev-btn]"), { opacity: 0, duration: 0.08 }, 0.8)
+                  .to(q("[data-ev-ok]"), { opacity: 1, duration: 0.08 }, 0.8)
+                  .from(q("[data-ev-reply]"), { scale: 0.5, opacity: 0, y: 20, duration: 0.2, stagger: 0.08, ease: "back.out(2)" }, 0.82);
+                break;
+              }
+              case "backup": {
+                const pct = q("[data-pct]")[0];
+                const obj = { v: 0 };
+                tl.to(q("[data-file]"), { x: () => 220, y: -10, scale: 0.3, opacity: 0, duration: 0.45, stagger: 0.08, ease: "power2.in" }, 0.2)
+                  .fromTo(q("[data-bar]"), { scaleX: 0 }, { scaleX: 1, duration: 0.8 }, 0.2)
+                  .to(obj, { v: 100, duration: 0.8, onUpdate: () => (pct.textContent = String(Math.round(obj.v))) }, 0.2)
+                  .fromTo(q("[data-disk]"), { scale: 1 }, { scale: 1.06, duration: 0.1, yoyo: true, repeat: 3 }, 0.6)
+                  .to(q("[data-done]"), { opacity: 1, duration: 0.15 }, 1);
+                break;
+              }
+            }
+          });
         });
-      });
+      }));
     },
     { scope: root },
   );

@@ -53,18 +53,34 @@ export function Header({ audience = "perso" }: { audience?: Audience }) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => {
-      // couleur de l'en-tête selon la section qui passe dessous (data-theme="dark" | "light")
-      const under = document
-        .elementsFromPoint(window.innerWidth / 2, 40)
-        .find((el) => !el.closest("header") && el.closest("[data-theme]"))
-        ?.closest("[data-theme]");
-      setDark(under?.getAttribute("data-theme") === "dark");
-      setScrolled(window.scrollY > 40);
+    // Couleur de l'en-tête selon la section qui passe dessous (data-theme="dark" | "light") :
+    // un observateur suit une ligne fine à 40 px du haut, sans recalcul de mise en page au défilement.
+    const under = new Set<Element>();
+    let io: IntersectionObserver | undefined;
+    const observe = () => {
+      io?.disconnect();
+      under.clear();
+      io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => (e.isIntersecting ? under.add(e.target) : under.delete(e.target)));
+          // la plus profonde dans le document l'emporte (section imbriquée, écran épinglé)
+          const last = [...under].sort((a, b) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1)).pop();
+          setDark(last?.getAttribute("data-theme") === "dark");
+        },
+        { rootMargin: `-40px 0px ${41 - window.innerHeight}px 0px` },
+      );
+      document.querySelectorAll("[data-theme]").forEach((el) => io!.observe(el));
     };
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    observe();
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", observe);
+    return () => {
+      io?.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", observe);
+    };
   }, []);
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { gsap, MOTION, onEnter, useGSAP } from "@/components/site/smooth-scroll";
+import { deferInit, gsap, MOTION, onEnter, useGSAP } from "@/components/site/smooth-scroll";
 
 const Check = () => (
   <span className="mt-1 grid size-6 shrink-0 place-items-center rounded-full bg-violet text-white">
@@ -108,28 +108,30 @@ export function Offers() {
   const root = useRef<HTMLElement>(null);
 
   useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add({ fine: MOTION.fine, coarse: MOTION.coarse }, (ctx) => {
-        const coarse = ctx.conditions?.coarse;
-        gsap.utils.toArray<HTMLElement>("[data-offer]").forEach((card, i) => {
-          const q = gsap.utils.selector(card);
-          const tl = gsap.timeline({
-            defaults: { ease: "none" },
-            scrollTrigger: coarse ? onEnter(card, "top 75%") : { trigger: card, start: "top 95%", end: "top 35%", scrub: 0.6 },
+    (context) => {
+      deferInit(() => context.add(() => {
+        const mm = gsap.matchMedia();
+        mm.add({ fine: MOTION.fine, coarse: MOTION.coarse }, (ctx) => {
+          const coarse = ctx.conditions?.coarse;
+          gsap.utils.toArray<HTMLElement>("[data-offer]").forEach((card, i) => {
+            const q = gsap.utils.selector(card);
+            const tl = gsap.timeline({
+              defaults: { ease: "none" },
+              scrollTrigger: coarse ? onEnter(card, "top 75%") : { trigger: card, start: "top 95%", end: "top 35%", scrub: 0.6 },
+            });
+            tl.from(card, { y: 100, opacity: 0, rotate: i ? 2 : -2, duration: 0.5, ease: "expo.out" }, 0);
+            if (card.dataset.offer === "vitrine") {
+              tl.from(q("[data-o-desk]"), { x: -40, opacity: 0, duration: 0.4 }, 0.2)
+                .from(q("[data-o-b]"), { y: 14, opacity: 0, duration: 0.2, stagger: 0.05 }, 0.35)
+                .from(q("[data-o-phone]"), { y: 60, rotate: 8, opacity: 0, duration: 0.4, ease: "back.out(1.6)" }, 0.5);
+            } else {
+              tl.from(q("[data-o-kpi]"), { y: 14, opacity: 0, duration: 0.2, stagger: 0.06 }, 0.25)
+                .from(q("[data-o-bar]"), { scaleY: 0, duration: 0.35, stagger: 0.04, ease: "power2.out" }, 0.35)
+                .from(q("[data-o-row]"), { x: 30, opacity: 0, duration: 0.2, stagger: 0.08 }, 0.6);
+            }
           });
-          tl.from(card, { y: 100, opacity: 0, rotate: i ? 2 : -2, duration: 0.5, ease: "expo.out" }, 0);
-          if (card.dataset.offer === "vitrine") {
-            tl.from(q("[data-o-desk]"), { x: -40, opacity: 0, duration: 0.4 }, 0.2)
-              .from(q("[data-o-b]"), { y: 14, opacity: 0, duration: 0.2, stagger: 0.05 }, 0.35)
-              .from(q("[data-o-phone]"), { y: 60, rotate: 8, opacity: 0, duration: 0.4, ease: "back.out(1.6)" }, 0.5);
-          } else {
-            tl.from(q("[data-o-kpi]"), { y: 14, opacity: 0, duration: 0.2, stagger: 0.06 }, 0.25)
-              .from(q("[data-o-bar]"), { scaleY: 0, duration: 0.35, stagger: 0.04, ease: "power2.out" }, 0.35)
-              .from(q("[data-o-row]"), { x: 30, opacity: 0, duration: 0.2, stagger: 0.08 }, 0.6);
-          }
         });
-      });
+      }));
     },
     { scope: root },
   );

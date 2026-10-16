@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { site } from "@/content/site";
-import { gsap, MOTION, onEnter, SplitText, useGSAP } from "./smooth-scroll";
+import { deferInit, gsap, MOTION, onEnter, SplitText, useGSAP } from "./smooth-scroll";
 
 const PROMISES = [
   { from: 99, value: 0, unit: "", label: "jargon technique. Des mots simples, et des explications que vous gardez." },
@@ -14,32 +14,34 @@ export function Clarity() {
   const root = useRef<HTMLElement>(null);
 
   useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      const split = SplitText.create("[data-manifesto]", { type: "words", wordsClass: "word" });
-      const counters = gsap.utils.toArray<HTMLElement>("[data-count]");
+    (context) => {
+      deferInit(() => context.add(() => {
+        const mm = gsap.matchMedia();
+        const split = SplitText.create("[data-manifesto]", { type: "words", wordsClass: "word", aria: "none" });
+        const counters = gsap.utils.toArray<HTMLElement>("[data-count]");
 
-      // Le texte s'allume mot à mot, puis les engagements arrivent ; « 99 » jargon tombe à 0.
-      mm.add({ fine: MOTION.fine, coarse: MOTION.coarse }, (ctx) => {
-        const coarse = ctx.conditions?.coarse;
-        const tl = gsap.timeline({
-          defaults: { ease: "none" },
-          scrollTrigger: coarse ? onEnter(root.current!, "top 65%") : { trigger: root.current, start: "top 75%", end: "center 45%", scrub: 0.6 },
+        // Le texte s'allume mot à mot, puis les engagements arrivent ; « 99 » jargon tombe à 0.
+        mm.add({ fine: MOTION.fine, coarse: MOTION.coarse }, (ctx) => {
+          const coarse = ctx.conditions?.coarse;
+          const tl = gsap.timeline({
+            defaults: { ease: "none" },
+            scrollTrigger: coarse ? onEnter(root.current!, "top 65%") : { trigger: root.current, start: "top 75%", end: "center 45%", scrub: 0.6 },
+          });
+          tl.fromTo(split.words, { opacity: 0.4 }, { opacity: 1, duration: 0.5, ease: "power1.out", stagger: { amount: 1.4 } }, 0);
+          gsap.utils.toArray<HTMLElement>("[data-promise]").forEach((el, i) => {
+            const at = 0.9 + i * 0.3;
+            const c = counters[i];
+            const obj = { v: Number(c.dataset.from) };
+            tl.fromTo(el, { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: "expo.out" }, at).to(
+              obj,
+              { v: Number(c.dataset.count), duration: 1.6, ease: "power3.out", onUpdate: () => (c.textContent = String(Math.round(obj.v))) },
+              at,
+            );
+          });
         });
-        tl.fromTo(split.words, { opacity: 0.12 }, { opacity: 1, duration: 0.5, ease: "power1.out", stagger: { amount: 1.4 } }, 0);
-        gsap.utils.toArray<HTMLElement>("[data-promise]").forEach((el, i) => {
-          const at = 0.9 + i * 0.3;
-          const c = counters[i];
-          const obj = { v: Number(c.dataset.from) };
-          tl.fromTo(el, { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: "expo.out" }, at).to(
-            obj,
-            { v: Number(c.dataset.count), duration: 1.6, ease: "power3.out", onUpdate: () => (c.textContent = String(Math.round(obj.v))) },
-            at,
-          );
-        });
-      });
 
-      return () => split.revert();
+        return () => split.revert();
+      }));
     },
     { scope: root },
   );

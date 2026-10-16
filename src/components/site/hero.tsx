@@ -96,7 +96,7 @@ function BugWindow({ b, i }: { b: Bug; i: number }) {
       aria-hidden="true"
     >
       <div data-par={0.4 + (i % 3) * 0.3}>
-        <div data-win-in style={{ rotate: `${b.rot}deg` }}>
+        <div data-win-in className="in-pop" style={{ rotate: `${b.rot}deg`, "--d": `${0.5 + ((i * 5) % 7) * 0.09}s` } as React.CSSProperties}>
           <div className="animate-[bob_5s_ease-in-out_infinite]" style={{ animationDelay: `${-i * 0.8}s` }}>
             <div
               data-win-card
@@ -150,15 +150,7 @@ export function Hero() {
       mm.add({ fine: MOTION.fine, coarse: MOTION.coarse }, (ctx) => {
         const coarse = ctx.conditions?.coarse;
 
-        // Entrée : le titre monte ligne à ligne, les fenêtres d'erreur surgissent, le câble se déroule
-        const intro = gsap.timeline({ defaults: { ease: "expo.out" } });
-        intro
-          .from("[data-line] > span", { yPercent: 110, duration: 1.3, stagger: 0.1 }, 0.1)
-          .from("[data-eyebrow]", { y: 16, autoAlpha: 0, duration: 1 }, 0.2)
-          .from("[data-cable]", { drawSVG: "0%", duration: 2.4, ease: "power2.inOut" }, 0)
-          .from("[data-win-in]", { scale: 0.4, autoAlpha: 0, duration: 0.9, ease: "back.out(2.2)", stagger: { each: 0.09, from: "random" } }, 0.5)
-          .from("[data-clear-in]", { y: 20, autoAlpha: 0, duration: 1.2 }, 0.7)
-          .from("[data-cta]", { y: 20, autoAlpha: 0, duration: 1 }, 0.9);
+        // L'entrée (titre, fenêtres, câble, boutons) est en CSS : voir .in-* dans globals.css
 
         // Défilement : chaque souci est « réglé », les fenêtres dégagent, le câble se range
         // et la phrase « y voir clair » devient nette.
@@ -185,9 +177,13 @@ export function Hero() {
         const box = root.current!.querySelector<HTMLElement>("[data-words]")!;
         const words = gsap.utils.toArray<HTMLElement>("[data-word]");
         gsap.set(words, { visibility: "visible", yPercent: (i) => (i ? 110 : 0) });
-        const fit = (w: HTMLElement) => w.offsetWidth + 4;
+        const widths = new Map<HTMLElement, number>();
+        const measure = () => words.forEach((w) => widths.set(w, w.offsetWidth + 4));
+        measure();
+        const fit = (w: HTMLElement) => widths.get(w) ?? w.offsetWidth + 4;
         gsap.set(box, { width: fit(words[0]), overflow: "hidden" });
         document.fonts?.ready.then(() => {
+          measure();
           if (cycle.progress() === 0) gsap.set(box, { width: fit(words[0]) });
         });
         const cycle = gsap.timeline({ repeat: -1, delay: 2.4 });
@@ -228,7 +224,7 @@ export function Hero() {
       <div className="absolute left-1/2 top-1/2 size-[min(120vw,70rem)] -translate-1/2 rounded-full bg-[radial-gradient(circle,rgba(154,107,242,.22)_0%,rgba(154,107,242,0)_65%)]" aria-hidden="true" />
 
       <svg viewBox="0 0 1600 900" preserveAspectRatio="none" className="absolute inset-0 h-full w-full opacity-50 md:opacity-100" aria-hidden="true">
-        <path data-cable d={TANGLED} fill="none" stroke="#9a6bf2" strokeOpacity="0.55" strokeWidth="5" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+        <path data-cable className="in-draw" pathLength={1} d={TANGLED} fill="none" stroke="#9a6bf2" strokeOpacity="0.55" strokeWidth="5" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
       </svg>
 
       {BUGS.map((b, i) => (
@@ -236,8 +232,8 @@ export function Hero() {
       ))}
 
       <div className="relative z-20 flex h-full flex-col items-center justify-center px-[var(--gutter)] pt-[calc(var(--header-h)*0.6)] text-center">
-        <h1 data-eyebrow className="eyebrow mb-[clamp(1rem,3vh,2rem)] flex flex-wrap items-center justify-center gap-x-3 text-[0.78rem] text-violet sm:text-[length:var(--step--1)]">
-          Dépannage informatique à domicile
+        <h1 data-eyebrow style={{ "--d": "0.2s" } as React.CSSProperties} className="in-fade eyebrow mb-[clamp(1rem,3vh,2rem)] flex flex-wrap items-center justify-center gap-x-3 text-[0.78rem] text-violet sm:text-[length:var(--step--1)]">
+          Dépannage informatique à domicile{" "}
           <span aria-hidden="true" className="size-1.5 rounded-full bg-violet" />
           <span>
             <span className="sr-only">à </span>
@@ -245,10 +241,10 @@ export function Hero() {
           </span>
         </h1>
         <p className="font-display text-[clamp(2.5rem,min(1rem+6.4vw,12vh),9rem)] font-extrabold leading-[0.95] tracking-[-0.035em]">
-          <span data-line className="split-line block">
+          <span data-line className="in-rise split-line block" style={{ "--d": "0.1s" } as React.CSSProperties}>
             <span className="block">Un souci avec</span>
           </span>
-          <span data-line className="split-line block">
+          <span data-line className="in-rise split-line block" style={{ "--d": "0.2s" } as React.CSSProperties}>
             <span className="block text-violet">
               votre{" "}
               <span data-words className="relative -mb-[0.12em] inline-grid grid-cols-[minmax(0,1fr)] justify-items-start pb-[0.12em] pr-[0.04em] align-bottom">
@@ -262,7 +258,7 @@ export function Hero() {
             </span>
           </span>
         </p>
-        <div data-clear-in className="mt-[clamp(1rem,3.5vh,2.5rem)]">
+        <div data-clear-in className="in-fade mt-[clamp(1rem,3.5vh,2.5rem)]" style={{ "--d": "0.7s" } as React.CSSProperties}>
         <p data-clear className="relative font-display text-[length:var(--step-2)] font-medium leading-tight tracking-tight">
           Je vous aide à{" "}
           <span className="relative inline-block whitespace-nowrap">
@@ -273,7 +269,7 @@ export function Hero() {
           </span>
         </p>
         </div>
-        <div data-cta className="mt-[clamp(1.5rem,4.5vh,3rem)] flex flex-wrap items-center justify-center gap-3">
+        <div data-cta style={{ "--d": "0.9s" } as React.CSSProperties} className="in-fade mt-[clamp(1.5rem,4.5vh,3rem)] flex flex-wrap items-center justify-center gap-3">
           <a href={telHref} className="flex items-center gap-2.5 rounded-full bg-violet px-7 py-4 text-[length:var(--step-0)] font-bold text-white shadow-[0_20px_40px_-18px_rgba(91,33,182,.8)] transition-transform hover:scale-[1.03] hover:bg-violet-800">
             <PhoneIcon className="size-5" /> Appelez-moi
           </a>

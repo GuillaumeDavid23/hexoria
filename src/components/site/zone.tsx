@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { site, telHref } from "@/content/site";
-import { gsap, MOTION, onEnter, useGSAP } from "./smooth-scroll";
+import { deferInit, gsap, MOTION, onEnter, useGSAP } from "./smooth-scroll";
 
 const WORDS = ["Ordinateur", "Téléphone", "Tablette", "Imprimante", "Wi-Fi", "Box Internet", "Télévision connectée", "Photos", "Sauvegarde", "Messages d'erreur"];
 
@@ -10,21 +10,23 @@ export function Zone() {
   const root = useRef<HTMLElement>(null);
 
   useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add({ fine: MOTION.fine, coarse: MOTION.coarse }, (ctx) => {
-        const coarse = ctx.conditions?.coarse;
-        const tl = gsap.timeline({
-          defaults: { ease: "none" },
-          scrollTrigger: coarse ? onEnter(root.current!, "top 60%") : { trigger: root.current, start: "top 80%", end: "center 55%", scrub: 0.6 },
-        });
-        tl.from("[data-ring]", { scale: 0, opacity: 0, duration: 1, stagger: 0.15, ease: "expo.out" }, 0)
-          .from("[data-pin-drop]", { y: -120, opacity: 0, duration: 0.8, ease: "bounce.out" }, 0.3)
-          .from("[data-zone-copy] > *", { y: 50, opacity: 0, duration: 0.8, stagger: 0.1, ease: "expo.out" }, 0.1);
+    (context) => {
+      deferInit(() => context.add(() => {
+        const mm = gsap.matchMedia();
+        mm.add({ fine: MOTION.fine, coarse: MOTION.coarse }, (ctx) => {
+          const coarse = ctx.conditions?.coarse;
+          const tl = gsap.timeline({
+            defaults: { ease: "none" },
+            scrollTrigger: coarse ? onEnter(root.current!, "top 60%") : { trigger: root.current, start: "top 80%", end: "center 55%", scrub: 0.6 },
+          });
+          tl.from("[data-ring]", { scale: 0, opacity: 0, duration: 1, stagger: 0.15, ease: "expo.out" }, 0)
+            .from("[data-pin-drop]", { y: -120, opacity: 0, duration: 0.8, ease: "bounce.out" }, 0.3)
+            .from("[data-zone-copy] > *", { y: 50, opacity: 0, duration: 0.8, stagger: 0.1, ease: "expo.out" }, 0.1);
 
-        // Bandeau de mots : sa vitesse suit le défilement
-        gsap.to("[data-band]", { xPercent: -25, ease: "none", scrollTrigger: { trigger: root.current, start: "top bottom", end: "bottom top", scrub: true } });
-      });
+          // Bandeau de mots : sa vitesse suit le défilement
+          gsap.to("[data-band]", { xPercent: -25, ease: "none", scrollTrigger: { trigger: root.current, start: "top bottom", end: "bottom top", scrub: true } });
+        });
+      }));
     },
     { scope: root },
   );

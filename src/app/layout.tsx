@@ -8,7 +8,7 @@ const outfit = Outfit({ variable: "--font-outfit", subsets: ["latin"], weight: [
 const figtree = Figtree({ variable: "--font-figtree", subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 const title = `Dépannage informatique à domicile à ${site.city} · Hexoria`;
-const description = `Un souci avec votre ordinateur, votre téléphone, votre imprimante ou votre Wi-Fi ? Je viens chez vous à ${site.city} et alentours : dépannage, installation d'appareils (connectés aussi) et sauvegarde de vos photos, avec des explications claires. ${site.contact.phone}.`;
+const description = `Ordinateur, téléphone, imprimante, Wi-Fi : je viens chez vous à ${site.city} et alentours pour dépanner, installer et sauvegarder. ${site.contact.phone}.`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
