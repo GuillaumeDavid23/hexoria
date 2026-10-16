@@ -46,7 +46,7 @@ export function Proof() {
   );
 
   return (
-    <section ref={root} data-theme="light" className="bg-mist py-[clamp(4rem,12vh,8rem)]">
+    <section ref={root} data-theme="light" className="bg-mist py-[clamp(3rem,7vh,5rem)]">
       <div className="container-x">
         <div className="relative overflow-hidden rounded-[clamp(1.5rem,3vw,3rem)] bg-white p-[clamp(1.5rem,4.5vw,4.5rem)] ring-1 ring-violet/10">
           <div className="dots absolute inset-0 opacity-60" aria-hidden="true" />

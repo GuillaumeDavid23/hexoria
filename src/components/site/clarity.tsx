@@ -50,7 +50,7 @@ export function Clarity() {
     <section ref={root} id="clarte" data-scene data-theme="dark" className="relative overflow-hidden bg-violet-950 text-white">
       <div className="dots absolute inset-0 opacity-40 [filter:invert(1)]" aria-hidden="true" />
       <div className="absolute -right-[20vw] -top-[20vw] size-[60vw] rounded-full bg-[radial-gradient(circle,rgba(154,107,242,.35)_0%,rgba(154,107,242,0)_65%)]" aria-hidden="true" />
-      <div className="container-x relative grid min-h-svh content-center gap-[clamp(2.5rem,7vh,6rem)] py-[calc(var(--header-h)+2rem)]">
+      <div className="container-x relative grid content-center gap-[clamp(2rem,6vh,5rem)] pb-[clamp(3rem,8vh,5.5rem)] pt-[calc(var(--header-h)+1.5rem)] lg:min-h-[min(100svh,56rem)]">
         <div>
           <h2 className="eyebrow mb-[clamp(1rem,4vh,3rem)] flex items-center gap-4 text-lilac">
             <span aria-hidden="true" className="h-0.5 w-12 rounded bg-lilac" /> L&apos;informatique, simplement

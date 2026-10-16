@@ -44,7 +44,7 @@ export function Zone() {
         </div>
       </div>
 
-      <div className="container-x grid items-center gap-10 py-[clamp(3.5rem,9vh,6rem)] lg:grid-cols-2 lg:gap-12">
+      <div className="container-x grid items-center gap-10 py-[clamp(3rem,7vh,5rem)] lg:grid-cols-2 lg:gap-12">
         <div data-zone-copy>
           <p className="eyebrow mb-4 flex items-center gap-4 text-lilac">
             <span aria-hidden="true" className="h-0.5 w-12 rounded bg-lilac" /> Secteur

@@ -137,7 +137,7 @@ export function Offers() {
   );
 
   return (
-    <section ref={root} id="offres" data-theme="light" className="bg-mist py-[clamp(4rem,10vh,7rem)]">
+    <section ref={root} id="offres" data-theme="light" className="bg-mist py-[clamp(3rem,7vh,5rem)]">
       <div className="container-x">
         <p data-scrub="up" className="eyebrow mb-4 flex items-center gap-4 text-violet">
           <span aria-hidden="true" className="h-0.5 w-12 rounded bg-violet" /> Offres

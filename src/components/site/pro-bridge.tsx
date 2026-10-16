@@ -3,7 +3,7 @@ import Link from "next/link";
 /** Passerelle vers le parcours professionnel, en fin de page Particuliers. */
 export function ProBridge() {
   return (
-    <section data-theme="light" className="bg-mist pb-[clamp(4rem,10vh,8rem)]">
+    <section data-theme="light" className="bg-mist pb-[clamp(3rem,7vh,5rem)]">
       <div className="container-x">
         <Link
           href="/pro"

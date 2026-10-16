@@ -38,7 +38,7 @@ export function Method() {
   );
 
   return (
-    <section ref={root} id="methode" data-theme="light" className="bg-white py-[clamp(4rem,10vh,7rem)]">
+    <section ref={root} id="methode" data-theme="light" className="bg-white py-[clamp(3rem,7vh,5rem)]">
       <div className="container-x grid gap-12 lg:grid-cols-12">
         <div className="lg:col-span-5">
           <div className="lg:sticky lg:top-[calc(var(--header-h)+3rem)]">

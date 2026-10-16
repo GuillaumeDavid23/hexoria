@@ -39,13 +39,13 @@ export function Footer({
   );
 
   return (
-    <footer ref={root} id="contact" data-scene data-theme="dark" className="relative flex min-h-svh flex-col overflow-hidden bg-violet-950 text-white">
+    <footer ref={root} id="contact" data-scene data-theme="dark" className="relative flex flex-col overflow-hidden bg-violet-950 text-white">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_100%,rgba(109,40,217,.55)_0%,rgba(18,7,45,0)_60%)]" aria-hidden="true" />
       <div data-ghost className="pointer-events-none absolute -bottom-[12vw] -right-[10vw] w-[min(70vw,60rem)] opacity-[0.12]" aria-hidden="true">
         <Mark mono="#ffffff" className="h-auto w-full" />
       </div>
 
-      <div data-contact className="container-x relative z-10 my-auto py-[calc(var(--header-h)+2rem)]">
+      <div data-contact className="container-x relative z-10 pb-[clamp(3rem,8vh,5.5rem)] pt-[calc(var(--header-h)+1.5rem)]">
         <p className="eyebrow mb-5 flex items-center gap-4 text-lilac">
           <span aria-hidden="true" className="h-0.5 w-12 rounded bg-lilac" /> {eyebrow}
         </p>

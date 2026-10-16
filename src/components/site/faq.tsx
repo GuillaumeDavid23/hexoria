@@ -33,7 +33,7 @@ export const FAQ = [
 
 export function Faq() {
   return (
-    <section id="questions" data-scene data-theme="light" className="bg-mist py-[clamp(4rem,10vh,7rem)]">
+    <section id="questions" data-scene data-theme="light" className="bg-mist py-[clamp(3rem,7vh,5rem)]">
       <div className="container-x grid gap-10 lg:grid-cols-12">
         <div className="lg:col-span-4">
           <p data-scrub="up" className="eyebrow mb-4 flex items-center gap-4 text-violet">

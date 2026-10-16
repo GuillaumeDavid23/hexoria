@@ -341,8 +341,8 @@ export function Services() {
   );
 
   return (
-    <section ref={root} id="services" data-theme="light" className="relative bg-mist pb-[4vh]">
-      <div className="container-x pb-[clamp(2rem,6vh,5rem)] pt-[clamp(4rem,10vh,7rem)]">
+    <section ref={root} id="services" data-theme="light" className="relative bg-mist pb-[clamp(1.5rem,4vh,3rem)]">
+      <div className="container-x pb-[clamp(1rem,3vh,2.25rem)] pt-[clamp(3rem,7vh,5rem)]">
         <p data-scrub="up" className="eyebrow mb-4 flex items-center gap-4 text-violet">
           <span aria-hidden="true" className="h-0.5 w-12 rounded bg-violet" /> Services
         </p>
@@ -356,13 +356,14 @@ export function Services() {
           <article
             key={s.n}
             data-service={s.kind}
-            className="relative mb-[4vh] lg:sticky short:static"
-            style={{ top: `calc(var(--header-h) + ${0.5 + i * 0.5}rem)` }}
+            className="relative mb-[4vh] last:mb-0 lg:sticky lg:top-[var(--stick-top)] short:static"
+            // décalage d'empilement réservé au grand écran (en position relative, « top » décalerait la carte)
+            style={{ "--stick-top": `calc(var(--header-h) + ${0.5 + i * 0.5}rem)` } as React.CSSProperties}
           >
             <div className={`origin-top overflow-hidden rounded-[clamp(1.5rem,3vw,3rem)] ${s.tone} shadow-[0_40px_80px_-50px_rgba(28,10,66,.5)] ring-1 ring-ink/5`}>
-              <div className="grid gap-6 p-[clamp(1.25rem,4vw,4.5rem)] lg:min-h-[min(78svh,46rem)] lg:grid-cols-2 lg:items-center lg:gap-[clamp(2rem,5vw,6rem)]">
+              <div className="grid gap-6 p-[clamp(1.25rem,3.2vw,3.25rem)] lg:min-h-[min(72svh,42rem)] lg:grid-cols-2 lg:items-center lg:gap-[clamp(2rem,5vw,6rem)]">
                 <div data-copy>
-                  <p className="font-display text-[clamp(3rem,min(2rem+4vw,12vh),7rem)] font-extrabold leading-none text-violet/25">{s.n}</p>
+                  <p className="font-display text-[clamp(2.25rem,min(1.4rem+2.6vw,8vh),4.75rem)] font-extrabold leading-none text-violet/25">{s.n}</p>
                   <h3 className="mt-2 font-display text-[length:var(--step-3)] font-extrabold leading-none tracking-tight">{s.title}</h3>
                   <p className="mt-4 max-w-[32ch] text-[length:var(--step-1)] font-medium leading-snug">{s.text}</p>
                   <ul className="mt-6 grid gap-2.5">
