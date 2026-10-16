@@ -50,7 +50,7 @@ export function Zone() {
             {site.city} <span className="text-lilac">et alentours.</span>
           </h2>
           <p className="mt-6 max-w-[38ch] text-[length:var(--step-1)] leading-snug text-white/80">
-            {site.person} se déplace à domicile, chez vous. Vous habitez un peu plus loin&nbsp;? Appelez&nbsp;: on en parle.
+            Je me déplace à domicile, chez vous. Vous habitez un peu plus loin&nbsp;? Appelez-moi&nbsp;: on en parle.
           </p>
           <a href={telHref} className="mt-8 inline-flex items-center gap-3 rounded-full bg-white px-7 py-4 font-bold text-violet transition-colors hover:bg-lilac-100">
             Appeler le {site.contact.phone}

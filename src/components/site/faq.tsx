@@ -3,27 +3,27 @@ import { site } from "@/content/site";
 export const FAQ = [
   {
     q: "Vous intervenez seulement sur les ordinateurs ?",
-    a: "Non : ordinateur, téléphone, tablette, imprimante, box Internet et Wi-Fi, appareils connectés… Si c'est branché et que ça vous complique la vie, appelez.",
+    a: "Non : ordinateur, téléphone, tablette, imprimante, box Internet et Wi-Fi, appareils connectés… Si c'est branché et que ça vous complique la vie, appelez-moi.",
   },
   {
     q: "Je ne suis pas à l'aise avec l'informatique, est-ce un problème ?",
-    a: `Pas du tout, c'est justement pour ça que ${site.person} est là. Il vous explique chaque étape simplement, et vous pouvez poser toutes les questions que vous voulez.`,
+    a: "Pas du tout, c'est justement pour ça que je suis là. Je vous explique chaque étape simplement, et vous pouvez me poser toutes les questions que vous voulez.",
   },
   {
     q: "Dois-je apporter mon ordinateur quelque part ?",
-    a: `Non. ${site.person} vient chez vous, à ${site.city} et alentours, et intervient directement sur place.`,
+    a: `Non. Je viens chez vous, à ${site.city} et alentours, et j'interviens directement sur place.`,
   },
   {
     q: "Combien ça coûte ?",
-    a: `Chaque situation est différente. Appelez ${site.person} au ${site.contact.phone} pour décrire votre souci : il vous dira ce qu'il est possible de faire et à quel prix, avant d'intervenir.`,
+    a: `Chaque situation est différente. Appelez-moi au ${site.contact.phone} pour me décrire votre souci : je vous dirai ce qu'il est possible de faire et à quel prix, avant d'intervenir.`,
   },
   {
     q: "Comment ne pas perdre mes photos et documents ?",
-    a: "Le plus sûr est d'en avoir une copie sur un autre support, comme un disque dur externe ou une clé USB. C'est le service Sauvegarde : vos fichiers sont copiés, et on vous montre où les retrouver.",
+    a: "Le plus sûr est d'en avoir une copie sur un autre support, comme un disque dur externe ou une clé USB. C'est le service Sauvegarde : vos fichiers sont copiés, et je vous montre où les retrouver.",
   },
   {
     q: "Je viens d'acheter un nouvel appareil, pouvez-vous l'installer ?",
-    a: "Oui : ordinateur, téléphone, imprimante, appareil connecté… Mise en route, connexion au Wi-Fi, réglages, et on vous montre comment vous en servir.",
+    a: "Oui : ordinateur, téléphone, imprimante, appareil connecté… Mise en route, connexion au Wi-Fi, réglages, et je vous montre comment vous en servir.",
   },
 ];
 

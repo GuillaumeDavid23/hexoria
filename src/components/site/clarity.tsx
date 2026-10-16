@@ -6,8 +6,8 @@ import { gsap, MOTION, onEnter, SplitText, useGSAP } from "./smooth-scroll";
 
 const PROMISES = [
   { from: 99, value: 0, unit: "", label: "jargon technique. Des mots simples, et des explications que vous gardez." },
-  { from: 9, value: 1, unit: "", label: `seul interlocuteur : ${site.person}, du premier appel jusqu'à la fin.` },
-  { from: 0, value: 3, unit: "", label: "domaines : dépannage, installation et sauvegarde." },
+  { from: 9, value: 1, unit: "", label: "seul interlocuteur : moi, du premier appel jusqu'à la fin." },
+  { from: 0, value: 4, unit: "", label: "services : dépannage, installation, sauvegarde et sites pour vos événements." },
 ];
 
 export function Clarity() {
@@ -53,8 +53,8 @@ export function Clarity() {
           <h2 className="eyebrow mb-[clamp(1rem,4vh,3rem)] flex items-center gap-4 text-lilac">
             <span aria-hidden="true" className="h-0.5 w-12 rounded bg-lilac" /> L&apos;informatique, simplement
           </h2>
-          <p data-manifesto className="max-w-[26ch] font-display text-[clamp(1.9rem,min(1rem+3.2vw,6.8vh),6rem)] font-bold leading-[1.05] tracking-[-0.02em]">
-            Ordinateur, téléphone, imprimante, Wi-Fi&nbsp;: la technologie ne devrait pas vous compliquer la vie. {site.person} vient chez vous, règle le problème et prend le temps de tout vous
+          <p data-manifesto className="max-w-[26ch] font-display text-[clamp(1.7rem,min(0.9rem+2.7vw,6vh),5rem)] font-bold leading-[1.05] tracking-[-0.02em]">
+            Ordinateur, téléphone, imprimante, Wi-Fi&nbsp;: la technologie ne devrait pas vous compliquer la vie. Moi, c&apos;est {site.person}&nbsp;: je viens chez vous, je règle le problème et je prends le temps de tout vous
             expliquer, à votre rythme.
           </p>
         </div>

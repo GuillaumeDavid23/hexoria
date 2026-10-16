@@ -1,0 +1,87 @@
+"use client";
+
+import { useRef } from "react";
+import { gsap, MOTION, onEnter, SplitText, useGSAP } from "@/components/site/smooth-scroll";
+
+const ROW_A = ["Next.js", "React", "TypeScript", "Tailwind CSS", "GSAP", "Animations au défilement", "Accessibilité", "SEO technique"];
+const ROW_B = ["Symfony", "PHP", "Node.js", "API", "PostgreSQL", "SQLite", "Docker", "Linux", "VPS", "HTTPS"];
+
+const PILLARS = [
+  { k: "Interface", t: "Des pages rapides, lisibles sur tous les écrans, avec des animations qui donnent envie de lire.", tech: "React · Next.js · TypeScript · Tailwind" },
+  { k: "Back-office", t: "La logique métier, les comptes, les données : solide et pensé pour durer.", tech: "Symfony · PHP · Node.js · API" },
+  { k: "Données", t: "Vos informations structurées, sauvegardées, exportables.", tech: "PostgreSQL · SQLite" },
+  { k: "Mise en ligne", t: "Hébergement, nom de domaine, HTTPS, déploiement et suivi.", tech: "Docker · Linux · VPS" },
+];
+
+export function Skills() {
+  const root = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add({ fine: MOTION.fine, coarse: MOTION.coarse }, (ctx) => {
+        const coarse = ctx.conditions?.coarse;
+        // les deux bandeaux glissent en sens contraire au rythme du défilement
+        const band = { trigger: root.current, start: "top bottom", end: "bottom top", scrub: true };
+        gsap.fromTo("[data-row-a]", { xPercent: 0 }, { xPercent: -30, ease: "none", scrollTrigger: band });
+        gsap.fromTo("[data-row-b]", { xPercent: -30 }, { xPercent: 0, ease: "none", scrollTrigger: band });
+
+        const split = SplitText.create("[data-skills-lead]", { type: "words" });
+        const tl = gsap.timeline({
+          defaults: { ease: "none" },
+          scrollTrigger: coarse ? onEnter("[data-skills-lead]", "top 70%") : { trigger: "[data-skills-lead]", start: "top 85%", end: "bottom 45%", scrub: 0.6 },
+        });
+        tl.fromTo(split.words, { opacity: 0.15 }, { opacity: 1, stagger: { amount: 1 }, duration: 0.4 });
+        gsap.from("[data-pillar]", {
+          y: 60,
+          opacity: 0,
+          stagger: 0.1,
+          ...(coarse ? { duration: 1, ease: "expo.out", scrollTrigger: onEnter("[data-pillars]") } : { ease: "none", scrollTrigger: { trigger: "[data-pillars]", start: "top 95%", end: "top 55%", scrub: 0.6 } }),
+        });
+        return () => split.revert();
+      });
+    },
+    { scope: root },
+  );
+
+  const row = (items: string[], attr: object, outline = false) => (
+    <div className="overflow-hidden" aria-hidden="true">
+      <div {...attr} className="flex w-max gap-6 whitespace-nowrap py-2 font-display text-[clamp(1.8rem,min(5vw,10vh),5rem)] font-extrabold leading-none tracking-tight">
+        {[...items, ...items, ...items].map((t, i) => (
+          <span key={i} className={`flex items-center gap-6 ${outline ? "text-transparent [-webkit-text-stroke:1.5px_rgba(201,182,251,.7)]" : "text-white"}`}>
+            {t} <span className="size-3 rounded-full bg-lilac" />
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+
+  return (
+    <section ref={root} id="competences" data-scene data-theme="dark" className="overflow-hidden bg-violet-950 py-[clamp(5rem,14vh,10rem)] text-white">
+      <div className="container-x">
+        <p className="eyebrow mb-4 flex items-center gap-4 text-lilac">
+          <span aria-hidden="true" className="h-0.5 w-12 rounded bg-lilac" /> Compétences
+        </p>
+        <h2 data-skills-lead className="max-w-[26ch] font-display text-[clamp(1.7rem,min(0.9rem+2.7vw,6vh),4.6rem)] font-bold leading-[1.05] tracking-[-0.02em]">
+          Je maîtrise toute la chaîne&nbsp;: de l&apos;interface au serveur, sans intermédiaire.
+        </h2>
+      </div>
+
+      <div className="my-[clamp(2.5rem,8vh,6rem)] -rotate-2 space-y-2">
+        {row(ROW_A, { "data-row-a": "" })}
+        {row(ROW_B, { "data-row-b": "" }, true)}
+      </div>
+
+      <div data-pillars className="container-x grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {PILLARS.map((p, i) => (
+          <div key={p.k} data-pillar className="flex flex-col rounded-[clamp(1.25rem,2vw,2rem)] bg-white/[0.05] p-[clamp(1.25rem,2vw,2rem)] ring-1 ring-white/10">
+            <span className="font-display text-[length:var(--step-2)] font-extrabold text-lilac/40">0{i + 1}</span>
+            <h3 className="mt-2 font-display text-[length:var(--step-1)] font-bold">{p.k}</h3>
+            <p className="mt-2 text-[length:var(--step--1)] leading-relaxed text-white/75">{p.t}</p>
+            <p className="mt-auto pt-5 text-[0.85rem] font-semibold text-lilac">{p.tech}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}

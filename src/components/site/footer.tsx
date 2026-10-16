@@ -8,7 +8,15 @@ import { PhoneIcon } from "./header";
 import { gsap, MOTION, onEnter, useGSAP } from "./smooth-scroll";
 
 /** Dernier écran : le numéro, en très grand. */
-export function Footer() {
+export function Footer({
+  eyebrow = site.area,
+  title = "Appelez-moi",
+  lead = "Une aide à domicile, avec des explications claires.",
+}: {
+  eyebrow?: string;
+  title?: string;
+  lead?: string;
+}) {
   const root = useRef<HTMLElement>(null);
 
   useGSAP(
@@ -36,11 +44,11 @@ export function Footer() {
 
       <div data-contact className="container-x relative z-10 my-auto py-[calc(var(--header-h)+2rem)]">
         <p className="eyebrow mb-5 flex items-center gap-4 text-lilac">
-          <span aria-hidden="true" className="h-0.5 w-12 rounded bg-lilac" /> {site.area}
+          <span aria-hidden="true" className="h-0.5 w-12 rounded bg-lilac" /> {eyebrow}
         </p>
-        <h2 className="font-display text-[length:var(--step-3)] font-extrabold leading-none tracking-tight">Appelez {site.person}</h2>
+        <h2 className="font-display text-[length:var(--step-3)] font-extrabold leading-none tracking-tight">{title}</h2>
         <a href={telHref} className="group mt-4 block w-fit" aria-label={`Appeler le ${site.contact.phone}`}>
-          <span data-number className="block whitespace-nowrap font-display text-[clamp(2.9rem,11vw,13rem)] font-extrabold leading-[0.95] tracking-[-0.04em] text-lilac tabular-nums transition-colors group-hover:text-white">
+          <span data-number className="block whitespace-nowrap font-display text-[clamp(2.6rem,min(9vw,17vh),11rem)] font-extrabold leading-[0.95] tracking-[-0.04em] text-lilac tabular-nums transition-colors group-hover:text-white">
             {site.contact.phone}
           </span>
         </a>
@@ -52,16 +60,24 @@ export function Footer() {
             {site.contact.email}
           </a>
         </div>
-        <p className="mt-8 max-w-[44ch] text-white/70">Une aide à domicile, avec des explications claires.</p>
+        <p className="mt-8 max-w-[44ch] text-white/70">{lead}</p>
       </div>
 
       <div className="container-x relative z-10 flex flex-wrap items-center justify-between gap-x-8 gap-y-3 border-t border-white/10 py-6 pb-[calc(1.5rem+5rem)] text-[length:var(--step--1)] text-white/60 sm:pb-6">
         <span className="flex items-center gap-4">
           <Logo light className="text-[0.85rem] text-white" /> <span>© 2026 · {site.signature}</span>
         </span>
-        <Link href="/mentions-legales" className="transition-colors hover:text-white">
-          Mentions légales
-        </Link>
+        <nav className="flex flex-wrap gap-x-6 gap-y-1" aria-label="Pied de page">
+          <Link href="/" className="transition-colors hover:text-white">
+            Particuliers
+          </Link>
+          <Link href="/pro" className="transition-colors hover:text-white">
+            Professionnels
+          </Link>
+          <Link href="/mentions-legales" className="transition-colors hover:text-white">
+            Mentions légales
+          </Link>
+        </nav>
       </div>
     </footer>
   );

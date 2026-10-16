@@ -5,6 +5,7 @@ import { Footer } from "@/components/site/footer";
 import { Header } from "@/components/site/header";
 import { Hero } from "@/components/site/hero";
 import { Journey } from "@/components/site/journey";
+import { ProBridge } from "@/components/site/pro-bridge";
 import { ScrubReveals } from "@/components/site/scrub-reveals";
 import { Services } from "@/components/site/services";
 import { SmoothScroll } from "@/components/site/smooth-scroll";
@@ -14,7 +15,7 @@ import { Zone } from "@/components/site/zone";
 export default function Home() {
   return (
     <SmoothScroll>
-      <Header />
+      <Header audience="perso" />
       <main>
         <Hero />
         <Clarity />
@@ -22,6 +23,7 @@ export default function Home() {
         <Journey />
         <Zone />
         <Faq />
+        <ProBridge />
       </main>
       <Footer />
       <CallBar />

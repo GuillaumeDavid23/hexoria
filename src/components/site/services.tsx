@@ -163,7 +163,59 @@ function BackupArt() {
   );
 }
 
-type Service = { n: string; title: string; text: string; items: string[]; art: ReactNode; kind: "repair" | "setup" | "backup"; tone: string };
+/** Événement : un faire-part en ligne se compose sur le téléphone, puis les invités répondent. */
+function EventArt() {
+  return (
+    <div className="relative grid h-full place-items-center">
+      <div data-ev-phone className="relative aspect-[9/18.5] h-[94%] max-h-[30rem] rounded-[2.2rem] border-[7px] border-ink bg-ink shadow-2xl">
+        <div className="relative size-full overflow-hidden rounded-[1.6rem] bg-[#fbf8f3]">
+          <span className="absolute left-1/2 top-1.5 z-10 h-4 w-1/3 -translate-x-1/2 rounded-full bg-ink" />
+          <div data-ev-cover className="relative h-[42%] bg-gradient-to-br from-[#e9d5c3] via-[#d9b8c4] to-[#9a6bf2]">
+            <svg viewBox="0 0 100 60" className="absolute inset-0 size-full opacity-60" aria-hidden="true">
+              <path data-ev-flourish d="M10 48C25 30 35 52 50 34S78 22 90 40" fill="none" stroke="#fff" strokeWidth="1.2" strokeLinecap="round" />
+            </svg>
+            <p data-ev-names className="absolute inset-x-0 bottom-[18%] text-center font-display text-[clamp(1.05rem,1.6vw,1.4rem)] font-bold text-white drop-shadow">
+              Julie &amp; Thomas
+            </p>
+          </div>
+          <div className="space-y-2.5 p-3 text-center">
+            <p data-ev-line className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-stone">Samedi 12 juin</p>
+            <div data-ev-line className="flex justify-center gap-1.5">
+              {[["42", "jours"], ["08", "h"], ["15", "min"]].map(([v, u]) => (
+                <span key={u} className="w-11 rounded-lg bg-white py-1 shadow-sm ring-1 ring-ink/5">
+                  <span className="block font-display text-sm font-bold text-violet">{v}</span>
+                  <span className="block text-[0.55rem] text-stone">{u}</span>
+                </span>
+              ))}
+            </div>
+            <div data-ev-line className="flex justify-center gap-1.5 text-[0.6rem] font-semibold text-stone">
+              <span className="rounded-full bg-white px-2 py-1 ring-1 ring-ink/5">Programme</span>
+              <span className="rounded-full bg-white px-2 py-1 ring-1 ring-ink/5">Accès</span>
+              <span className="rounded-full bg-white px-2 py-1 ring-1 ring-ink/5">Photos</span>
+            </div>
+            <div data-ev-line className="relative mx-auto h-8 w-[85%]">
+              <span data-ev-btn className="absolute inset-0 grid place-items-center rounded-full bg-violet text-[0.72rem] font-bold text-white">Je confirme ma présence</span>
+              <span data-ev-ok className="absolute inset-0 grid place-items-center rounded-full bg-ok text-[0.72rem] font-bold text-white opacity-0">✓ Présence confirmée</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      {["Marie : « On sera là ! »", "Paul : 2 personnes", "Lucie : « Trop beau ! »"].map((t, i) => (
+        <div
+          key={t}
+          data-ev-reply
+          className="absolute rounded-2xl bg-white px-3 py-2 text-[clamp(0.72rem,0.95vw,0.88rem)] font-semibold shadow-xl ring-1 ring-ink/5"
+          style={{ left: ["0%", "62%", "4%"][i], top: ["18%", "46%", "72%"][i], rotate: `${[-4, 3, -2][i]}deg` }}
+        >
+          <span className="mr-1.5 inline-block size-2 rounded-full bg-ok" />
+          {t}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+type Service = { n: string; title: string; text: string; items: string[]; art: ReactNode; kind: "repair" | "setup" | "backup" | "event"; tone: string };
 
 const SERVICES: Service[] = [
   {
@@ -193,6 +245,15 @@ const SERVICES: Service[] = [
     art: <BackupArt />,
     tone: "bg-[#e3d8fb]",
   },
+  {
+    n: "04",
+    kind: "event",
+    title: "Un site pour votre événement",
+    text: "Mariage, anniversaire, baptême, fête de famille : un site à votre image, à partager avec vos invités.",
+    items: ["Infos pratiques, programme et plan d'accès", "Confirmation de présence en ligne", "Galerie pour partager les photos après la fête", "Une adresse simple à envoyer par SMS"],
+    art: <EventArt />,
+    tone: "bg-[#f6efe6]",
+  },
 ];
 
 export function Services() {
@@ -205,8 +266,8 @@ export function Services() {
         const coarse = ctx.conditions?.coarse;
         const cards = gsap.utils.toArray<HTMLElement>("[data-service]");
 
-        // Pile de cartes (grand écran) : la carte suivante vient se poser sur la précédente, qui recule
-        if (!coarse && window.matchMedia("(min-width: 64rem)").matches) {
+        // Pile de cartes (grand écran assez haut ; sinon défilement normal pour tout lire) : la carte suivante vient se poser sur la précédente, qui recule
+        if (!coarse && window.matchMedia("(min-width: 64rem)").matches && !window.matchMedia("(max-height: 820px) and (min-aspect-ratio: 1/1)").matches) {
           cards.forEach((card, i) => {
             const next = cards[i + 1];
             if (!next) return;
@@ -248,6 +309,17 @@ export function Services() {
                 .fromTo(q("[data-phone]"), { rotate: 0 }, { rotate: 8, duration: 0.05, yoyo: true, repeat: 5 }, 0.55);
               break;
             }
+            case "event": {
+              tl.from(q("[data-ev-phone]"), { y: 60, rotate: -6, opacity: 0, duration: 0.45, ease: "expo.out" }, 0)
+                .from(q("[data-ev-cover]"), { scaleY: 0, transformOrigin: "top", duration: 0.3 }, 0.2)
+                .from(q("[data-ev-flourish]"), { drawSVG: "0%", duration: 0.35 }, 0.3)
+                .from(q("[data-ev-names]"), { y: 14, opacity: 0, duration: 0.2 }, 0.4)
+                .from(q("[data-ev-line]"), { y: 16, opacity: 0, duration: 0.2, stagger: 0.07 }, 0.45)
+                .to(q("[data-ev-btn]"), { opacity: 0, duration: 0.08 }, 0.8)
+                .to(q("[data-ev-ok]"), { opacity: 1, duration: 0.08 }, 0.8)
+                .from(q("[data-ev-reply]"), { scale: 0.5, opacity: 0, y: 20, duration: 0.2, stagger: 0.08, ease: "back.out(2)" }, 0.82);
+              break;
+            }
             case "backup": {
               const pct = q("[data-pct]")[0];
               const obj = { v: 0 };
@@ -272,7 +344,7 @@ export function Services() {
           <span aria-hidden="true" className="h-0.5 w-12 rounded bg-violet" /> Services
         </p>
         <h2 data-scrub="up" className="max-w-[18ch] font-display text-[length:var(--step-4)] font-extrabold leading-[0.95] tracking-[-0.03em] text-balance">
-          Trois façons de vous <span className="text-violet">simplifier la vie.</span>
+          Quatre façons de vous <span className="text-violet">simplifier la vie.</span>
         </h2>
       </div>
 
@@ -281,7 +353,7 @@ export function Services() {
           <article
             key={s.n}
             data-service={s.kind}
-            className="relative mb-[4vh] lg:sticky"
+            className="relative mb-[4vh] lg:sticky short:static"
             style={{ top: `calc(var(--header-h) + ${0.5 + i * 0.5}rem)` }}
           >
             <div className={`origin-top overflow-hidden rounded-[clamp(1.5rem,3vw,3rem)] ${s.tone} shadow-[0_40px_80px_-50px_rgba(28,10,66,.5)] ring-1 ring-ink/5`}>

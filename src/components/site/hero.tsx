@@ -158,7 +158,7 @@ export function Hero() {
           .from("[data-cable]", { drawSVG: "0%", duration: 2.4, ease: "power2.inOut" }, 0)
           .from("[data-win-in]", { scale: 0.4, autoAlpha: 0, duration: 0.9, ease: "back.out(2.2)", stagger: { each: 0.09, from: "random" } }, 0.5)
           .from("[data-clear-in]", { y: 20, autoAlpha: 0, duration: 1.2 }, 0.7)
-          .from("[data-cta] > *", { y: 20, autoAlpha: 0, duration: 1, stagger: 0.08 }, 0.9);
+          .from("[data-cta]", { y: 20, autoAlpha: 0, duration: 1 }, 0.9);
 
         // Défilement : chaque souci est « réglé », les fenêtres dégagent, le câble se range
         // et la phrase « y voir clair » devient nette.
@@ -244,7 +244,7 @@ export function Hero() {
             {site.area}
           </span>
         </h1>
-        <p className="font-display text-[clamp(2.6rem,min(1rem+7vw,13vh),9.5rem)] font-extrabold leading-[0.95] tracking-[-0.035em]">
+        <p className="font-display text-[clamp(2.5rem,min(1rem+6.4vw,12vh),9rem)] font-extrabold leading-[0.95] tracking-[-0.035em]">
           <span data-line className="split-line block">
             <span className="block">Un souci avec</span>
           </span>
@@ -264,7 +264,7 @@ export function Hero() {
         </p>
         <div data-clear-in className="mt-[clamp(1rem,3.5vh,2.5rem)]">
         <p data-clear className="relative font-display text-[length:var(--step-2)] font-medium leading-tight tracking-tight">
-          {site.person} vous aide à{" "}
+          Je vous aide à{" "}
           <span className="relative inline-block whitespace-nowrap">
             y voir clair.
             <svg viewBox="0 0 300 20" preserveAspectRatio="none" className="absolute -bottom-[0.3em] left-0 h-[0.4em] w-full" aria-hidden="true">
@@ -275,7 +275,7 @@ export function Hero() {
         </div>
         <div data-cta className="mt-[clamp(1.5rem,4.5vh,3rem)] flex flex-wrap items-center justify-center gap-3">
           <a href={telHref} className="flex items-center gap-2.5 rounded-full bg-violet px-7 py-4 text-[length:var(--step-0)] font-bold text-white shadow-[0_20px_40px_-18px_rgba(91,33,182,.8)] transition-transform hover:scale-[1.03] hover:bg-violet-800">
-            <PhoneIcon className="size-5" /> Appeler {site.person}
+            <PhoneIcon className="size-5" /> Appelez-moi
           </a>
           <Link
             href="/#services"

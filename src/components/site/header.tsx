@@ -6,15 +6,47 @@ import { Logo } from "@/components/brand";
 import { site, telHref } from "@/content/site";
 import { scrollToId, useLenis } from "./smooth-scroll";
 
-export const NAV = [
-  { id: "services", label: "Services" },
-  { id: "deroulement", label: "Comment ça se passe" },
-  { id: "zone", label: "Secteur" },
-  { id: "questions", label: "Questions" },
-  { id: "contact", label: "Contact" },
-];
+export type Audience = "perso" | "pro";
 
-export function Header() {
+export const NAV: Record<Audience, { id: string; label: string }[]> = {
+  perso: [
+    { id: "services", label: "Services" },
+    { id: "deroulement", label: "Comment ça se passe" },
+    { id: "zone", label: "Secteur" },
+    { id: "questions", label: "Questions" },
+  ],
+  pro: [
+    { id: "offres", label: "Offres" },
+    { id: "competences", label: "Compétences" },
+    { id: "methode", label: "Méthode" },
+    { id: "contact", label: "Contact" },
+  ],
+};
+
+/** Bascule entre les deux parcours (deux pages distinctes). */
+export function AudienceSwitch({ audience, inverted = false, className = "" }: { audience: Audience; inverted?: boolean; className?: string }) {
+  const item = (a: Audience, href: string, label: string) => {
+    const on = a === audience;
+    return (
+      <Link
+        href={href}
+        aria-current={on ? "page" : undefined}
+        className={`rounded-full px-3.5 py-1.5 transition-colors sm:px-4 ${on ? (inverted ? "bg-white text-violet" : "bg-violet text-white") : "opacity-75 hover:opacity-100"}`}
+      >
+        {label}
+      </Link>
+    );
+  };
+  return (
+    <nav aria-label="Choisir votre profil" className={`flex items-center gap-1 rounded-full p-1 text-[0.85rem] font-semibold ring-1 ring-current/20 ${className}`}>
+      {item("perso", "/", "Particuliers")}
+      {item("pro", "/pro", "Professionnels")}
+    </nav>
+  );
+}
+
+export function Header({ audience = "perso" }: { audience?: Audience }) {
+  const nav = NAV[audience];
   const lenis = useLenis();
   const [dark, setDark] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -64,8 +96,9 @@ export function Header() {
           <Link href="/" onClick={link("top")} className="relative z-10 text-[clamp(0.95rem,1.2vw,1.25rem)]" aria-label="Hexoria, retour à l'accueil">
             <Logo light={open || dark} />
           </Link>
-          <nav className="hidden items-center gap-[clamp(1.25rem,2.2vw,3rem)] lg:flex" aria-label="Navigation principale">
-            {NAV.map((n) => (
+          <AudienceSwitch audience={audience} inverted={open || dark} className="hidden md:flex" />
+          <nav className="hidden items-center gap-[clamp(1.1rem,1.8vw,2.5rem)] xl:flex" aria-label="Navigation principale">
+            {nav.map((n) => (
               <a key={n.id} href={`/#${n.id}`} onClick={link(n.id)} className="group relative text-[length:var(--step--1)] font-medium">
                 {n.label}
                 <span className="absolute -bottom-1 left-0 h-0.5 w-full origin-right scale-x-0 rounded bg-current transition-transform duration-500 ease-out-expo group-hover:origin-left group-hover:scale-x-100" />
@@ -81,7 +114,7 @@ export function Header() {
             </a>
             <button
               onClick={() => setOpen((o) => !o)}
-              className="relative z-10 -mr-2 grid size-12 cursor-pointer place-items-center lg:hidden"
+              className="relative z-10 -mr-2 grid size-12 cursor-pointer place-items-center xl:hidden"
               aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
               aria-expanded={open}
             >
@@ -94,12 +127,13 @@ export function Header() {
 
       {/* Menu mobile plein écran */}
       <div
-        className={`fixed inset-0 z-40 bg-violet-900 text-white transition-[clip-path] duration-700 ease-out-expo lg:hidden ${
+        className={`fixed inset-0 z-40 bg-violet-900 text-white transition-[clip-path] duration-700 ease-out-expo xl:hidden ${
           open ? "[clip-path:circle(150%_at_100%_0)]" : "pointer-events-none [clip-path:circle(0%_at_100%_0)]"
         }`}
       >
         <div className="container-x flex h-full flex-col justify-center gap-1 pt-16">
-          {NAV.map((n, i) => (
+          <AudienceSwitch audience={audience} inverted className="mb-8 w-fit text-base" />
+          {nav.map((n, i) => (
             <a
               key={n.id}
               href={`/#${n.id}`}

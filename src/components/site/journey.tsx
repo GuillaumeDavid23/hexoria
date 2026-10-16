@@ -13,8 +13,8 @@ const icon = (d: ReactNode) => (
 
 const STEPS = [
   {
-    title: `Vous appelez ${site.person}`,
-    text: "Vous décrivez votre souci avec vos mots. Pas besoin de connaître les termes techniques.",
+    title: "Vous m'appelez",
+    text: "Vous me décrivez votre souci avec vos mots. Pas besoin de connaître les termes techniques.",
     icon: icon(
       <>
         <path d="M14 6h20a3 3 0 0 1 3 3v30a3 3 0 0 1-3 3H14a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3Z" />
@@ -35,8 +35,8 @@ const STEPS = [
     ),
   },
   {
-    title: `${site.person} vient chez vous`,
-    text: "Il intervient sur place, avec votre matériel, dans votre environnement.",
+    title: "Je viens chez vous",
+    text: "J'interviens sur place, avec votre matériel, dans votre environnement.",
     icon: icon(
       <>
         <path d="M6 22 24 7l18 15" />
@@ -46,8 +46,8 @@ const STEPS = [
     ),
   },
   {
-    title: "Il vous explique tout",
-    text: "Ce qui n'allait pas, ce qu'il a fait, et les bons réflexes pour la suite.",
+    title: "Je vous explique tout",
+    text: "Ce qui n'allait pas, ce que j'ai fait, et les bons réflexes pour la suite.",
     icon: icon(
       <>
         <path d="M8 10h32a3 3 0 0 1 3 3v18a3 3 0 0 1-3 3H22l-9 7v-7H8a3 3 0 0 1-3-3V13a3 3 0 0 1 3-3Z" />

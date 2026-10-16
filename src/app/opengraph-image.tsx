@@ -14,7 +14,7 @@ export default function OpengraphImage() {
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", fontSize: 92, fontWeight: 800, lineHeight: 1 }}>Un souci avec</div>
           <div style={{ display: "flex", fontSize: 92, fontWeight: 800, lineHeight: 1.05, color: "#5b21b6" }}>votre ordinateur ?</div>
-          <div style={{ display: "flex", fontSize: 40, marginTop: 28 }}>{site.person} vous aide à y voir clair.</div>
+          <div style={{ display: "flex", fontSize: 40, marginTop: 28 }}>Je vous aide à y voir clair.</div>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
           <div style={{ display: "flex", fontSize: 30, color: "#5c5870" }}>{site.area}</div>
