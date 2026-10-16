@@ -1,0 +1,33 @@
+# Hexoria
+
+> Hexoria — « L'informatique, simplement. » Entreprise de Guillaume David (SASU, Boufflers, Somme). Dépannage informatique et multimédia à domicile pour les particuliers autour de Boufflers, et création de sites web et d'applications (vitrine, SaaS, mobile) pour les professionnels.
+
+Contact : 03 22 29 00 38 · contact@hexoria.fr · du lundi au vendredi, 9 h – 18 h.
+Siège : 6 rue Principale, 80150 Boufflers. SIRET 989 103 247 00015.
+
+## Particuliers — dépannage à domicile
+
+- [Accueil Particuliers](https://hexoria.fr/) : dépannage, installation et sauvegarde à domicile, et sites pour les événements.
+- Dépannage : ordinateur ou téléphone lent, messages d'erreur, Wi-Fi ou Internet qui coupe, imprimante qui n'imprime plus.
+- Installation : ordinateur, tablette ou téléphone neuf, imprimante et scanner, box Internet et Wi-Fi, appareils connectés (télévision, enceinte…), prise en main pas à pas.
+- Sauvegarde : photos et documents copiés sur un disque dur externe ou une clé USB.
+- Site pour un événement : mariage, anniversaire, baptême, fête de famille (infos pratiques, programme, confirmation de présence, photos).
+- Secteur : Boufflers, Auxi-le-Château, Hesdin, Frévent, Saint-Pol-sur-Ternoise, Doullens, Abbeville, Amiens, Berck et communes voisines (Somme, Pas-de-Calais).
+- Déroulement : appel, rendez-vous, intervention sur place, explications claires. Le tarif est indiqué au téléphone avant l'intervention.
+
+## Professionnels — création de sites et d'applications
+
+- [Accueil Professionnels](https://hexoria.fr/pro) : sites vitrines sur mesure, applications web, SaaS et applications mobiles.
+- Compétences : Symfony, PHP, Doctrine, API ; React, Next.js, TypeScript, Tailwind CSS ; React Native ; PostgreSQL, Docker, Linux, hébergement VPS.
+- Méthode : échange, maquette, développement avec version de test en ligne, mise en ligne, suivi.
+
+## Profils
+
+- [Facebook](https://www.facebook.com/profile.php?id=61581932717672)
+- [Instagram](https://www.instagram.com/hexoria_web/)
+- [Malt](https://www.malt.fr/profile/guillaumedavid3)
+- [GitHub](https://github.com/GuillaumeDavid23)
+
+## Informations légales
+
+- [Mentions légales](https://hexoria.fr/mentions-legales)
