@@ -21,6 +21,7 @@ export function Zone() {
           });
           tl.from("[data-ring]", { scale: 0, opacity: 0, duration: 1, stagger: 0.15, ease: "expo.out" }, 0)
             .from("[data-pin-drop]", { y: -120, opacity: 0, duration: 0.8, ease: "bounce.out" }, 0.3)
+          .from("[data-town]", { scale: 0, opacity: 0, duration: 0.5, stagger: 0.08, ease: "back.out(2.5)" }, 0.6)
             .from("[data-zone-copy] > *", { y: 50, opacity: 0, duration: 0.8, stagger: 0.1, ease: "expo.out" }, 0.1);
 
           // Bandeau de mots : sa vitesse suit le défilement
@@ -54,6 +55,10 @@ export function Zone() {
           <p className="mt-6 max-w-[38ch] text-[length:var(--step-1)] leading-snug text-white/80">
             Je me déplace à domicile, chez vous. Vous habitez un peu plus loin&nbsp;? Appelez-moi&nbsp;: on en parle.
           </p>
+          <p className="mt-4 max-w-[46ch] text-[length:var(--step-0)] leading-relaxed text-white/65">
+            J&apos;interviens à {site.city} et autour&nbsp;: {site.towns.map((t) => t.name).join(", ")}, ainsi que dans les communes voisines de la Somme
+            et du Pas-de-Calais.
+          </p>
           <a href={telHref} className="mt-8 inline-flex items-center gap-3 rounded-full bg-white px-7 py-4 font-bold text-violet transition-colors hover:bg-lilac-100">
             Appeler le {site.contact.phone}
           </a>
@@ -65,6 +70,17 @@ export function Zone() {
           ))}
           <span className="absolute size-full animate-[ping_3.2s_cubic-bezier(0,0,0.2,1)_infinite] rounded-full border-2 border-lilac/40" />
           <span className="absolute size-full animate-[ping_3.2s_cubic-bezier(0,0,0.2,1)_infinite] rounded-full border-2 border-lilac/40 [animation-delay:1.6s]" />
+          {site.towns.map((t) => (
+            <span
+              key={t.name}
+              data-town
+              className={`absolute flex -translate-x-1/2 -translate-y-1/2 items-center gap-1.5 ${t.x > 60 ? "flex-row-reverse" : ""}`}
+              style={{ left: `${t.x}%`, top: `${t.y}%` }}
+            >
+              <span className="size-2.5 shrink-0 rounded-full bg-lilac shadow-[0_0_0_4px_rgba(201,182,251,.2)]" />
+              <span className="whitespace-nowrap rounded-full bg-white/10 px-2 py-0.5 text-[clamp(0.65rem,1.6vw,0.85rem)] font-semibold text-white backdrop-blur-sm">{t.name}</span>
+            </span>
+          ))}
           <div data-pin-drop className="relative flex flex-col items-center">
             <svg viewBox="0 0 24 32" className="h-[clamp(3.5rem,6vw,5rem)] drop-shadow-[0_10px_20px_rgba(0,0,0,.35)]">
               <path d="M12 0C5.4 0 0 5.2 0 11.7 0 20.5 12 32 12 32s12-11.5 12-20.3C24 5.2 18.6 0 12 0Z" fill="#fff" />

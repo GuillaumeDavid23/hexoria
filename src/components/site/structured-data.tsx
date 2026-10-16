@@ -28,7 +28,7 @@ export function StructuredData() {
         addressRegion: "Hauts-de-France",
         addressCountry: "FR",
       },
-      areaServed: { "@type": "City", name: site.city },
+      areaServed: [site.city, ...site.towns.map((t) => t.name)].map((name) => ({ "@type": "City", name })),
       makesOffer: ["Dépannage informatique", "Installation informatique", "Sauvegarde de données"].map((name) => ({
         "@type": "Offer",
         itemOffered: { "@type": "Service", name },

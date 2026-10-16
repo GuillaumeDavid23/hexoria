@@ -14,6 +14,10 @@ export const FAQ = [
     a: `Non. Je viens chez vous, à ${site.city} et alentours, et j'interviens directement sur place.`,
   },
   {
+    q: "Jusqu'où vous déplacez-vous ?",
+    a: `Autour de ${site.city} : ${site.towns.map((t) => t.name).join(", ")} et les communes voisines, dans la Somme et le Pas-de-Calais. Vous êtes un peu plus loin ? Appelez-moi, on en parle.`,
+  },
+  {
     q: "Combien ça coûte ?",
     a: `Chaque situation est différente. Appelez-moi au ${site.contact.phone} pour me décrire votre souci : je vous dirai ce qu'il est possible de faire et à quel prix, avant d'intervenir.`,
   },

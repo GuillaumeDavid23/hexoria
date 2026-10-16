@@ -9,6 +9,21 @@ export const site = {
   city: "Boufflers",
   department: "Somme",
   area: "Boufflers et alentours",
+  /**
+   * Communes desservies autour de Boufflers (Somme / Pas-de-Calais).
+   * x, y : position sur le radar de la section Secteur (en %), d'après la géographie réelle,
+   * légèrement écartée près du centre pour rester lisible.
+   */
+  towns: [
+    { name: "Auxi-le-Château", dept: "62", x: 57, y: 75 },
+    { name: "Hesdin", dept: "62", x: 42, y: 31 },
+    { name: "Frévent", dept: "62", x: 77, y: 45 },
+    { name: "Saint-Pol-sur-Ternoise", dept: "62", x: 79, y: 22 },
+    { name: "Doullens", dept: "80", x: 81, y: 64 },
+    { name: "Abbeville", dept: "80", x: 33, y: 68 },
+    { name: "Amiens", dept: "80", x: 67, y: 88 },
+    { name: "Berck", dept: "62", x: 19, y: 34 },
+  ],
   /** Conteneur Google Tag Manager (chargé seulement en production, après consentement). */
   gtmId: "GTM-NMPMQBVJ",
   contact: {
