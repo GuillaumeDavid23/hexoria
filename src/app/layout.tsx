@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Figtree, Outfit } from "next/font/google";
+import { Consent } from "@/components/site/consent";
 import { site } from "@/content/site";
 import { INDEXABLE, SITE_URL } from "@/lib/env";
 import "./globals.css";
@@ -30,7 +31,11 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="fr" className={`${outfit.variable} ${figtree.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        {/* Mesure d'audience : production uniquement (pas de statistiques faussées par la préproduction) */}
+        {INDEXABLE && <Consent gtmId={site.gtmId} />}
+      </body>
     </html>
   );
 }

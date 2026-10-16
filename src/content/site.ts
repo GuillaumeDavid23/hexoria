@@ -9,6 +9,8 @@ export const site = {
   city: "Boufflers",
   department: "Somme",
   area: "Boufflers et alentours",
+  /** Conteneur Google Tag Manager (chargé seulement en production, après consentement). */
+  gtmId: "GTM-NMPMQBVJ",
   contact: {
     phone: "03 22 29 00 38",
     phoneE164: "+33322290038",

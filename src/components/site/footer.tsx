@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRef } from "react";
 import { Logo, Mark } from "@/components/brand";
 import { mailHref, site, telHref } from "@/content/site";
+import { ConsentLink } from "./consent";
 import { PhoneIcon } from "./header";
 import { deferInit, gsap, MOTION, onEnter, useGSAP } from "./smooth-scroll";
 
@@ -79,6 +80,7 @@ export function Footer({
           <Link href="/mentions-legales" className="transition-colors hover:text-white">
             Mentions légales
           </Link>
+          <ConsentLink className="transition-colors hover:text-white" />
         </nav>
       </div>
     </footer>

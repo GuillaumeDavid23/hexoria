@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Logo } from "@/components/brand";
+import { ConsentLink } from "@/components/site/consent";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -39,12 +40,18 @@ export default function LegalPage() {
           <h2>Hébergement</h2>
           <p>IONOS SE, Elgendorfer Str. 57, 56410 Montabaur, Allemagne — www.ionos.fr</p>
         </section>
-        <section>
-          <h2>Données personnelles</h2>
+        <section id="donnees">
+          <h2>Données personnelles et cookies</h2>
           <p>
-            Ce site ne comporte ni formulaire, ni compte, ni cookie de suivi publicitaire ou de mesure d&apos;audience. Si vous écrivez à{" "}
-            {site.contact.email}, votre message sert uniquement à vous répondre. Vous pouvez demander l&apos;accès, la rectification ou la suppression de
-            vos données à cette même adresse.
+            Ce site ne comporte ni formulaire ni compte. Si vous écrivez à {site.contact.email}, votre message sert uniquement à vous répondre.
+          </p>
+          <p className="mt-3">
+            <strong>Mesure d&apos;audience.</strong> Avec votre accord seulement, le site utilise Google Analytics (Google Ireland Ltd), via Google Tag
+            Manager, pour connaître la fréquentation des pages et la provenance des visites. Aucun cookie publicitaire n&apos;est utilisé. Votre choix est
+            conservé 13 mois et vous pouvez le modifier à tout moment&nbsp;: <ConsentLink className="text-violet underline" />.
+          </p>
+          <p className="mt-3">
+            Vous pouvez demander l&apos;accès, la rectification ou la suppression de vos données à {site.contact.email}.
           </p>
         </section>
       </div>
