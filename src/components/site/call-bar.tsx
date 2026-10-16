@@ -28,6 +28,7 @@ export function CallBar({ label = "Appelez-moi" }: { label?: string }) {
 
   return (
     <div
+      data-zone="barre-appel"
       className={`fixed inset-x-0 bottom-0 z-40 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] transition-transform duration-500 ease-out-expo sm:hidden ${show ? "translate-y-0" : "translate-y-[120%]"}`}
     >
       <a href={telHref} tabIndex={show ? undefined : -1} className="flex items-center justify-center gap-3 rounded-full bg-violet py-4 text-[1.15rem] font-bold text-white shadow-[0_16px_40px_-10px_rgba(28,10,66,.7)]">

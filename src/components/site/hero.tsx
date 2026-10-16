@@ -269,7 +269,7 @@ export function Hero() {
           </span>
         </p>
         </div>
-        <div data-cta data-hero-cta style={{ "--d": "0.9s" } as React.CSSProperties} className="in-fade mt-[clamp(1.5rem,4.5vh,3rem)] flex flex-wrap items-center justify-center gap-3">
+        <div data-cta data-hero-cta data-zone="accueil" style={{ "--d": "0.9s" } as React.CSSProperties} className="in-fade mt-[clamp(1.5rem,4.5vh,3rem)] flex flex-wrap items-center justify-center gap-3">
           <a href={telHref} className="flex items-center gap-2.5 rounded-full bg-violet px-7 py-4 text-[length:var(--step-0)] font-bold text-white shadow-[0_20px_40px_-18px_rgba(91,33,182,.8)] transition-transform hover:scale-[1.03] hover:bg-violet-800">
             <PhoneIcon className="size-5" /> Appelez-moi
           </a>

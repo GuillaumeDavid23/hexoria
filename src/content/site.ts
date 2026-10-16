@@ -17,12 +17,16 @@ export const site = {
     email: "contact@hexoria.fr",
     web: "hexoria.fr",
   },
-  /** Mentions légales : à renseigner avant la mise en ligne publique. */
+  /** Mentions légales (registre : societe.com / RNE). */
   legal: {
-    owner: null as string | null, // ex. « Guillaume Nom »
-    status: "Entrepreneur individuel" as string | null,
-    siret: null as string | null,
-    address: null as string | null,
+    companyName: "HEXORIA",
+    form: "SASU au capital de 100 €",
+    president: "Guillaume David",
+    rcs: "RCS Amiens 989 103 247",
+    siret: "989 103 247 00015",
+    vat: "FR19989103247",
+    street: "6 rue Principale",
+    postalCode: "80150",
   },
 };
 

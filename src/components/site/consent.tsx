@@ -48,6 +48,15 @@ function loadGtm(id: string) {
   s.async = true;
   s.src = `https://www.googletagmanager.com/gtm.js?id=${id}`;
   document.head.appendChild(s);
+
+  // Contacts : chaque clic sur un numéro ou un email devient un événement (avec l'endroit du clic),
+  // à relayer vers GA4 dans Tag Manager (événements « clic_telephone » et « clic_email »).
+  document.addEventListener("click", (e) => {
+    const a = (e.target as Element).closest?.("a[href^='tel:'], a[href^='mailto:']");
+    if (!a) return;
+    const zone = a.closest<HTMLElement>("[data-zone]")?.dataset.zone || a.closest("section, footer")?.id || "autre";
+    w.dataLayer!.push({ event: a.getAttribute("href")!.startsWith("tel:") ? "clic_telephone" : "clic_email", emplacement: zone, page: location.pathname });
+  });
 }
 
 /** Retrait du consentement : suppression des cookies Google Analytics (_ga, _ga_*). */
@@ -91,23 +100,23 @@ export function Consent({ gtmId }: { gtmId: string }) {
     <div
       role="dialog"
       aria-label="Cookies de mesure d'audience"
-      className="fixed inset-x-2 bottom-[calc(0.5rem+env(safe-area-inset-bottom))] z-[60] mx-auto max-w-md rounded-2xl bg-white p-3 [@media(max-height:700px)]:flex [@media(max-height:700px)]:items-center [@media(max-height:700px)]:gap-2 [@media(max-height:700px)]:p-2 [@media(max-height:700px)]:pl-3.5 [@media(min-height:701px)]:p-3.5 text-ink shadow-[0_24px_60px_-20px_rgba(28,10,66,.55)] ring-1 ring-ink/10 sm:bottom-6 sm:left-6 sm:right-auto sm:mx-0 sm:max-w-sm sm:p-5"
+      className="fixed inset-x-2 bottom-[calc(0.5rem+env(safe-area-inset-bottom))] z-[60] mx-auto max-w-md rounded-2xl bg-white p-3.5 tiny:flex tiny:items-center tiny:gap-2 tiny:p-2 tiny:pl-3.5 text-ink shadow-[0_24px_60px_-20px_rgba(28,10,66,.55)] ring-1 ring-ink/10 sm:bottom-6 sm:left-6 sm:right-auto sm:mx-0 sm:max-w-sm sm:p-5"
     >
       <p className="hidden font-display text-lg font-bold sm:block">Un petit cookie&nbsp;?</p>
       <p className="text-[0.85rem] leading-snug text-stone sm:mt-1.5 sm:text-[0.95rem]">
         {/* écran peu haut (petit téléphone) : version courte */}
-        <span className="[@media(max-height:700px)]:hidden">J&apos;utilise Google Analytics pour connaître la fréquentation du site, seulement si vous l&apos;acceptez.</span>
-        <span className="hidden [@media(max-height:700px)]:inline">Statistiques (Google Analytics)&nbsp;?</span>{" "}
+        <span className="tiny:hidden">J&apos;utilise Google Analytics pour connaître la fréquentation du site, seulement si vous l&apos;acceptez.</span>
+        <span className="hidden tiny:inline">Statistiques (Google Analytics)&nbsp;?</span>{" "}
         <Link href="/mentions-legales#donnees" className="text-violet underline">
-          <span className="[@media(max-height:700px)]:hidden">En savoir plus</span>
-          <span className="hidden [@media(max-height:700px)]:inline">Infos</span>
+          <span className="tiny:hidden">En savoir plus</span>
+          <span className="hidden tiny:inline">Infos</span>
         </Link>
       </p>
-      <div className="mt-2 grid shrink-0 grid-cols-2 gap-2 sm:mt-4 [@media(max-height:700px)]:mt-0 [@media(max-height:700px)]:gap-1.5">
-        <button onClick={() => decide("denied")} className="cursor-pointer rounded-full py-2 font-bold text-violet ring-2 [@media(max-height:700px)]:px-3 [@media(max-height:700px)]:text-sm ring-violet transition-colors hover:bg-lilac-100 sm:py-3">
+      <div className="mt-2 grid shrink-0 grid-cols-2 gap-2 sm:mt-4 tiny:mt-0 tiny:gap-1.5">
+        <button onClick={() => decide("denied")} className="cursor-pointer rounded-full py-2 font-bold text-violet ring-2 tiny:px-3 tiny:text-sm ring-violet transition-colors hover:bg-lilac-100 sm:py-3">
           Refuser
         </button>
-        <button onClick={() => decide("granted")} className="cursor-pointer rounded-full bg-violet py-2 font-bold text-white [@media(max-height:700px)]:px-3 [@media(max-height:700px)]:text-sm transition-colors hover:bg-violet-800 sm:py-3">
+        <button onClick={() => decide("granted")} className="cursor-pointer rounded-full bg-violet py-2 font-bold text-white tiny:px-3 tiny:text-sm transition-colors hover:bg-violet-800 sm:py-3">
           Accepter
         </button>
       </div>

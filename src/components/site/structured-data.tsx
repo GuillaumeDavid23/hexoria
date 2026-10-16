@@ -17,7 +17,17 @@ export function StructuredData() {
       image: absoluteUrl("/opengraph-image"),
       telephone: site.contact.phoneE164,
       email: site.contact.email,
-      address: { "@type": "PostalAddress", addressLocality: site.city, addressCountry: "FR" },
+      legalName: site.legal.companyName,
+      vatID: site.legal.vat,
+      founder: { "@type": "Person", name: site.legal.president },
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: site.legal.street,
+        postalCode: site.legal.postalCode,
+        addressLocality: site.city,
+        addressRegion: "Hauts-de-France",
+        addressCountry: "FR",
+      },
       areaServed: { "@type": "City", name: site.city },
       makesOffer: ["Dépannage informatique", "Installation informatique", "Sauvegarde de données"].map((name) => ({
         "@type": "Offer",

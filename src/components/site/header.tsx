@@ -107,7 +107,7 @@ export function Header({ audience = "perso" }: { audience?: Audience }) {
 
   return (
     <>
-      <header className={`fixed inset-x-0 top-0 z-50 transition-[background-color,color] duration-500 ease-out-expo ${tone}`}>
+      <header data-zone="en-tete" className={`fixed inset-x-0 top-0 z-50 transition-[background-color,color] duration-500 ease-out-expo ${tone}`}>
         <div className="container-x flex h-[var(--header-h)] items-center justify-between gap-6">
           <Link href="/" onClick={link("top")} className="relative z-10 text-[clamp(0.95rem,1.2vw,1.25rem)]" aria-label="Hexoria, retour à l'accueil">
             <Logo light={open || dark} />
@@ -143,6 +143,7 @@ export function Header({ audience = "perso" }: { audience?: Audience }) {
 
       {/* Menu mobile plein écran */}
       <div
+        data-zone="menu"
         className={`fixed inset-0 z-40 bg-violet-900 text-white transition-[clip-path] duration-700 ease-out-expo xl:hidden ${
           open ? "[clip-path:circle(150%_at_100%_0)]" : "pointer-events-none [clip-path:circle(0%_at_100%_0)]"
         }`}

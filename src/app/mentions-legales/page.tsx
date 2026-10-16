@@ -10,8 +10,6 @@ export const metadata: Metadata = {
   alternates: { canonical: "/mentions-legales" },
 };
 
-const TODO = "à compléter";
-
 export default function LegalPage() {
   const l = site.legal;
   return (
@@ -24,16 +22,17 @@ export default function LegalPage() {
         <section>
           <h2>Éditeur du site</h2>
           <p>
-            Hexoria — {l.owner ?? TODO}
-            {l.status ? `, ${l.status}` : ""}
+            {l.companyName}, {l.form}
             <br />
-            SIRET : {l.siret ?? TODO}
+            Siège social : {l.street}, {l.postalCode} {site.city.toUpperCase()}
             <br />
-            Adresse : {l.address ?? TODO}
+            {l.rcs} · SIRET {l.siret}
+            <br />
+            TVA intracommunautaire : {l.vat}
             <br />
             Téléphone : {site.contact.phone} · Email : <a href={`mailto:${site.contact.email}`} className="text-violet underline">{site.contact.email}</a>
             <br />
-            Directeur de la publication : {l.owner ?? site.person}
+            Directeur de la publication : {l.president}, président
           </p>
         </section>
         <section>
