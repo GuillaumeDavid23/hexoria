@@ -18,6 +18,13 @@ const CODE: [string, string][][] = [
   [["#fff", "}"]],
 ];
 
+// …puis la mise en ligne dans le terminal (grand écran : sur téléphone, le bloc est trop bas)
+const TERMINAL: [string, string][][] = [
+  [["#c9b6fb", "$ "], ["#fff", "git push"]],
+  [["#86efac", "✓ "], ["#ffffffb3", "Tests réussis"]],
+  [["#86efac", "✓ "], ["#ffffffb3", "En ligne : "], ["#7dd3fc", "votre-entreprise.fr"]],
+];
+
 const RINGS = ["Rapide", "Adapté au mobile", "Pensé pour Google"];
 
 export function ProHero() {
@@ -98,14 +105,14 @@ export function ProHero() {
           {/* Éditeur de code → site web */}
           <div className="relative mx-auto h-[clamp(14rem,36svh,34rem)] w-full max-w-[40rem] lg:h-[min(62svh,34rem)]" aria-hidden="true">
             <div className="in-fade absolute inset-0" style={{ "--d": "0.3s" } as React.CSSProperties}>
-            <div data-editor className="absolute inset-0 overflow-hidden rounded-2xl bg-[#1b1233] shadow-2xl ring-1 ring-white/10">
+            <div data-editor className="absolute inset-0 flex flex-col overflow-hidden rounded-2xl bg-[#1b1233] shadow-2xl ring-1 ring-white/10">
               <div className="flex items-center gap-1.5 border-b border-white/10 px-4 py-2.5">
                 <span className="size-2.5 rounded-full bg-alert/80" />
                 <span className="size-2.5 rounded-full bg-warn/80" />
                 <span className="size-2.5 rounded-full bg-ok/80" />
                 <span className="ml-3 text-xs text-white/50">AccueilController.php</span>
               </div>
-              <div className="space-y-1.5 p-4 font-mono text-[clamp(0.62rem,1.05vw,0.95rem)] leading-relaxed">
+              <div className="min-h-0 flex-1 space-y-1.5 p-4 font-mono text-[clamp(0.62rem,1.05vw,0.95rem)] leading-relaxed">
                 {CODE.map((line, i) => (
                   <div key={i} className="flex gap-4">
                     <span className="w-4 shrink-0 text-right text-white/25">{i + 1}</span>
@@ -116,6 +123,18 @@ export function ProHero() {
                         </span>
                       ))}
                     </span>
+                  </div>
+                ))}
+              </div>
+              <div className="hidden shrink-0 border-t border-white/10 bg-black/25 px-4 pb-4 pt-3 font-mono text-[clamp(0.62rem,0.9vw,0.82rem)] leading-relaxed lg:block">
+                <p className="mb-1.5 font-sans text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white/35">Terminal</p>
+                {TERMINAL.map((line, i) => (
+                  <div key={i} className="in-type whitespace-pre" style={{ "--d": `${2.6 + i * 0.35}s` } as React.CSSProperties}>
+                    {line.map(([c, t], j) => (
+                      <span key={j} style={{ color: c }}>
+                        {t}
+                      </span>
+                    ))}
                   </div>
                 ))}
               </div>
