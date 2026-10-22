@@ -173,6 +173,7 @@ export function Hero() {
             .from("[data-underline]", { drawSVG: "0%", duration: 0.3 }, 0.62)
             .to("[data-scroll-cue]", { autoAlpha: 0, duration: 0.15 }, 0)
             .to({}, { duration: 0.12 });
+          gsap.set("[data-underline]", { opacity: 1 }); // masqué en CSS tant que le tracé n'est pas à 0
         });
       }));
     },
@@ -259,9 +260,10 @@ export function Hero() {
           <span data-line className="in-rise split-line block" style={{ "--d": "0.2s" } as React.CSSProperties}>
             <span className="block text-violet">
               votre{" "}
-              <span data-words className="relative -mb-[0.12em] inline-grid grid-cols-[minmax(0,1fr)] justify-items-start pb-[0.12em] pr-[0.04em] align-bottom">
+              {/* largeur du HTML = premier mot + 4 px, comme la mesure du script : pas de décalage à son démarrage (CLS) */}
+              <span data-words className="relative -mb-[0.12em] inline-grid grid-cols-[minmax(0,1fr)] justify-items-start pb-[0.12em] pr-1 align-bottom">
                 {DEVICES.map((d, i) => (
-                  <span key={d} data-word className={`col-start-1 row-start-1 whitespace-nowrap ${i ? "invisible" : ""}`} aria-hidden={i ? true : undefined}>
+                  <span key={d} data-word className={`col-start-1 row-start-1 whitespace-nowrap ${i ? "invisible absolute left-0 top-0" : ""}`} aria-hidden={i ? true : undefined}>
                     {d}
                   </span>
                 ))}

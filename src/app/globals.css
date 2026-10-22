@@ -190,6 +190,10 @@ html.lenis body {
     filter: blur(5px);
     opacity: 0.6;
   }
+  /* soulignement tracé au défilement (hero.tsx) : caché jusqu'à la mise en place différée, sinon il clignote */
+  [data-underline] {
+    opacity: 0;
+  }
 }
 @keyframes in-rise {
   from {
