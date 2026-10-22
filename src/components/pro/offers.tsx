@@ -117,7 +117,7 @@ export function Offers() {
             const q = gsap.utils.selector(card);
             const tl = gsap.timeline({
               defaults: { ease: "none" },
-              scrollTrigger: coarse ? onEnter(card, "top 75%") : { trigger: card, start: "top 100%", end: "top 40%", scrub: 0.6 },
+              scrollTrigger: coarse ? onEnter(card, "top 88%") : { trigger: card, start: "top 100%", end: "top 40%", scrub: 0.6 },
             });
             tl.from(card, { y: 80, opacity: 0, rotate: i ? 2 : -2, duration: 0.25, ease: "expo.out" }, 0);
             if (card.dataset.offer === "vitrine") {

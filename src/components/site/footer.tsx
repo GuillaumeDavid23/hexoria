@@ -48,7 +48,7 @@ export function Footer({
         const mm = gsap.matchMedia();
         mm.add({ fine: MOTION.fine, coarse: MOTION.coarse }, (ctx) => {
           const coarse = ctx.conditions?.coarse;
-          const tl = gsap.timeline({ scrollTrigger: onEnter(root.current!, coarse ? "top 70%" : "top 55%") });
+          const tl = gsap.timeline({ scrollTrigger: onEnter(root.current!, coarse ? "top 85%" : "top 75%") });
           tl.from("[data-contact] > *", { y: 50, opacity: 0, duration: 1.1, stagger: 0.08, ease: "expo.out" }, 0)
             .from("[data-number]", { duration: 1.4, scrambleText: { text: "{original}", chars: "0123456789", speed: 0.6, revealDelay: 0.3 } }, 0.2);
           // le pictogramme en filigrane tourne et ses pistes se dessinent pendant l'approche

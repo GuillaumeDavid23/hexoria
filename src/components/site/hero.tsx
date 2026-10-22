@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRef, type ReactNode } from "react";
 import { site, telHref } from "@/content/site";
 import { PhoneIcon } from "./header";
-import { gsap, MOTION, scrollToId, scrubFor, useGSAP, useLenis } from "./smooth-scroll";
+import { deferInit, gsap, MOTION, scrollToId, scrubFor, useGSAP, useLenis } from "./smooth-scroll";
 
 type Bug = {
   title: string;
@@ -143,35 +143,47 @@ export function Hero() {
   const root = useRef<HTMLElement>(null);
   const lenis = useLenis();
 
+  // L'entrée (titre, fenêtres, câble, boutons) est en CSS : voir .in-* dans globals.css
+
+  useGSAP(
+    (context) => {
+      // file différée (voir deferInit) : épingler et préparer la scène ne bloque pas le chargement
+      return deferInit(() => context.add(() => {
+        const mm = gsap.matchMedia();
+        mm.add({ fine: MOTION.fine, coarse: MOTION.coarse }, (ctx) => {
+          const coarse = ctx.conditions?.coarse;
+
+          // Défilement : chaque souci est « réglé », les fenêtres dégagent, le câble se range
+          // et la phrase « y voir clair » devient nette.
+          const tl = gsap.timeline({
+            defaults: { ease: "none" },
+            scrollTrigger: { trigger: root.current, start: "top top", end: coarse ? "+=95%" : "+=105%", scrub: scrubFor(coarse), pin: true, anticipatePin: 1 },
+          });
+          const wins = gsap.utils.toArray<HTMLElement>("[data-win]");
+          wins.forEach((w, i) => {
+            const at = i * 0.06;
+            tl.to(w.querySelector("[data-bad]"), { opacity: 0, duration: 0.08 }, at)
+              .to(w.querySelector("[data-ok]"), { opacity: 1, duration: 0.08 }, at)
+              .to(w.querySelector("[data-win-card]"), { boxShadow: "0 0 0 2px #16a34a, 0 24px 60px -24px rgba(22,163,74,.45)", duration: 0.08 }, at)
+              .to(w, { x: () => Number(w.dataset.side) * window.innerWidth * 0.35, y: -window.innerHeight * 0.15, rotate: Number(w.dataset.side) * 12, scale: 0.6, autoAlpha: 0, duration: 0.35, ease: "power2.in" }, 0.35 + at * 0.6);
+          });
+          tl.to("[data-cable]", { morphSVG: NEAT, duration: 0.6 }, 0.1)
+            .to("[data-cable]", { stroke: "#5b21b6", opacity: 0.9, duration: 0.6 }, 0.1)
+            .fromTo("[data-clear]", { filter: "blur(5px)", opacity: 0.6 }, { filter: "blur(0px)", opacity: 1, duration: 0.45 }, 0.3)
+            .from("[data-underline]", { drawSVG: "0%", duration: 0.3 }, 0.62)
+            .to("[data-scroll-cue]", { autoAlpha: 0, duration: 0.15 }, 0)
+            .to({}, { duration: 0.12 });
+        });
+      }));
+    },
+    { scope: root },
+  );
+
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
-
       mm.add({ fine: MOTION.fine, coarse: MOTION.coarse }, (ctx) => {
         const coarse = ctx.conditions?.coarse;
-
-        // L'entrée (titre, fenêtres, câble, boutons) est en CSS : voir .in-* dans globals.css
-
-        // Défilement : chaque souci est « réglé », les fenêtres dégagent, le câble se range
-        // et la phrase « y voir clair » devient nette.
-        const tl = gsap.timeline({
-          defaults: { ease: "none" },
-          scrollTrigger: { trigger: root.current, start: "top top", end: coarse ? "+=95%" : "+=105%", scrub: scrubFor(coarse), pin: true, anticipatePin: 1 },
-        });
-        const wins = gsap.utils.toArray<HTMLElement>("[data-win]");
-        wins.forEach((w, i) => {
-          const at = i * 0.06;
-          tl.to(w.querySelector("[data-bad]"), { opacity: 0, duration: 0.08 }, at)
-            .to(w.querySelector("[data-ok]"), { opacity: 1, duration: 0.08 }, at)
-            .to(w.querySelector("[data-win-card]"), { boxShadow: "0 0 0 2px #16a34a, 0 24px 60px -24px rgba(22,163,74,.45)", duration: 0.08 }, at)
-            .to(w, { x: () => Number(w.dataset.side) * window.innerWidth * 0.35, y: -window.innerHeight * 0.15, rotate: Number(w.dataset.side) * 12, scale: 0.6, autoAlpha: 0, duration: 0.35, ease: "power2.in" }, 0.35 + at * 0.6);
-        });
-        tl.to("[data-cable]", { morphSVG: NEAT, duration: 0.6 }, 0.1)
-          .to("[data-cable]", { stroke: "#5b21b6", opacity: 0.9, duration: 0.6 }, 0.1)
-          .fromTo("[data-clear]", { filter: "blur(5px)", opacity: 0.6 }, { filter: "blur(0px)", opacity: 1, duration: 0.45 }, 0.3)
-          .from("[data-underline]", { drawSVG: "0%", duration: 0.3 }, 0.62)
-          .to("[data-scroll-cue]", { autoAlpha: 0, duration: 0.15 }, 0)
-          .to({}, { duration: 0.12 });
 
         // Le mot du titre défile : ordinateur → téléphone → imprimante…
         const box = root.current!.querySelector<HTMLElement>("[data-words]")!;

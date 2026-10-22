@@ -290,17 +290,17 @@ export function Services() {
               opacity: 0,
               stagger: 0.05,
               ...(coarse
-                ? { duration: 0.9, ease: "expo.out", scrollTrigger: onEnter(card, "top 80%") }
+                ? { duration: 0.9, ease: "expo.out", scrollTrigger: onEnter(card, "top 90%") }
                 : { ease: "none", scrollTrigger: { trigger: card, start: "top 95%", end: "top 70%", scrub: 0.6 } }),
             });
             // 2. l'illustration ne s'anime que lorsqu'elle est réellement visible :
-            //    téléphone → quand le centre de l'illustration (sous le texte) atteint le milieu de l'écran ;
-            //    grand écran → idem, centre de l'illustration au milieu de l'écran.
-            // Grand écran : jouée d'un trait (≈ 1,4 s) quand le centre de l'illustration passe le milieu de l'écran,
+            //    téléphone → quand le centre de l'illustration (sous le texte) passe aux 70 % de l'écran ;
+            //    grand écran → idem.
+            // Grand écran : jouée d'un trait (≈ 1,4 s) quand le centre de l'illustration passe aux 70 % de l'écran,
             // rejouée à l'envers si l'on remonte (un scrub n'aurait presque pas de course : la carte se pose juste après).
             const st = coarse
-              ? onEnter(art, "center 55%")
-              : { trigger: art, start: "center 55%", toggleActions: "play none none reverse" };
+              ? onEnter(art, "center 70%")
+              : { trigger: art, start: "center 70%", toggleActions: "play none none reverse" };
             const tl = gsap.timeline({ defaults: { ease: "none" }, scrollTrigger: st });
             tl.timeScale(0.8); // ≈ 1,4 s : le temps de voir la jauge monter, la page sortir, la copie se faire
 

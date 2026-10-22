@@ -21,14 +21,14 @@ export function Method() {
         mm.add({ fine: MOTION.fine, coarse: MOTION.coarse }, (ctx) => {
           const coarse = ctx.conditions?.coarse;
           // la ligne se trace le long des étapes ; chaque pastille s'allume à son passage
-          gsap.fromTo("[data-m-line]", { scaleY: 0 }, { scaleY: 1, ease: "none", scrollTrigger: { trigger: "[data-m-steps]", start: "top 60%", end: "bottom 60%", scrub: true } });
+          gsap.fromTo("[data-m-line]", { scaleY: 0 }, { scaleY: 1, ease: "none", scrollTrigger: { trigger: "[data-m-steps]", start: "top 75%", end: "bottom 75%", scrub: true } });
           gsap.utils.toArray<HTMLElement>("[data-m-step]").forEach((el) => {
             const dot = el.querySelector("[data-m-dot]");
-            gsap.fromTo(dot, { backgroundColor: "#efe9fd", color: "#5b21b6", scale: 0.85 }, { backgroundColor: "#5b21b6", color: "#ffffff", scale: 1, duration: 0.4, scrollTrigger: { trigger: el, start: "top 60%", toggleActions: "play none none reverse" } });
+            gsap.fromTo(dot, { backgroundColor: "#efe9fd", color: "#5b21b6", scale: 0.85 }, { backgroundColor: "#5b21b6", color: "#ffffff", scale: 1, duration: 0.4, scrollTrigger: { trigger: el, start: "top 75%", toggleActions: "play none none reverse" } });
             gsap.from(el.querySelector("[data-m-body]"), {
               x: 40,
               opacity: 0,
-              ...(coarse ? { duration: 1, ease: "expo.out", scrollTrigger: onEnter(el, "top 80%") } : { ease: "none", scrollTrigger: { trigger: el, start: "top 100%", end: "top 78%", scrub: 0.6 } }),
+              ...(coarse ? { duration: 1, ease: "expo.out", scrollTrigger: onEnter(el, "top 90%") } : { ease: "none", scrollTrigger: { trigger: el, start: "top 100%", end: "top 78%", scrub: 0.6 } }),
             });
           });
         });

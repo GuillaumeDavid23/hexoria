@@ -26,7 +26,7 @@ export function Proof() {
           const coarse = ctx.conditions?.coarse;
           const tl = gsap.timeline({
             defaults: { ease: "none" },
-            scrollTrigger: coarse ? onEnter(root.current!, "top 70%") : { trigger: root.current, start: "top 85%", end: "center 55%", scrub: 0.6 },
+            scrollTrigger: coarse ? onEnter(root.current!, "top 85%") : { trigger: root.current, start: "top 95%", end: "center 65%", scrub: 0.6 },
           });
           tl.from("[data-proof-copy] > *", { y: 40, opacity: 0, duration: 0.5, stagger: 0.08, ease: "expo.out" }, 0)
             .from("[data-score]", { y: 40, opacity: 0, scale: 0.9, duration: 0.4, stagger: 0.08, ease: "expo.out" }, 0.1);

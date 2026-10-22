@@ -19,7 +19,7 @@ ScrollTrigger.config({ ignoreMobileResize: true });
  * - fine   : souris / pavé tactile → animations asservies au défilement (scrub), réversibles.
  * - coarse : écran tactile → le défilement natif va par à-coups (lancer, inertie) ; une animation
  *            asservie saute et semble partir trop tôt. On joue donc chaque entrée UNE fois, sur
- *            la durée, quand l'élément est réellement visible (≈ 15 % dans l'écran).
+ *            la durée, dès que l'élément entre vraiment dans l'écran (≈ 10 % de sa hauteur).
  * - reduce : mouvement réduit → rien n'est masqué ni animé.
  */
 export const MOTION = {
@@ -32,17 +32,29 @@ export const MOTION = {
 export const scrubFor = (coarse: boolean | undefined) => (coarse ? 0.2 : 0.6);
 
 /** Déclencheur « jouer une fois à l'entrée » (tactile). */
-export const onEnter = (trigger: Element | string, start = "top 85%") => ({ trigger, start, once: true });
+export const onEnter = (trigger: Element | string, start = "top 90%") => ({ trigger, start, once: true });
 
 /**
- * Préparation différée des animations hors écran : chaque section est mise en place à son tour,
+ * Préparation différée des animations au défilement : chaque section est mise en place à son tour,
  * quand le navigateur est libre, pour ne pas bloquer l'affichage et les premiers gestes (mobile).
  * L'ordre d'appel (ordre du document) est conservé, puis les déclencheurs sont recalculés.
+ * Tactile : rien n'est préparé avant le premier geste — le chargement garde tout le processeur
+ * (le téléphone est lent, et ces animations ne servent qu'une fois que l'on défile).
  */
 const queue: { fn: () => void; off: boolean }[] = [];
 let pending = false;
 const idle = (cb: () => void) =>
   typeof window.requestIdleCallback === "function" ? window.requestIdleCallback(cb, { timeout: 900 }) : setTimeout(cb, 120);
+const GESTURES = ["touchstart", "pointerdown", "wheel", "keydown", "scroll"] as const;
+function afterFirstGesture(cb: () => void) {
+  // souris, ou page déjà défilée (retour arrière, URL avec ancre) : tout de suite
+  if (!window.matchMedia(MOTION.coarse).matches || window.scrollY > 0 || window.location.hash) return cb();
+  const go = () => {
+    GESTURES.forEach((e) => window.removeEventListener(e, go));
+    cb();
+  };
+  GESTURES.forEach((e) => window.addEventListener(e, go, { passive: true }));
+}
 function drain() {
   const job = queue.shift();
   if (job && !job.off) job.fn();
@@ -59,7 +71,7 @@ export function deferInit(fn: () => void) {
   queue.push(job);
   if (!pending) {
     pending = true;
-    idle(drain);
+    afterFirstGesture(() => idle(drain));
   }
   return () => {
     job.off = true;

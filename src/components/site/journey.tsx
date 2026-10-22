@@ -96,16 +96,16 @@ export function Journey() {
 
         mm.add(`(max-width: 63.999rem), (hover: none)`, () => {
           if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-          gsap.fromTo("[data-vwire]", { scaleY: 0 }, { scaleY: 1, ease: "none", scrollTrigger: { trigger: "[data-steps]", start: "top 70%", end: "bottom 60%", scrub: true } });
+          gsap.fromTo("[data-vwire]", { scaleY: 0 }, { scaleY: 1, ease: "none", scrollTrigger: { trigger: "[data-steps]", start: "top 85%", end: "bottom 75%", scrub: true } });
           gsap.utils.toArray<HTMLElement>("[data-step]").forEach((el) => {
-            const tl = gsap.timeline({ scrollTrigger: onEnter(el, "top 75%") });
+            const tl = gsap.timeline({ scrollTrigger: onEnter(el, "top 88%") });
             tl.from(el, { y: 50, opacity: 0, duration: 1, ease: "expo.out" })
               .from(el.querySelectorAll("[data-ring], [data-tick]"), { drawSVG: "0%", duration: 0.8, ease: "power2.out" }, 0.3)
               .fromTo(el.querySelector("[data-dot]"), { backgroundColor: "#efe9fd" }, { backgroundColor: "#5b21b6", duration: 0.4 }, 0.2);
           });
           gsap.set("[data-plug]", { x: -60 });
             gsap.set("[data-led]", { fill: "#cbd5e1" });
-          gsap.timeline({ scrollTrigger: onEnter("[data-finale]", "top 80%") })
+          gsap.timeline({ scrollTrigger: onEnter("[data-finale]", "top 90%") })
             .to("[data-plug]", { x: 62, duration: 0.7, ease: "power3.in" })
             .to("[data-plug]", { x: 59, duration: 0.1, yoyo: true, repeat: 1, ease: "power1.out" })
             .to("[data-led]", { fill: "#16a34a", duration: 0.2 }, 0.75)

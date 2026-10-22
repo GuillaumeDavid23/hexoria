@@ -25,7 +25,7 @@ export function Clarity() {
           const coarse = ctx.conditions?.coarse;
           const tl = gsap.timeline({
             defaults: { ease: "none" },
-            scrollTrigger: coarse ? onEnter(root.current!, "top 65%") : { trigger: root.current, start: "top 75%", end: "center 45%", scrub: 0.6 },
+            scrollTrigger: coarse ? onEnter(root.current!, "top 80%") : { trigger: root.current, start: "top 90%", end: "center 60%", scrub: 0.6 },
           });
           tl.fromTo(split.words, { opacity: 0.4 }, { opacity: 1, duration: 0.5, ease: "power1.out", stagger: { amount: 1.4 } }, 0);
           gsap.utils.toArray<HTMLElement>("[data-promise]").forEach((el, i) => {

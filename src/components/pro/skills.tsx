@@ -30,7 +30,7 @@ export function Skills() {
           const split = SplitText.create("[data-skills-lead]", { type: "words", aria: "none" });
           const tl = gsap.timeline({
             defaults: { ease: "none" },
-            scrollTrigger: coarse ? onEnter("[data-skills-lead]", "top 70%") : { trigger: "[data-skills-lead]", start: "top 85%", end: "bottom 45%", scrub: 0.6 },
+            scrollTrigger: coarse ? onEnter("[data-skills-lead]", "top 85%") : { trigger: "[data-skills-lead]", start: "top 95%", end: "bottom 55%", scrub: 0.6 },
           });
           tl.fromTo(split.words, { opacity: 0.4 }, { opacity: 1, stagger: { amount: 1 }, duration: 0.4 });
           gsap.from("[data-pillar]", {

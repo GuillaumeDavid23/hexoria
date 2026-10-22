@@ -17,7 +17,7 @@ export function Zone() {
           const coarse = ctx.conditions?.coarse;
           const tl = gsap.timeline({
             defaults: { ease: "none" },
-            scrollTrigger: coarse ? onEnter(root.current!, "top 60%") : { trigger: root.current, start: "top 80%", end: "center 55%", scrub: 0.6 },
+            scrollTrigger: coarse ? onEnter(root.current!, "top 78%") : { trigger: root.current, start: "top 92%", end: "center 67%", scrub: 0.6 },
           });
           tl.from("[data-ring]", { scale: 0, opacity: 0, duration: 1, stagger: 0.15, ease: "expo.out" }, 0)
             .from("[data-pin-drop]", { y: -120, opacity: 0, duration: 0.8, ease: "bounce.out" }, 0.3)
