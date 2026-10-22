@@ -141,6 +141,7 @@ function BugWindow({ b, i }: { b: Bug; i: number }) {
 
 export function Hero() {
   const root = useRef<HTMLElement>(null);
+  const spacer = useRef<HTMLDivElement>(null);
   const lenis = useLenis();
 
   // L'entrée (titre, fenêtres, câble, boutons) est en CSS : voir .in-* dans globals.css
@@ -157,7 +158,7 @@ export function Hero() {
           // et la phrase « y voir clair » devient nette.
           const tl = gsap.timeline({
             defaults: { ease: "none" },
-            scrollTrigger: { trigger: root.current, start: "top top", end: coarse ? "+=95%" : "+=105%", scrub: scrubFor(coarse), pin: true, anticipatePin: 1 },
+            scrollTrigger: { trigger: root.current, start: "top top", end: coarse ? "+=95%" : "+=105%", scrub: scrubFor(coarse), pin: true, pinSpacer: spacer.current, anticipatePin: 1 },
           });
           const wins = gsap.utils.toArray<HTMLElement>("[data-win]");
           wins.forEach((w, i) => {
@@ -231,81 +232,84 @@ export function Hero() {
     { scope: root },
   );
 
+  // conteneur d'épinglage déjà dans le HTML : GSAP n'a pas à déplacer la section, ce qui relancerait les entrées CSS (clignotement)
   return (
-    <section ref={root} id="top" data-scene data-theme="light" className="relative h-[var(--scene-h)] min-h-[34rem] overflow-hidden bg-mist">
-      <div className="dots absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,#000_30%,transparent_75%)]" aria-hidden="true" />
-      <div className="absolute left-1/2 top-1/2 size-[min(120vw,70rem)] -translate-1/2 rounded-full bg-[radial-gradient(circle,rgba(154,107,242,.22)_0%,rgba(154,107,242,0)_65%)]" aria-hidden="true" />
+    <div ref={spacer}>
+      <section ref={root} id="top" data-scene data-theme="light" className="relative h-[var(--scene-h)] min-h-[34rem] overflow-hidden bg-mist">
+        <div className="dots absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,#000_30%,transparent_75%)]" aria-hidden="true" />
+        <div className="absolute left-1/2 top-1/2 size-[min(120vw,70rem)] -translate-1/2 rounded-full bg-[radial-gradient(circle,rgba(154,107,242,.22)_0%,rgba(154,107,242,0)_65%)]" aria-hidden="true" />
 
-      <svg viewBox="0 0 1600 900" preserveAspectRatio="none" className="absolute inset-0 h-full w-full opacity-50 md:opacity-100" aria-hidden="true">
-        <path data-cable className="in-draw" pathLength={1} d={TANGLED} fill="none" stroke="#9a6bf2" strokeOpacity="0.55" strokeWidth="5" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
-      </svg>
+        <svg viewBox="0 0 1600 900" preserveAspectRatio="none" className="absolute inset-0 h-full w-full opacity-50 md:opacity-100" aria-hidden="true">
+          <path data-cable className="in-draw" pathLength={1} d={TANGLED} fill="none" stroke="#9a6bf2" strokeOpacity="0.55" strokeWidth="5" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+        </svg>
 
-      {BUGS.map((b, i) => (
-        <BugWindow key={b.title + i} b={b} i={i} />
-      ))}
+        {BUGS.map((b, i) => (
+          <BugWindow key={b.title + i} b={b} i={i} />
+        ))}
 
-      <div className="relative z-20 flex h-full flex-col items-center justify-center px-[var(--gutter)] pt-[calc(var(--header-h)*0.6)] text-center">
-        <h1 data-eyebrow style={{ "--d": "0.2s" } as React.CSSProperties} className="in-fade eyebrow mb-[clamp(1rem,3vh,2rem)] flex flex-wrap items-center justify-center gap-x-3 text-[0.78rem] text-violet sm:text-[length:var(--step--1)]">
-          Dépannage informatique à domicile{" "}
-          <span aria-hidden="true" className="size-1.5 rounded-full bg-violet" />
-          <span>
-            <span className="sr-only">à </span>
-            {site.area}
-          </span>
-        </h1>
-        <p className="font-display text-[clamp(2.5rem,min(1rem+6.4vw,12vh),9rem)] font-extrabold leading-[0.95] tracking-[-0.035em]">
-          <span data-line className="in-rise split-line block" style={{ "--d": "0.1s" } as React.CSSProperties}>
-            <span className="block">Un souci avec</span>
-          </span>
-          <span data-line className="in-rise split-line block" style={{ "--d": "0.2s" } as React.CSSProperties}>
-            <span className="block text-violet">
-              votre{" "}
-              {/* largeur du HTML = premier mot + 4 px, comme la mesure du script : pas de décalage à son démarrage (CLS) */}
-              <span data-words className="relative -mb-[0.12em] inline-grid grid-cols-[minmax(0,1fr)] justify-items-start pb-[0.12em] pr-1 align-bottom">
-                {DEVICES.map((d, i) => (
-                  <span key={d} data-word className={`col-start-1 row-start-1 whitespace-nowrap ${i ? "invisible absolute left-0 top-0" : ""}`} aria-hidden={i ? true : undefined}>
-                    {d}
-                  </span>
-                ))}
-              </span>
-              &nbsp;?
+        <div className="relative z-20 flex h-full flex-col items-center justify-center px-[var(--gutter)] pt-[calc(var(--header-h)*0.6)] text-center">
+          <h1 data-eyebrow style={{ "--d": "0.2s" } as React.CSSProperties} className="in-fade eyebrow mb-[clamp(1rem,3vh,2rem)] flex flex-wrap items-center justify-center gap-x-3 text-[0.78rem] text-violet sm:text-[length:var(--step--1)]">
+            Dépannage informatique à domicile{" "}
+            <span aria-hidden="true" className="size-1.5 rounded-full bg-violet" />
+            <span>
+              <span className="sr-only">à </span>
+              {site.area}
             </span>
-          </span>
-        </p>
-        <div data-clear-in className="in-fade mt-[clamp(1rem,3.5vh,2.5rem)]" style={{ "--d": "0.7s" } as React.CSSProperties}>
-        <p data-clear className="relative font-display text-[length:var(--step-2)] font-medium leading-tight tracking-tight">
-          Je vous aide à{" "}
-          <span className="relative inline-block whitespace-nowrap">
-            y voir clair.
-            <svg viewBox="0 0 300 20" preserveAspectRatio="none" className="absolute -bottom-[0.3em] left-0 h-[0.4em] w-full" aria-hidden="true">
-              <path data-underline d="M4 14C80 6 200 4 296 10" fill="none" stroke="#5b21b6" strokeWidth="6" strokeLinecap="round" />
-            </svg>
-          </span>
-        </p>
+          </h1>
+          <p className="font-display text-[clamp(2.5rem,min(1rem+6.4vw,12vh),9rem)] font-extrabold leading-[0.95] tracking-[-0.035em]">
+            <span data-line className="in-rise split-line block" style={{ "--d": "0.1s" } as React.CSSProperties}>
+              <span className="block">Un souci avec</span>
+            </span>
+            <span data-line className="in-rise split-line block" style={{ "--d": "0.2s" } as React.CSSProperties}>
+              <span className="block text-violet">
+                votre{" "}
+                {/* largeur du HTML = premier mot + 4 px, comme la mesure du script : pas de décalage à son démarrage (CLS) */}
+                <span data-words className="relative -mb-[0.12em] inline-grid grid-cols-[minmax(0,1fr)] justify-items-start pb-[0.12em] pr-1 align-bottom">
+                  {DEVICES.map((d, i) => (
+                    <span key={d} data-word className={`col-start-1 row-start-1 whitespace-nowrap ${i ? "invisible absolute left-0 top-0" : ""}`} aria-hidden={i ? true : undefined}>
+                      {d}
+                    </span>
+                  ))}
+                </span>
+                &nbsp;?
+              </span>
+            </span>
+          </p>
+          <div data-clear-in className="in-fade mt-[clamp(1rem,3.5vh,2.5rem)]" style={{ "--d": "0.7s" } as React.CSSProperties}>
+          <p data-clear className="relative font-display text-[length:var(--step-2)] font-medium leading-tight tracking-tight">
+            Je vous aide à{" "}
+            <span className="relative inline-block whitespace-nowrap">
+              y voir clair.
+              <svg viewBox="0 0 300 20" preserveAspectRatio="none" className="absolute -bottom-[0.3em] left-0 h-[0.4em] w-full" aria-hidden="true">
+                <path data-underline d="M4 14C80 6 200 4 296 10" fill="none" stroke="#5b21b6" strokeWidth="6" strokeLinecap="round" />
+              </svg>
+            </span>
+          </p>
+          </div>
+          <div data-cta data-hero-cta data-zone="accueil" style={{ "--d": "0.9s" } as React.CSSProperties} className="in-fade mt-[clamp(1.5rem,4.5vh,3rem)] flex flex-wrap items-center justify-center gap-3">
+            <a href={telHref} className="flex items-center gap-2.5 rounded-full bg-violet px-7 py-4 text-[length:var(--step-0)] font-bold text-white shadow-[0_20px_40px_-18px_rgba(91,33,182,.8)] transition-transform hover:scale-[1.03] hover:bg-violet-800">
+              <PhoneIcon className="size-5" /> Appelez-moi
+            </a>
+            <Link
+              href="/#services"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToId(lenis, "services");
+              }}
+              className="hidden rounded-full px-7 py-4 text-[length:var(--step-0)] font-semibold ring-2 ring-ink/15 transition-colors hover:bg-white sm:block"
+            >
+              Voir les services
+            </Link>
+          </div>
         </div>
-        <div data-cta data-hero-cta data-zone="accueil" style={{ "--d": "0.9s" } as React.CSSProperties} className="in-fade mt-[clamp(1.5rem,4.5vh,3rem)] flex flex-wrap items-center justify-center gap-3">
-          <a href={telHref} className="flex items-center gap-2.5 rounded-full bg-violet px-7 py-4 text-[length:var(--step-0)] font-bold text-white shadow-[0_20px_40px_-18px_rgba(91,33,182,.8)] transition-transform hover:scale-[1.03] hover:bg-violet-800">
-            <PhoneIcon className="size-5" /> Appelez-moi
-          </a>
-          <Link
-            href="/#services"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToId(lenis, "services");
-            }}
-            className="hidden rounded-full px-7 py-4 text-[length:var(--step-0)] font-semibold ring-2 ring-ink/15 transition-colors hover:bg-white sm:block"
-          >
-            Voir les services
-          </Link>
-        </div>
-      </div>
 
-      <div data-scroll-cue className="absolute inset-x-0 bottom-[calc(1.5rem+var(--ui-gap))] z-20 hidden justify-center md:flex" aria-hidden="true">
-        <span className="relative h-12 w-0.5 overflow-hidden rounded bg-violet/15">
-          <span className="absolute inset-x-0 top-0 h-1/2 animate-[scrollcue_2s_ease-in-out_infinite] bg-violet" />
-        </span>
-      </div>
-      <style>{`@keyframes scrollcue{0%{transform:translateY(-100%)}100%{transform:translateY(200%)}}`}</style>
-    </section>
+        <div data-scroll-cue className="absolute inset-x-0 bottom-[calc(1.5rem+var(--ui-gap))] z-20 hidden justify-center md:flex" aria-hidden="true">
+          <span className="relative h-12 w-0.5 overflow-hidden rounded bg-violet/15">
+            <span className="absolute inset-x-0 top-0 h-1/2 animate-[scrollcue_2s_ease-in-out_infinite] bg-violet" />
+          </span>
+        </div>
+        <style>{`@keyframes scrollcue{0%{transform:translateY(-100%)}100%{transform:translateY(200%)}}`}</style>
+      </section>
+    </div>
   );
 }
