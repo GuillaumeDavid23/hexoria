@@ -8,11 +8,12 @@ import { site } from "@/content/site";
 /**
  * Politique de confidentialité (FR + EN sur la même page).
  * Cette URL est déclarée sur l'écran de consentement OAuth Google de l'outil de prospection
- * (accès Gmail) : la section « Données Google » doit rester alignée sur les scopes demandés.
+ * (scope business.manage, publication sur la fiche Google Business Profile) : la section « Données Google »
+ * doit rester alignée sur ce que fait réellement l'outil.
  */
 export const metadata: Metadata = {
   title: "Politique de confidentialité",
-  description: "Données collectées par Hexoria, usage des données Google (Gmail), durées de conservation et vos droits. English version included.",
+  description: "Données collectées par Hexoria, usage des données Google (Business Profile), durées de conservation et vos droits. English version included.",
   alternates: { canonical: "/confidentialite" },
 };
 
@@ -72,46 +73,51 @@ export default function PrivacyPage() {
               opposer à tout moment à ces messages, en répondant simplement au mail ou en écrivant à <EmailLink className="text-violet underline" /> :
               vos coordonnées sont alors retirées de la liste de prospection. Ces données sont conservées au plus 3 ans après le dernier échange.
             </p>
+            <p>
+              Les e-mails sont envoyés par le service Brevo. Si vous répondez, votre réponse peut être triée et une proposition de réponse préparée avec
+              l&apos;aide du service d&apos;IA Anthropic (Claude), pour ne plus vous recontacter si vous le demandez ; chaque réponse est relue et envoyée par
+              Guillaume.
+            </p>
           </section>
 
           <section id="google">
-            <h2>Données Google (Gmail) utilisées par l&apos;outil de prospection</h2>
+            <h2>Données Google : publication sur la fiche Google Business Profile d&apos;Hexoria</h2>
             <p>
               Hexoria utilise un outil interne, réservé à son seul usage, qui se connecte au compte Google d&apos;Hexoria avec l&apos;autorisation de son
-              titulaire (connexion « Se connecter avec Google », protocole OAuth). Il n&apos;est pas proposé au public et aucun autre compte Google n&apos;y est
-              connecté.
+              titulaire (protocole OAuth, autorisation « Gérer vos fiches d&apos;établissement », scope <code>business.manage</code>). L&apos;outil n&apos;est pas
+              proposé au public et seul le compte Google d&apos;Hexoria y est connecté.
             </p>
-            <p>Avec cette autorisation, l&apos;outil :</p>
+            <p>Avec cette autorisation, l&apos;outil fait uniquement ceci :</p>
             <ul>
               <li>
-                <strong>envoie</strong> depuis la boîte Gmail d&apos;Hexoria les e-mails de présentation et de suivi, toujours relus et validés un par un
-                par Guillaume avant envoi ;
+                <strong>lire la liste des comptes et des fiches</strong> d&apos;établissement du compte connecté, en se limitant à leur identifiant et à leur
+                nom, pour choisir la fiche Hexoria ;
               </li>
               <li>
-                <strong>lit les réponses</strong> reçues à ces e-mails (expéditeur, objet, date, contenu) pour les afficher dans le suivi de prospection et
-                ne pas recontacter une entreprise qui a répondu ou refusé.
+                <strong>publier une actualité</strong> (texte, lien vers hexoria.fr et, si besoin, une photo) sur la fiche Hexoria. Chaque publication est
+                relue et lancée à la main par Guillaume.
               </li>
             </ul>
+            <p>
+              L&apos;outil ne lit pas les avis, les statistiques, les messages ni les questions-réponses, et ne modifie pas les informations de la fiche. Il
+              n&apos;agit sur aucune fiche de client ou de prospect.
+            </p>
             <p>Ce que l&apos;outil ne fait pas avec les données Google :</p>
             <ul>
-              <li>il ne les vend pas, ne les loue pas et ne les partage avec aucun tiers à des fins publicitaires ou commerciales ;</li>
+              <li>il ne les vend pas, ne les loue pas et ne les partage avec aucun tiers ;</li>
               <li>il ne les utilise pas pour de la publicité, du profilage ou l&apos;évaluation de la solvabilité de quiconque ;</li>
-              <li>il ne les utilise pas pour entraîner ou améliorer des modèles d&apos;intelligence artificielle ;</li>
-              <li>aucune personne ne lit ces données en dehors de Guillaume, titulaire du compte, sauf obligation légale ou besoin de sécurité.</li>
+              <li>il ne les transmet à aucun service d&apos;intelligence artificielle et ne les utilise pas pour entraîner ou améliorer des modèles ;</li>
+              <li>personne d&apos;autre que Guillaume, titulaire du compte, n&apos;y a accès, sauf obligation légale ou besoin de sécurité.</li>
             </ul>
             <p>
-              Pour aider à rédiger une proposition de réponse, le texte d&apos;un message peut être transmis ponctuellement au service d&apos;IA Anthropic
-              (Claude), via son API professionnelle qui n&apos;utilise pas ces contenus pour entraîner ses modèles. Ce transfert sert uniquement à cette
-              fonction de l&apos;outil.
-            </p>
-            <p>
-              Les données issues de Gmail sont stockées uniquement sur l&apos;ordinateur d&apos;Hexoria qui exécute l&apos;outil, dans une base locale, et
-              transitent de façon chiffrée (HTTPS). Le jeton d&apos;accès Google est conservé sur ce même ordinateur. L&apos;historique de prospection est
-              conservé au plus 3 ans ; vous pouvez demander sa suppression à tout moment. L&apos;accès peut être retiré à tout moment depuis{" "}
+              Données conservées, uniquement sur l&apos;ordinateur d&apos;Hexoria qui exécute l&apos;outil (fichier protégé et base locale) : le jeton
+              d&apos;accès Google, l&apos;identifiant et le nom de la fiche choisie, et l&apos;identifiant de chaque actualité publiée avec sa date. Les échanges
+              avec Google sont chiffrés (HTTPS). Le bouton « Déconnecter la fiche » efface le jeton et la fiche enregistrés. L&apos;accès peut aussi être retiré
+              à tout moment depuis{" "}
               <a href="https://myaccount.google.com/permissions" className="text-violet underline" target="_blank" rel="noopener">
                 myaccount.google.com/permissions
               </a>
-              , ce qui coupe immédiatement la connexion à Gmail.
+              .
             </p>
             <p>
               L&apos;utilisation et le transfert à toute autre application des informations reçues des API Google respectent les{" "}
@@ -126,9 +132,12 @@ export default function PrivacyPage() {
             <h2>Hébergement et sous-traitants</h2>
             <ul>
               <li>Site web : IONOS SE (Allemagne).</li>
-              <li>Messagerie : Google (Gmail, Google Workspace).</li>
+              <li>Envoi des e-mails de prospection : Brevo (France).</li>
               <li>Mesure d&apos;audience, avec votre accord : Google Ireland Ltd.</li>
-              <li>Aide à la rédaction : Anthropic (États-Unis), encadré par des clauses contractuelles types de la Commission européenne.</li>
+              <li>
+                Aide à la rédaction et au tri des réponses reçues : Anthropic (États-Unis), via son API professionnelle, encadrée par des clauses
+                contractuelles types de la Commission européenne. Aucune donnée issue des API Google ne lui est transmise.
+              </li>
             </ul>
           </section>
 
@@ -175,43 +184,44 @@ export default function PrivacyPage() {
             <p>
               Hexoria contacts local businesses to offer website creation or redesign. It only uses public, professional information (business name, activity,
               address, phone, website and the email address published by the business itself). Legal basis: legitimate interest (GDPR art. 6.1.f). You can opt
-              out at any time by replying to the email; your details are then removed from the prospecting list. Data is kept for at most 3 years after the last
+              out at any time by replying to the email; your details are then removed from the prospecting list. Emails are sent through Brevo; replies may be sorted, and a draft answer prepared, with the help of Anthropic&apos;s Claude API, and every answer is reviewed and sent by a human. Data is kept for at most 3 years after the last
               exchange.
             </p>
           </section>
 
-          <section>
-            <h2>Google user data (Gmail) used by the prospecting tool</h2>
+          <section id="google-en">
+            <h2>Google user data: posting on Hexoria&apos;s Google Business Profile</h2>
             <p>
               Hexoria uses an internal tool, for its own use only, which connects to Hexoria&apos;s own Google account through Google OAuth with the account
-              owner&apos;s authorization. It is not offered to the public and no other Google account is connected to it.
+              owner&apos;s authorization (scope <code>https://www.googleapis.com/auth/business.manage</code>). It is not offered to the public and no other
+              Google account is connected to it.
             </p>
-            <p>With this authorization, the tool:</p>
+            <p>With this authorization, the tool only:</p>
             <ul>
               <li>
-                <strong>sends</strong> introduction and follow-up emails from Hexoria&apos;s Gmail mailbox, each one reviewed and approved individually by
-                Guillaume before it is sent;
+                <strong>reads the list of accounts and business locations</strong> of the connected account, limited to their ID and name, so the owner can
+                select the Hexoria location;
               </li>
               <li>
-                <strong>reads the replies</strong> to these emails (sender, subject, date, body) to show them in the prospecting dashboard and to avoid
-                contacting again a business that has replied or declined.
+                <strong>publishes local posts</strong> (text, a link to hexoria.fr and optionally a photo) on the Hexoria location. Each post is reviewed and
+                published manually by the account owner.
               </li>
             </ul>
+            <p>
+              The tool does not read reviews, insights, messages or Q&amp;A, does not edit business information, and never acts on any other business&apos;s
+              profile.
+            </p>
             <p>The tool does not:</p>
             <ul>
-              <li>sell, rent or share Google user data with any third party for advertising or commercial purposes;</li>
+              <li>sell, rent or share Google user data with any third party;</li>
               <li>use Google user data for advertising, profiling, or to determine creditworthiness;</li>
-              <li>use Google user data to develop, improve or train generalized AI or machine-learning models;</li>
-              <li>allow any human other than the account owner to read the data, except where required by law or for security purposes.</li>
+              <li>send Google user data to any AI service, or use it to develop, improve or train generalized AI or machine-learning models;</li>
+              <li>allow any human other than the account owner to access the data, except where required by law or for security purposes.</li>
             </ul>
             <p>
-              To help draft a reply, the text of a message may be sent to Anthropic&apos;s API (Claude), whose commercial terms do not allow training on this
-              content. This transfer is only used to provide that drafting feature.
-            </p>
-            <p>
-              Data obtained from Gmail is stored only on the Hexoria computer that runs the tool, in a local database, and is transmitted over encrypted
-              connections (HTTPS). The OAuth token is stored on that same computer. Prospecting history is kept for at most 3 years and can be deleted on request.
-              Access can be revoked at any time at{" "}
+              Stored data, only on the Hexoria computer that runs the tool (a protected file and a local database): the OAuth refresh token, the selected
+              location&apos;s ID and name, and the ID and date of each published post. All exchanges with Google use HTTPS. The &quot;Disconnect&quot; button
+              deletes the stored token and location. Access can also be revoked at any time at{" "}
               <a href="https://myaccount.google.com/permissions" className="text-violet underline" target="_blank" rel="noopener">
                 myaccount.google.com/permissions
               </a>
@@ -223,6 +233,15 @@ export default function PrivacyPage() {
                 Google API Services User Data Policy
               </a>
               , including the Limited Use requirements.
+            </p>
+          </section>
+
+          <section>
+            <h2>Service providers</h2>
+            <p>
+              Website hosting: IONOS SE (Germany). Prospecting emails: Brevo (France). Analytics, with consent only: Google Ireland Ltd. Drafting help and
+              sorting of replies received by email: Anthropic (United States), under EU standard contractual clauses. No data received from Google APIs is
+              sent to Anthropic.
             </p>
           </section>
 
