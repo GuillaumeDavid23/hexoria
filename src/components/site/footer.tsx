@@ -124,6 +124,9 @@ export function Footer({
           <Link href="/mentions-legales" className="transition-colors hover:text-white">
             Mentions légales
           </Link>
+          <Link href="/confidentialite" className="transition-colors hover:text-white">
+            Confidentialité
+          </Link>
           <ConsentLink className="transition-colors hover:text-white" />
         </nav>
       </div>
