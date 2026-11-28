@@ -53,6 +53,13 @@ export default function LegalPage() {
           <p className="mt-3">
             Vous pouvez demander l&apos;accès, la rectification ou la suppression de vos données à <EmailLink className="text-violet underline" />.
           </p>
+          <p className="mt-3">
+            Le détail figure dans la{" "}
+            <Link href="/confidentialite" className="text-violet underline">
+              politique de confidentialité
+            </Link>
+            .
+          </p>
         </section>
       </div>
       <Link href="/" className="mt-16 inline-block rounded-full bg-violet px-6 py-3 font-bold text-white">
